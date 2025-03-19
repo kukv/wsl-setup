@@ -31,15 +31,5 @@ function requirement_package() {
     apt autoremove -y
 }
 
-function configure_git() {
-    git config --global user.name "kukv"
-    git config --global user.email "koki-nonaka@outlook.jp"
-
-  if [ ! -d "" ]; then
-        mkdir -p /etc/sudoers.d
-  fi
-}
-
 passwordless_privilege_escalation
 requirement_package
-configure_git
