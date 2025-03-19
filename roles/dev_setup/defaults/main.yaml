@@ -1,0 +1,67 @@
+---
+asdf_version: "v0.16.5"
+asdf_bin: "{{ install_dir }}/asdf"
+asdf_shims: "/home/{{ ansible_user }}/.asdf/shims"
+
+java_version: "openjdk-21.0.2"
+
+java_legacy_lts_versions:
+  - "adoptopenjdk-8.0.442+6"
+  - "openjdk-11.0.2"
+  - "openjdk-17.0.2"
+
+gradle_version: "8.13"
+maven_version: "3.9.9"
+
+go_version: "1.24.1"
+gofumpt_version: "0.7.0"
+golangci_lint_version: "1.64.8"
+go_migration_version: "4.18.2"
+
+node_version: "22.14.0"
+
+node_legacy_lts_versions:
+  - "20.19.0"
+  - "18.20.7"
+  - "16.20.2"
+  - "14.21.3"
+  - "12.22.12"
+  - "10.24.1"
+  - "8.17.0"
+
+npm_version: "11.2.0"
+yarn_version: "1.22.22"
+pnpm_version: "10.6.5"
+
+aws_cdk_packages:
+  - "aws-cdk"
+  - "aws-cdk-local"
+
+python_version: "3.13.2"
+
+python_legacy_versions:
+  - "3.12.9"
+  - "3.11.11"
+  - "3.10.16"
+  - "3.9.21"
+
+terraform_version: "1.11.2"
+
+awscli_version: "2.24.27"
+awscli_local_version: "0.22.0"
+
+cilium_cli_version: "0.18.2"
+fluxctl_version: "1.25.4"
+helm_version: "3.17.2"
+helmfile_version: "0.171.0"
+helm_diff_version: "3.10.0"
+kubectl_version: "1.32.3"
+
+yq_version: "4.45.1"
+yamlfmt_version: "0.16.0"
+yamllint_version: "1.36.2"
+
+act_version: "0.2.75"
+action_validator_version: "0.6.0"
+actionlint_version: "1.7.7"
+github_cli_version: "2.69.0"

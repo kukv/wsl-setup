@@ -1,0 +1,16 @@
+---
+- name: "Install version control libraries"
+  include_tasks: "asdf-plugins.yaml"
+  with_items:
+    - name: "act"
+      url: "https://github.com/gr1m0h/asdf-act"
+      version: "{{ act_version }}"
+    - name: "action-validator"
+      url: "https://github.com/mpalmer/action-validator"
+      version: "{{ yamlfmt_version }}"
+    - name: "actionlint"
+      url: "https://github.com/crazy-matt/asdf-actionlint"
+      version: "{{ yamllint_version }}"
+    - name: "github-cli"
+      url: "https://github.com/bartlomiejdanek/asdf-github-cli"
+      version: "{{ github_cli_version }}"

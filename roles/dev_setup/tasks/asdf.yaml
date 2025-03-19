@@ -1,0 +1,38 @@
+---
+- name: "Download asdf binary file"
+  get_url:
+    url: "https://github.com/asdf-vm/asdf/releases/download/{{ asdf_version }}/asdf-{{ asdf_version }}-linux-amd64.tar.gz"
+    dest: "/tmp/asdf.tar.gz"
+    mode: "0644"
+
+- name: "Extract tar.gz file"
+  unarchive:
+    src: "/tmp/asdf.tar.gz"
+    dest: "/tmp"
+  become: true
+
+- name: "Copy to {{ install_dir }}"
+  copy:
+    src: "/tmp/asdf"
+    dest: "{{ install_dir }}"
+    mode: "0755"
+  become: true
+
+- name: "Add asdf to path"
+  blockinfile:
+    path: "/home/{{ ansible_user }}/.bashrc"
+    block: |
+      # asdf setup
+      export ASDF_DATA_DIR="$HOME/.asdf"
+      export PATH="$ASDF_DATA_DIR/shims:$PATH"
+    marker: "# {mark} ASDF SETUP"
+    create: true
+
+- name: "Cleanup temporary files"
+  file:
+    path: "/tmp/asdf.tar.gz"
+    state: "absent"
+
+- name: "Update all asdf plugins"
+  command:
+    cmd: "{{ asdf_bin }} plugin update --all"

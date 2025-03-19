@@ -1,0 +1,18 @@
+---
+- name: "Install jvm libraries"
+  include_tasks: "asdf-plugins.yaml"
+  with_items:
+    - name: "java"
+      url: "https://github.com/halcyon/asdf-java"
+      version: "{{ java_version }}"
+    - name: "gradle"
+      url: "https://github.com/rfrancis/asdf-gradle"
+      version: "{{ gradle_version }}"
+    - name: "maven"
+      url: "https://github.com/halcyon/asdf-maven"
+      version: "{{ maven_version }}"
+
+- name: "Install JDK legacy LTS version"
+  command:
+    cmd: "{{ asdf_bin }} install java {{ item }}"
+  with_items: "{{ java_legacy_lts_versions }}"

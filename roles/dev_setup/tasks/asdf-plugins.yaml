@@ -1,0 +1,21 @@
+---
+- name: "Check installed asdf plugins"
+  command:
+    cmd: "{{ asdf_bin }} plugin list"
+  register: "asdf_plugin_list"
+  changed_when: false
+
+- name: "Install missing asdf plugins"
+  command:
+    cmd: "{{ asdf_bin }} plugin add {{ item.name }} {{ item.url }}"
+  when: "item.name not in asdf_plugin_list.stdout"
+  register: "asdf_plugin_install"
+  changed_when: "asdf_plugin_install.rc == 0"
+
+- name: "Install plugin library"
+  command:
+    cmd: "{{ asdf_bin }} install {{ item.name }} {{ item.version }}"
+
+- name: "Set plugin library version always used"
+  command:
+    cmd: "{{ asdf_bin }} set --home {{ item.name }} {{ item.version }}"

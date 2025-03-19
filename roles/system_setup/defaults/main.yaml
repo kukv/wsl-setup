@@ -1,0 +1,19 @@
+---
+uninstall_packages:
+  - "snapd"
+
+install_packages:
+  - "fake-hwclock"
+  - "dnsutils"
+  - "lsof"
+  - "net-tools"
+  - "jq"
+  - "wget"
+  - "tar"
+  - "bzip2"
+  - "zip"
+  - "unzip"
+  - "git"
+  - "curl"
+  - "software-properties-common"
+  - "direnv"

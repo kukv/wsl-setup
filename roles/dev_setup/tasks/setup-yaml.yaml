@@ -1,0 +1,13 @@
+---
+- name: "Install yaml libraries"
+  include_tasks: "asdf-plugins.yaml"
+  with_items:
+    - name: "yq"
+      url: "https://github.com/sudermanjr/asdf-yq"
+      version: "{{ yq_version }}"
+    - name: "yamlfmt"
+      url: "https://github.com/mise-plugins/asdf-yamlfmt"
+      version: "{{ yamlfmt_version }}"
+    - name: "yamllint"
+      url: "https://github.com/ericcornelissen/asdf-yamllint"
+      version: "{{ yamllint_version }}"

@@ -1,0 +1,10 @@
+---
+- name: "restart systemd-resolved"
+  service:
+    name: "systemd-resolved"
+    state: "restarted"
+
+- name: "restart systemd-timesyncd"
+  service:
+    name: "systemd-timesyncd"
+    state: "restarted"
