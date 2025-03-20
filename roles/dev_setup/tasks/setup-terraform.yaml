@@ -1,0 +1,7 @@
+---
+- name: "Install terraform libraries"
+  include_tasks: "asdf-plugins.yaml"
+  with_items:
+    - name: "terraform"
+      url: "https://github.com/asdf-community/asdf-hashicorp"
+      version: "{{ terraform_version }}"

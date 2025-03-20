@@ -1,0 +1,18 @@
+---
+- name: "Install node libraries"
+  include_tasks: "asdf-plugins.yaml"
+  with_items:
+    - name: "nodejs"
+      url: "https://github.com/asdf-vm/asdf-nodejs"
+      version: "{{ node_version }}"
+    - name: "yarn"
+      url: "https://github.com/twuni/asdf-yarn"
+      version: "{{ yarn_version }}"
+    - name: "pnpm"
+      url: "https://github.com/jonathanmorley/asdf-pnpm"
+      version: "{{ pnpm_version }}"
+
+- name: "Update npm module"
+  shell: "{{ asdf_shims }}/npm install -g npm@{{ npm_version }}"
+  args:
+    executable: "/bin/bash"

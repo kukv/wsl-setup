@@ -1,0 +1,36 @@
+---
+- name: "Add deadsnakes PPA"
+  apt_repository:
+    repo: "ppa:deadsnakes/ppa"
+    state: "present"
+    update_cache: true
+  become: true
+
+- name: "Install requirement packages"
+  apt:
+    name:
+      - "build-essential"
+      - "python3-pip"
+      - "python3-venv"
+      - "python3-dev"
+      - "python3.9-distutils"
+      - "python3.10-distutils"
+      - "python3.11-distutils"
+      - "python3-distutils-extra"
+      - "libssl-dev"
+      - "libffi-dev"
+      - "zlib1g-dev"
+    state: "present"
+  become: true
+
+- name: "Install python libraries"
+  include_tasks: "asdf-plugins.yaml"
+  with_items:
+    - name: "python"
+      url: "https://github.com/danhper/asdf-python"
+      version: "{{ python_version }}"
+
+- name: "Install python legacy version"
+  command:
+    cmd: "{{ asdf_bin }} install python {{ item }}"
+  with_items: "{{ python_legacy_versions }}"

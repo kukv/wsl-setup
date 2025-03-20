@@ -1,0 +1,10 @@
+---
+- name: "Install aws libraries"
+  include_tasks: "asdf-plugins.yaml"
+  with_items:
+    - name: "awscli"
+      url: "https://github.com/MetricMike/asdf-awscli"
+      version: "{{ awscli_version }}"
+    - name: "awscli-local"
+      url: "https://github.com/paulo-ferraz-oliveira/asdf-awscli-local"
+      version: "{{ awscli_local_version }}"
