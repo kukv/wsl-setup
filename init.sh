@@ -4,7 +4,7 @@ set -Eeuo pipefail
 
 OP_USER="tech"
 
-function passwordless_privilege_escalation() {
+function password_less_privilege_escalation() {
   if [ ! -d "/etc/sudoers.d" ]; then
       mkdir -p /etc/sudoers.d
   fi
@@ -31,5 +31,35 @@ function requirement_package() {
     apt autoremove -y
 }
 
-passwordless_privilege_escalation
+function ansible_setup() {
+    ansible_logtotate_conf="/etc/logrotate.d/ansible-pull"
+    ansible_log_dir="/home/${OP_USER}/.logs"
+    ansible_pull_log_filename="ansible-pull.log"
+
+    if [ ! -d "${ansible_log_dir}" ]; then
+        echo "Creating directory: ${ansible_log_dir}"
+        mkdir -p "${ansible_log_dir}"
+        chmod -R 755 "${ansible_log_dir}"
+        chown -R ${OP_USER}:${OP_USER} "${ansible_log_dir}"
+        echo "Directory created and permissions set."
+    else
+        echo "Directory already exists: ${ansible_log_dir}"
+    fi
+
+    cat <<EOF > ${ansible_logtotate_conf}
+${ansible_log_dir}/${ansible_pull_log_filename} {
+    compress
+    missingok
+    rotate 365
+    daily
+    dateext
+    copytruncate
+}
+EOF
+
+    logrotate -d ${ansible_logtotate_conf}
+}
+
+password_less_privilege_escalation
 requirement_package
+ansible_setup

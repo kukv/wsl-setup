@@ -1,0 +1,11 @@
+[Unit]
+Description=Run wsl provisioning
+After=network.target
+
+[Service]
+User={{ ansible_user }}
+Group={{ ansible_user }}
+Type=oneshot
+WorkingDirectory=/home/{{ ansible_user }}
+Environment="ANSIBLE_LOG_PATH=/home/{{ ansible_user }}/.logs/ansible-pull.log"
+ExecStart=/usr/bin/ansible-pull -U https://github.com/kukv/wsl-setup.git -i inventory.yaml playbook.yaml
