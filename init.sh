@@ -30,12 +30,10 @@ function parameter_parsing() {
     case "$1" in
       -u|--user)
         op_user=$2
-        echo "user: $op_user"
         shift 2
         ;;
       -t|--timer)
         timer=$2
-        echo "timer: $timer"
         shift 2
         ;;
       -h|--help)
@@ -85,19 +83,19 @@ function password_less_privilege_escalation() {
 }
 
 function requirement_package() {
-    apt-add-repository ppa:ansible/ansible -y
+  apt-add-repository ppa:ansible/ansible -y
 
-    apt update
-    apt upgrade -y
+  apt update
+  apt upgrade -y
 
-    apt install -y \
-      ansible \
-      git
+  apt install -y \
+    ansible \
+    git
 
-    apt autoremove -y
+  apt autoremove -y
 }
 
-parameter_parsing "$TEMP"
+parameter_parsing "$@"
 password_less_privilege_escalation "${op_user}"
 requirement_package
 
