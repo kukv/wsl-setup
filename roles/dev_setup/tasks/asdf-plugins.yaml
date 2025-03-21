@@ -15,7 +15,7 @@
 - name: "Install plugin library {{ item.plugin_name ~ ':' ~ item.version }}"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} install {{ item.plugin_name }} {{ item.version }}"
-  register: asdf_install_output
+  register: "asdf_install_output"
   changed_when: "'is already installed' not in asdf_install_output.stdout"
 
 - name: "Set plugin library version {{ item.plugin_name ~ ':' ~ item.version }}"

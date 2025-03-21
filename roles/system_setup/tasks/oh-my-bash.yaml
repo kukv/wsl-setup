@@ -26,5 +26,5 @@
 - name: "Ensure OSH_THEME is set to powerline-icon"
   ansible.builtin.replace:
     path: "/usr/local/share/oh-my-bash/bashrc"
-    regexp: '^OSH_THEME="font"$'
-    replace: 'OSH_THEME="powerline-icon"'
+    regexp: "^OSH_THEME='font'$"
+    replace: "OSH_THEME='powerline-icon'"

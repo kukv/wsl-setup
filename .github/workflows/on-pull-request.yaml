@@ -7,7 +7,6 @@ on:
 jobs:
   check-shell:
     runs-on: "ubuntu-latest"
-    timeout-minutes: 10
 
     steps:
       - name: "Checkout Repository"
@@ -16,6 +15,21 @@ jobs:
       - name: "Check with shellcheck"
         uses: "reviewdog/action-shellcheck@v1"
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          fail_level: "error"
+          reporter: "github-pr-review"
+
+  check-yaml:
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v4"
+
+      - name: "review yaml format"
+        uses: "reviewdog/action-yamllint@v1"
+        with:
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          level: "error"
           fail_level: "error"
           reporter: "github-pr-review"
