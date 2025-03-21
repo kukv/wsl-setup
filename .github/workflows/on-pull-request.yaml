@@ -20,7 +20,7 @@ jobs:
           reporter: "github-pr-review"
 
   check-yaml:
-    runs-on: "ubuntu-latest"
+    runs-on: 'ubuntu-latest'
 
     steps:
       - name: "Checkout Repository"
