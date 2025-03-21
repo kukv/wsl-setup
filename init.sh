@@ -10,7 +10,7 @@ timer="hourly"
 
 function usage() {
     cat <<_EOF_
-Usage: $(basename $0) [OPTION]
+Usage: $(basename "$0") [OPTION]
 
 Description: "$(pwd)"  WSL2セットアップ用のシェルスクリプトです。
 
@@ -72,11 +72,11 @@ function password_less_privilege_escalation() {
   fi
 
   if [ ! -f "${sudoers_path}/${user}" ]; then
-      echo "${user} ALL=(ALL) NOPASSWD: ALL" | tee ${sudoers_path}/${user} > /dev/null
-      chmod 440 ${sudoers_path}/${user}
+      echo "${user} ALL=(ALL) NOPASSWD: ALL" | tee "${sudoers_path}/${user}" > /dev/null
+      chmod 440 "${sudoers_path}/${user}"
   else
-      if ! grep -q "${user} ALL=(ALL) NOPASSWD: ALL" ${sudoers_path}/${user}; then
-          echo "${user} ALL=(ALL) NOPASSWD: ALL" | tee -a ${sudoers_path}/${user} > /dev/null
+      if ! grep -q "${user} ALL=(ALL) NOPASSWD: ALL" "${sudoers_path}/${user}"; then
+          echo "${user} ALL=(ALL) NOPASSWD: ALL" | tee -a "${sudoers_path}/${user}" > /dev/null
       fi
   fi
 
@@ -100,7 +100,7 @@ password_less_privilege_escalation "${op_user}"
 requirement_package
 
 home_dir="/home/${op_user}"
-sudo -u ${op_user} \
+sudo -u "${op_user}" \
   bash -c "cd ${home_dir} && /usr/bin/ansible-pull -U https://github.com/kukv/wsl-setup.git -i inventory.yaml playbook.yaml -e '{\"provisioning_schedule\":\"${timer}\"}'"
 
 exit 0
