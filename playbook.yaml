@@ -14,3 +14,6 @@
     - name: "Setup development environment"
       role: "dev_setup"
       become: false
+
+    - name: "Setup ansible configure"
+      role: "ansible_configure"

@@ -2,26 +2,8 @@
 - name: "Setup asdf"
   include_tasks: "asdf.yaml"
 
-- name: "Setup java environments"
-  include_tasks: "setup-java.yaml"
-
-- name: "Setup go environments"
-  include_tasks: "setup-go.yaml"
+- name: "Setup asdf optional"
+  include_tasks: "asdf-optional.yaml"
 
 - name: "Setup nodejs environments"
   include_tasks: "setup-node.yaml"
-
-- name: "Setup python environments"
-  include_tasks: "setup-python.yaml"
-
-- name: "Setup terraform environments"
-  include_tasks: "setup-terraform.yaml"
-
-- name: "Setup aws environments"
-  include_tasks: "setup-aws.yaml"
-
-- name: "Setup yaml environments"
-  include_tasks: "setup-yaml.yaml"
-
-- name: "Setup version control environments"
-  include_tasks: "setup-version-control.yaml"

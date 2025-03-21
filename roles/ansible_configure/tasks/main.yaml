@@ -1,0 +1,18 @@
+---
+- name: "Create systemd service file for Run wsl provisioning"
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ item }}"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  with_items:
+    - "wsl-setup.service"
+    - "wsl-setup.timer"
+  notify: "reload systemd"
+
+- name: "Enable and start wsl provisioning timer"
+  systemd:
+    name: "wsl-setup.timer"
+    enabled: true
+    state: "started"
