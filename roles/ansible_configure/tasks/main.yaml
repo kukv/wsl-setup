@@ -1,4 +1,7 @@
 ---
+- name: "Setup ansible log"
+  include_tasks: setup-log.yaml
+
 - name: "Create systemd service file for Run wsl provisioning"
   template:
     src: "{{ item }}.j2"
