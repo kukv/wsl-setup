@@ -71,3 +71,5 @@ act_version: "0.2.75"
 action_validator_version: "0.6.0"
 actionlint_version: "1.7.7"
 github_cli_version: "2.69.0"
+
+shellcheck_version: "0.10.0"

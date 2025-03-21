@@ -121,3 +121,6 @@
     - name: "kubectl"
       url: "https://github.com/asdf-community/asdf-kubectl"
       version: "{{ kubectl_version }}"
+    - name: "shellcheck"
+      url: "https://github.com/luizm/asdf-shellcheck"
+      version: "{{ shellcheck_version }}"
