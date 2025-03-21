@@ -2,8 +2,7 @@
 
 set -Eeuo pipefail
 
-TEMP=$(getopt -o u:t:h -l user:,timer:,help -- "${@}")
-eval set -- "{$TEMP}"
+TEMP=$(getopt -o u:t:h -l user:,timer:,help -- "$@")
 
 op_user=""
 timer="hourly"
@@ -97,7 +96,7 @@ function requirement_package() {
     apt autoremove -y
 }
 
-parameter_parsing "${@}"
+parameter_parsing "$@"
 password_less_privilege_escalation "${op_user}"
 requirement_package
 
