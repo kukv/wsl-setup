@@ -42,7 +42,7 @@
       "matchStrings": [
         "(?<depName>asdf)_version: [\"']?(?<currentValue>[\\d.v]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "asdf-vm/{{{depName}}}",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -52,7 +52,7 @@
       "matchStrings": [
         "(?<depName>java)_version: [\"']?(?<currentValue>openjdk-[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "openjdk/jdk",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -62,7 +62,7 @@
       "matchStrings": [
         "(?<depName>gradle)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "gradle/{{{depName}}}",
       "datasourceTemplate": "gradle-version",
       "versioningTemplate": "semver"
@@ -72,8 +72,8 @@
       "matchStrings": [
         "(?<depName>maven)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "maven",
-      "packageNameTemplate": "apache/maven",
+      "depNameTemplate": "asdf-{{{depName}}}",
+      "packageNameTemplate": "apache/{{{depName}}}",
       "datasourceTemplate": "maven",
       "versioningTemplate": "semver"
     },
@@ -82,7 +82,7 @@
       "matchStrings": [
         "(?<depName>go)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "golang/{{{depName}}}",
       "datasourceTemplate": "golang",
       "versioningTemplate": "semver"
@@ -92,7 +92,7 @@
       "matchStrings": [
         "(?<depName>gofumpt)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "mvdan/{{{depName}}}",
       "datasourceTemplate": "go",
       "versioningTemplate": "semver"
@@ -102,7 +102,7 @@
       "matchStrings": [
         "(?<depName>golangci_lint)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "golangci/{{{depName}}}",
       "datasourceTemplate": "go",
       "versioningTemplate": "semver"
@@ -112,7 +112,7 @@
       "matchStrings": [
         "(?<depName>go_migration)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "migrate",
+      "depNameTemplate": "asdf-migrate",
       "packageNameTemplate": "golang-migrate/migrate",
       "datasourceTemplate": "go",
       "versioningTemplate": "semver"
@@ -122,7 +122,7 @@
       "matchStrings": [
         "(?<depName>node)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "nodejs/{{{depName}}}",
       "datasourceTemplate": "node-version",
       "versioningTemplate": "semver"
@@ -132,7 +132,7 @@
       "matchStrings": [
         "(?<depName>npm)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "npm/cli",
       "datasourceTemplate": "npm",
       "versioningTemplate": "semver"
@@ -142,7 +142,7 @@
       "matchStrings": [
         "(?<depName>yarn)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "yarnpkg/{{{depName}}}",
       "datasourceTemplate": "npm",
       "versioningTemplate": "semver"
@@ -152,7 +152,7 @@
       "matchStrings": [
         "(?<depName>pnpm)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "pnpm/{{{depName}}}",
       "datasourceTemplate": "npm",
       "versioningTemplate": "semver"
@@ -162,7 +162,7 @@
       "matchStrings": [
         "(?<depName>python)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "python/c{{{depName}}}",
       "datasourceTemplate": "python-version",
       "versioningTemplate": "semver"
@@ -172,7 +172,7 @@
       "matchStrings": [
         "(?<depName>terraform)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "hashicorp/{{{depName}}}",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -182,7 +182,7 @@
       "matchStrings": [
         "(?<depName>awscli)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "aws/aws-cli",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -192,7 +192,7 @@
       "matchStrings": [
         "(?<depName>awscli_local)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "aws-cli-local",
+      "depNameTemplate": "asdf-aws-cli-local",
       "packageNameTemplate": "localstack/{{{depName}}}",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -202,7 +202,7 @@
       "matchStrings": [
         "(?<depName>cilium_cli)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "cilium/{{{depName}}}",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -212,7 +212,7 @@
       "matchStrings": [
         "(?<depName>fluxctl)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "fluxcd/flux",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -222,7 +222,7 @@
       "matchStrings": [
         "(?<depName>helm)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "helm/{{{depName}}}",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -232,7 +232,7 @@
       "matchStrings": [
         "(?<depName>helmfile)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "helmfile/{{{depName}}}",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -242,7 +242,7 @@
       "matchStrings": [
         "(?<depName>helm_diff)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "helm-diff",
+      "depNameTemplate": "asdf-helm-diff",
       "packageNameTemplate": "databus23/helm-diff",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -252,7 +252,7 @@
       "matchStrings": [
         "(?<depName>kubectl)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "kubernetes/{{{depName}}}",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -262,7 +262,7 @@
       "matchStrings": [
         "(?<depName>yq)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "mikefarah/{{{depName}}}",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -272,7 +272,7 @@
       "matchStrings": [
         "(?<depName>yamlfmt)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "google/{{{depName}}}",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -282,7 +282,7 @@
       "matchStrings": [
         "(?<depName>yamllint)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "adrienverge/{{{depName}}}",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -292,7 +292,7 @@
       "matchStrings": [
         "(?<depName>act)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "nektos/{{{depName}}}",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -302,7 +302,7 @@
       "matchStrings": [
         "(?<depName>action_validator)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "action-validator",
+      "depNameTemplate": "asdf-action-validator",
       "packageNameTemplate": "mpalmer/action-validator",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -312,7 +312,7 @@
       "matchStrings": [
         "(?<depName>actionlint)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "rhysd/{{{depName}}}",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -322,7 +322,7 @@
       "matchStrings": [
         "(?<depName>github_cli)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "gh",
+      "depNameTemplate": "asdf-gh",
       "packageNameTemplate": "cli/cli",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
@@ -332,7 +332,7 @@
       "matchStrings": [
         "(?<depName>shellcheck)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
-      "depNameTemplate": "{{{depName}}}",
+      "depNameTemplate": "asdf-{{{depName}}}",
       "packageNameTemplate": "koalaman/{{{depName}}}",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
