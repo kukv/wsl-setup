@@ -22,7 +22,7 @@ install_packages:
   - "direnv"
   - "sshpass"
   - "tree"
-  - "qemu"
+  - "qemu-system-arm"
   - "g++-aarch64-linux-gnu"
   - "build-essential"
   - "python3-pip"
