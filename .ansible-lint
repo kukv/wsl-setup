@@ -1,0 +1,11 @@
+---
+# .ansible-lint
+skip_list:
+  - "no-changed-when"
+  - "var-naming"
+  - "yaml"
+
+exclude_paths:
+  - ".github/"
+  - ".ansible-lint"
+  - ".yamllint"

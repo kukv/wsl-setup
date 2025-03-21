@@ -1,17 +1,17 @@
 ---
 - name: "Remove packages"
-  apt:
+  ansible.builtin.apt:
     name: "{{ uninstall_packages }}"
     state: "absent"
 
 - name: "Add repository"
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "{{ item }}"
     state: "present"
     update_cache: true
   with_items: "{{ additional_repositories }}"
 
 - name: "Install requirement packages"
-  apt:
+  ansible.builtin.apt:
     name: "{{ install_packages }}"
     state: "present"

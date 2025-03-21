@@ -1,11 +1,14 @@
+---
 - name: "WSL2 Ubuntu Setup"
   hosts: "localhost"
   gather_facts: true
   become: true
 
   pre_tasks:
+    - name: "Setup ansible"
+      ansible.builtin.include_tasks: "tasks/requirement_ansible_module.yaml"
     - name: "Package update"
-      include_tasks: "tasks/update.yaml"
+      ansible.builtin.include_tasks: "tasks/update.yaml"
 
   roles:
     - name: "Setup system configuration role"

@@ -1,30 +1,30 @@
 ---
 - name: "Check if Oh-my-bash is already installed"
-  stat:
+  ansible.builtin.stat:
     path: "/usr/local/share/oh-my-bash"
   register: "omb_dir"
 
 - name: "Get Oh-my-bash installation script"
-  get_url:
+  ansible.builtin.get_url:
     url: "https://raw.github.com/ohmybash/oh-my-bash/master/tools/install.sh"
     dest: "{{ tmp_dir }}/oh_my_bash_install.sh"
     mode: "0755"
   when: "not omb_dir.stat.exists"
 
 - name: "Install Oh-my-bash"
-  command:
+  ansible.builtin.command:
     cmd: "{{ tmp_dir }}/oh_my_bash_install.sh --prefix=/usr/local"
   changed_when: true
   when: "not omb_dir.stat.exists"
 
 - name: "Ensure oh-my-bash is sourced in /etc/bash.bashrc"
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "/etc/bash.bashrc"
     line: "source /usr/local/share/oh-my-bash/bashrc"
     state: "present"
 
 - name: "Ensure OSH_THEME is set to powerline-icon"
-  replace:
+  ansible.builtin.replace:
     path: "/usr/local/share/oh-my-bash/bashrc"
-    regexp: '^OSH_THEME="font"$'
-    replace: 'OSH_THEME="powerline-icon"'
+    regexp: "^OSH_THEME='font'$"
+    replace: "OSH_THEME='powerline-icon'"

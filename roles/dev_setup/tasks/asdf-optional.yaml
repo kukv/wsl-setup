@@ -1,15 +1,21 @@
 ---
 - name: "Install JDK legacy LTS version"
-  command:
+  ansible.builtin.command:
     cmd: "{{ asdf_bin }} install java {{ item }}"
   with_items: "{{ java_legacy_lts_versions }}"
+  register: "asdf_install_output"
+  changed_when: "'is already installed' not in asdf_install_output.stdout"
 
 - name: "Install nodejs legacy LTS version"
-  command:
+  ansible.builtin.command:
     cmd: "{{ asdf_bin }} install nodejs {{ item }}"
   with_items: "{{ node_legacy_lts_versions }}"
+  register: "asdf_install_output"
+  changed_when: "'is already installed' not in asdf_install_output.stdout"
 
 - name: "Install python legacy version"
-  command:
+  ansible.builtin.command:
     cmd: "{{ asdf_bin }} install python {{ item }}"
   with_items: "{{ python_legacy_versions }}"
+  register: "asdf_install_output"
+  changed_when: "'is already installed' not in asdf_install_output.stdout"
