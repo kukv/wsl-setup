@@ -14,5 +14,5 @@
   notify: "Restart systemd-timesyncd"
 
 - name: "Set timezone to Asia/Tokyo"
-  ansible.builtin.timezone:
+  community.general.timezone:
     name: "Asia/Tokyo"

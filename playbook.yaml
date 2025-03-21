@@ -5,6 +5,8 @@
   become: true
 
   pre_tasks:
+    - name: "Setup ansible"
+      ansible.builtin.include_tasks: "tasks/requirement_ansible_module.yaml"
     - name: "Package update"
       ansible.builtin.include_tasks: "tasks/update.yaml"
 
