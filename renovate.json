@@ -12,16 +12,19 @@
   "major": { "minimumReleaseAge": "3 days" },
   "packageRules": [
     {
+      "groupName": "Python dependent libraries - minor patch level updates",
       "depTypeList": [ "python" ],
       "updateTypes": [ "minor", "patch" ],
       "automerge": true
     },
     {
+      "groupName": "Github actions - minor patch level updates",
       "depTypeList": [ "github-actions" ],
       "updateTypes": [ "minor", "patch" ],
       "automerge": true
     },
     {
+      "groupName": "Ansible galaxy - minor patch level updates",
       "depTypeList": [ "ansible-galaxy" ],
       "updateTypes": [ "minor", "patch" ],
       "automerge": true
