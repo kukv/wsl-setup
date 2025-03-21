@@ -26,14 +26,14 @@ _EOF_
 
 function parameter_parsing() {
   while true; do
-    case "${1}" in
+    case "$1" in
       -u|--user)
-        op_user=${2}
+        op_user=$2
         echo "user: $op_user"
         shift 2
         ;;
       -t|--timer)
-        timer=${2}
+        timer=$2
         echo "timer: $timer"
         shift 2
         ;;
@@ -46,7 +46,7 @@ function parameter_parsing() {
         break
         ;;
       *)
-        echo "Unknown argument: ${1}"
+        echo "Unknown argument: $1"
         usage
         exit 9
         ;;
