@@ -1,0 +1,20 @@
+---
+- name: "Create log directory"
+  file:
+    path: "/var/log/ansible"
+    state: "directory"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0755"
+
+- name: "Configure logrotate"
+  template:
+    src: "ansible-pull.j2"
+    dest: "/etc/logrotate.d/ansible-pull"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: "Enable logrotate"
+  command:
+    cmd: "logrotate -d {{ /etc/logrotate.d/ansible-pull }}"

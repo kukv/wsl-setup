@@ -2,7 +2,7 @@
 Description=Run wsl provisioning every 30 minutes
 
 [Timer]
-OnCalendar=*:0/30
+OnCalendar={{ provisioning_schedule }}
 Persistent=true
 
 [Install]
