@@ -16,3 +16,21 @@ curl -sf https://raw.githubusercontent.com/kukv/wsl-setup/refs/heads/main/init.s
 ```
 
 以降は`systemd-timer`にて定期的に`ansible-pull`によりプロビジョニングが行われます。
+
+## 開発環境の構築方法
+
+required libraries
+
+- python 3.13.2
+
+venv環境を構築
+```bash
+python -m venv wsl-setup
+source wsl-setup/bin/activate
+pip install -r requirements.txt
+```
+
+何かインストールしたら依存関係をエクスポートする
+```bash
+pip freeze > requirements.txt
+```

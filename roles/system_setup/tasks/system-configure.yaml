@@ -1,19 +1,18 @@
 ---
 - name: "Update DNS server"
-  replace:
+  ansible.builtin.replace:
     path: "/etc/systemd/resolved.conf"
     regexp: "^#DNS="
     replace: "DNS=8.8.8.8 8.8.4.4"
-  notify: "restart systemd-resolved"
+  notify: "Restart systemd-resolved"
 
 - name: "Update NTP server"
-  replace:
+  ansible.builtin.replace:
     path: "/etc/systemd/timesyncd.conf"
     regexp: "^#NTP="
     replace: "NTP=ntp1.jst.mfeed.ad.jp ntp2.jst.mfeed.ad.jp ntp3.jst.mfeed.ad.jp"
-  notify: "restart systemd-timesyncd"
+  notify: "Restart systemd-timesyncd"
 
 - name: "Set timezone to Asia/Tokyo"
-  timezone:
+  community.general.timezone:
     name: "Asia/Tokyo"
-

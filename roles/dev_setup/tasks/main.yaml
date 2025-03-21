@@ -1,9 +1,9 @@
 ---
 - name: "Setup asdf"
-  include_tasks: "asdf.yaml"
+  ansible.builtin.include_tasks: "asdf.yaml"
 
 - name: "Setup asdf optional"
-  include_tasks: "asdf-optional.yaml"
+  ansible.builtin.include_tasks: "asdf-optional.yaml"
 
 - name: "Setup nodejs environments"
-  include_tasks: "setup-node.yaml"
+  ansible.builtin.include_tasks: "setup-node.yaml"

@@ -1,36 +1,40 @@
 ---
 - name: "Get list of packages"
-  package_facts:
+  ansible.builtin.package_facts:
     manager: "auto"
 
 - name: "Remove list of snap packages"
+  when: "'snapd' in ansible_facts.packages"
   block:
     - name: "Increment the retry count"
-      set_fact:
+      ansible.builtin.set_fact:
         retry_count: "{{ 0 if retry_count is undefined else retry_count | int + 1 }}"
 
-    - name: "list snap packages"
-      shell: |
-        for i in `snap list | awk '!/Name/{print $1}'`;
-        do echo $i;
+    - name: "List snap packages"
+      ansible.builtin.shell: |
+        set -o pipefail
+
+        for i in `snap list | awk '!/Name/{print $1}'`;do
+          echo $i;
         done
       changed_when: false
       register: "snap_packages"
 
     - name: "Remove snap packages"
-      command: "snap remove {{ item }}"
-      register: "snap_remove_output"
+      ansible.builtin.command:
+        cmd: "snap remove {{ item }}"
       with_items: "{{ snap_packages.stdout_lines }}"
+      register: "snap_remove_output"
+      changed_when: "'removed' in snap_remove_output.stdout"
   rescue:
     - name: "Check number of retries and fail if greater that 3"
-      fail:
+      ansible.builtin.fail:
         msg: "Maximum retries of grouped tasks reached"
       when: "retry_count | int == 3"
 
     - name: "Printing retry message"
-      debug:
+      ansible.builtin.debug:
         msg: "Removing snap package failed, let's give it another shot"
 
     - name: "Retrying deletion"
-      include_tasks: "remove-snap-packages.yaml"
-  when: "'snapd' in ansible_facts.packages"
+      ansible.builtin.include_tasks: "remove-snap-packages.yaml"
