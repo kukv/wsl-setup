@@ -40,63 +40,41 @@
     {
       "fileMatch": ["^.*\\.ya?ml$"],
       "matchStrings": [
-        "asdf_version: [\"']?(?<currentValue>[\\d.v]+)[\"']?",
-        "(?<depName>java)_version: [\"']?(?<currentValue>openjdk-[\\d.]+)[\"']?",
-        "(?<depName>gradle)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>maven)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>go)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>gofumpt)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>golangci_lint)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>go_migration)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>node)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>npm)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>yarn)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>pnpm)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>python)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>terraform)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>awscli)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>awscli_local)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>cilium_cli)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>fluxctl)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>helm)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>helmfile)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>helm_diff)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>kubectl)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>yq)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>yamlfmt)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>yamllint)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>act)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>action_validator)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>actionlint)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>github_cli)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>shellcheck)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
-      ],
-      "depNameTemplate": "asdf-{{{depName}}}",
-      "packageNameTemplate": "asdf-community/asdf-{{{depName}}}",
-      "datasourceTemplate": "github-releases",
-      "versioningTemplate": "semver"
-    },
-    {
-      "fileMatch": ["^.*\\.ya?ml$"],
-      "matchStrings": [
-        "asdf_version: [\"']?(?<currentValue>[\\d.v]+)[\"']?"
-      ],
-      "depNameTemplate": "asdf",
-      "packageNameTemplate": "asdf-vm/asdf",
-      "datasourceTemplate": "github-releases",
-      "versioningTemplate": "semver"
-    },
-    {
-      "fileMatch": ["^.*\\.ya?ml$"],
-      "matchStrings": [
-        "(?<depName>node)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>npm)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>yarn)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?",
-        "(?<depName>pnpm)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+        "(?<depName>asdf)_version: [\"']?(?<currentValue>[\\d.v]+)[\"']?"
       ],
       "depNameTemplate": "{{{depName}}}",
-      "packageNameTemplate": "nodejs/{{{depName}}}",
+      "packageNameTemplate": "asdf-vm/{{{depName}}}",
       "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>java)_version: [\"']?(?<currentValue>openjdk-[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "openjdk/jdk",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>gradle)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "gradle/{{{depName}}}",
+      "datasourceTemplate": "gradle-version",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>maven)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "maven",
+      "packageNameTemplate": "apache/maven",
+      "datasourceTemplate": "maven",
       "versioningTemplate": "semver"
     },
     {
@@ -106,7 +84,87 @@
       ],
       "depNameTemplate": "{{{depName}}}",
       "packageNameTemplate": "golang/{{{depName}}}",
-      "datasourceTemplate": "github-releases",
+      "datasourceTemplate": "golang",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>gofumpt)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "mvdan/{{{depName}}}",
+      "datasourceTemplate": "go",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>golangci_lint)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "golangci/{{{depName}}}",
+      "datasourceTemplate": "go",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>go_migration)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "migrate",
+      "packageNameTemplate": "golang-migrate/migrate",
+      "datasourceTemplate": "go",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>node)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "nodejs/{{{depName}}}",
+      "datasourceTemplate": "node-version",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>npm)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "npm/cli",
+      "datasourceTemplate": "npm",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>yarn)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "yarnpkg/{{{depName}}}",
+      "datasourceTemplate": "npm",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>pnpm)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "pnpm/{{{depName}}}",
+      "datasourceTemplate": "npm",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>python)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "python/c{{{depName}}}",
+      "datasourceTemplate": "python-version",
       "versioningTemplate": "semver"
     },
     {
@@ -116,6 +174,76 @@
       ],
       "depNameTemplate": "{{{depName}}}",
       "packageNameTemplate": "hashicorp/{{{depName}}}",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>awscli)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "aws/aws-cli",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>awscli_local)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "aws-cli-local",
+      "packageNameTemplate": "localstack/{{{depName}}}",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>cilium_cli)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "cilium/{{{depName}}}",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>fluxctl)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "fluxcd/flux",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>helm)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "helm/{{{depName}}}",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>helmfile)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "helmfile/{{{depName}}}",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>helm_diff)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "helm-diff",
+      "packageNameTemplate": "databus23/helm-diff",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
     },
@@ -132,10 +260,60 @@
     {
       "fileMatch": ["^.*\\.ya?ml$"],
       "matchStrings": [
-        "(?<depName>shellcheck)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+        "(?<depName>yq)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
       ],
       "depNameTemplate": "{{{depName}}}",
-      "packageNameTemplate": "koalaman/{{{depName}}}",
+      "packageNameTemplate": "mikefarah/{{{depName}}}",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>yamlfmt)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "google/{{{depName}}}",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>yamllint)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "adrienverge/{{{depName}}}",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>act)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "nektos/{{{depName}}}",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>action_validator)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "action-validator",
+      "packageNameTemplate": "mpalmer/action-validator",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>actionlint)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "rhysd/{{{depName}}}",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
     },
@@ -146,6 +324,16 @@
       ],
       "depNameTemplate": "gh",
       "packageNameTemplate": "cli/cli",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^.*\\.ya?ml$"],
+      "matchStrings": [
+        "(?<depName>shellcheck)_version: [\"']?(?<currentValue>[\\d.]+)[\"']?"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "packageNameTemplate": "koalaman/{{{depName}}}",
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
     }
