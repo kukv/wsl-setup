@@ -17,4 +17,4 @@
 
 - name: "Enable logrotate"
   command:
-    cmd: "logrotate -d {{ /etc/logrotate.d/ansible-pull }}"
+    cmd: "logrotate -d /etc/logrotate.d/ansible-pull"
