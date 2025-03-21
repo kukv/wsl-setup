@@ -1,8 +1,14 @@
 ---
+##########################################################
+# asdf configuration
+##########################################################
 asdf_version: "v0.16.5"
 asdf_bin: "{{ install_dir }}/asdf"
 asdf_shims: "/home/{{ ansible_user }}/.asdf/shims"
 
+##########################################################
+# asdf versions
+##########################################################
 java_version: "openjdk-21.0.2"
 
 java_legacy_lts_versions:
