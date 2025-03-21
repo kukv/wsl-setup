@@ -6,9 +6,10 @@
 
 - name: "Add repository"
   apt_repository:
-    repo: "{{ additional_repositories }}"
+    repo: "{{ item }}"
     state: "present"
     update_cache: true
+  with_items: "{{ additional_repositories }}"
 
 - name: "Install requirement packages"
   apt:
