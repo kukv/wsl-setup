@@ -72,7 +72,7 @@ function password_less_privilege_escalation() {
   fi
 
   if [ ! -f "${sudoers_path}/${user}" ]; then
-      echo "${user} ALL=(ALL) NOPASSWD: ALL" | tee "${sudoers_path}/${user}" > /dev/null
+      echo "${user} ALL=(ALL) NOPASSWD: ALL" | tee ${sudoers_path}/${user} > /dev/null
       chmod 440 "${sudoers_path}/${user}"
   else
       if ! grep -q "${user} ALL=(ALL) NOPASSWD: ALL" "${sudoers_path}/${user}"; then
