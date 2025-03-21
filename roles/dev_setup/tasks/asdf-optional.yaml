@@ -1,0 +1,15 @@
+---
+- name: "Install JDK legacy LTS version"
+  command:
+    cmd: "{{ asdf_bin }} install java {{ item }}"
+  with_items: "{{ java_legacy_lts_versions }}"
+
+- name: "Install nodejs legacy LTS version"
+  command:
+    cmd: "{{ asdf_bin }} install nodejs {{ item }}"
+  with_items: "{{ node_legacy_lts_versions }}"
+
+- name: "Install python legacy version"
+  command:
+    cmd: "{{ asdf_bin }} install python {{ item }}"
+  with_items: "{{ python_legacy_versions }}"

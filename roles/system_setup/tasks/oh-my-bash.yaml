@@ -23,8 +23,8 @@
     line: "source /usr/local/share/oh-my-bash/bashrc"
     state: "present"
 
-- name: "Ensure OSH_THEME is set to absimple"
+- name: "Ensure OSH_THEME is set to powerline-icon"
   replace:
     path: "/usr/local/share/oh-my-bash/bashrc"
     regexp: '^OSH_THEME="font"$'
-    replace: 'OSH_THEME="absimple"'
+    replace: 'OSH_THEME="powerline-icon"'

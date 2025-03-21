@@ -4,6 +4,12 @@
     name: "{{ uninstall_packages }}"
     state: "absent"
 
+- name: "Add repository"
+  apt_repository:
+    repo: "{{ additional_repositories }}"
+    state: "present"
+    update_cache: true
+
 - name: "Install requirement packages"
   apt:
     name: "{{ install_packages }}"

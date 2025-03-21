@@ -2,6 +2,9 @@
 uninstall_packages:
   - "snapd"
 
+additional_repositories:
+  - "ppa:deadsnakes/ppa"
+
 install_packages:
   - "fake-hwclock"
   - "dnsutils"
@@ -17,3 +20,18 @@ install_packages:
   - "curl"
   - "software-properties-common"
   - "direnv"
+  - "sshpass"
+  - "tree"
+  - "qemu"
+  - "g++-aarch64-linux-gnu"
+  - "build-essential"
+  - "python3-pip"
+  - "python3-venv"
+  - "python3-dev"
+  - "python3.9-distutils"
+  - "python3.10-distutils"
+  - "python3.11-distutils"
+  - "python3-distutils-extra"
+  - "libssl-dev"
+  - "libffi-dev"
+  - "zlib1g-dev"
