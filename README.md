@@ -25,8 +25,8 @@ required libraries
 
 venv環境を構築
 ```bash
-python -m venv wsl-setup
-source wsl-setup/bin/activate
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
