@@ -101,6 +101,6 @@ requirement_package
 
 home_dir="/home/${op_user}"
 sudo -u "${op_user}" \
-  bash -c "cd ${home_dir} && /usr/bin/ansible-pull -U https://github.com/kukv/wsl-setup.git -i inventory.yaml playbook.yaml -e '{\"provisioning_schedule\":\"${timer}\"}'"
+  bash -c "cd ${home_dir} && /usr/bin/ansible-pull -U https://github.com/kukv/wsl-setup.git -C main -i inventory.yaml playbook.yaml -e '{\"provisioning_schedule\":\"${timer}\"}'"
 
 exit 0
