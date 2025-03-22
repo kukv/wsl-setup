@@ -12,8 +12,6 @@
 
     - name: "List snap packages"
       ansible.builtin.shell: |
-        set -o pipefail
-
         for i in `snap list | awk '!/Name/{print $1}'`;do
           echo $i;
         done
