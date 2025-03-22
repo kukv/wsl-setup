@@ -1,15 +1,29 @@
 ---
+- name: "Check if asdf is already installed"
+  ansible.builtin.stat:
+    path: "{{ install_dir }}/asdf"
+  register: "asdf_bin"
+
+- name: "Get asdf version"
+  ansible.builtin.command:
+    cmd: "asdf version"
+  changed_when: false
+  register: "asdf_current_version"
+  when: "asdf_bin.stat.exists"
+
 - name: "Download asdf binary file"
   ansible.builtin.get_url:
     url: "https://github.com/asdf-vm/asdf/releases/download/{{ asdf_version }}/asdf-{{ asdf_version }}-linux-amd64.tar.gz"
     dest: "/tmp/asdf.tar.gz"
     mode: "0644"
+  when: "not asdf_bin.stat.exists or asdf_version in asdf_current_version.stdout"
 
 - name: "Extract tar.gz file"
   ansible.builtin.unarchive:
     src: "/tmp/asdf.tar.gz"
     dest: "/tmp"
   become: true
+  when: "not asdf_bin.stat.exists or asdf_version in asdf_current_version.stdout"
 
 - name: "Copy to {{ install_dir }}"
   ansible.builtin.copy:
@@ -17,6 +31,7 @@
     dest: "{{ install_dir }}"
     mode: "0755"
   become: true
+  when: "not asdf_bin.stat.exists or asdf_version in asdf_current_version.stdout"
 
 - name: "Add asdf to path"
   ansible.builtin.blockinfile:
@@ -28,18 +43,22 @@
     marker: "# {mark} ASDF SETUP"
     create: true
     mode: "0644"
+  when: "asdf_bin.stat.exists"
 
 - name: "Cleanup temporary files"
   ansible.builtin.file:
     path: "/tmp/asdf.tar.gz"
     state: "absent"
+  when: "not asdf_bin.stat.exists or asdf_version in asdf_current_version.stdout"
 
 - name: "Update all asdf plugins"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} plugin update --all"
+  when: "asdf_bin.stat.exists"
 
 - name: "Install plugin libraries"
   ansible.builtin.include_tasks: "asdf-plugins.yaml"
+  when: "asdf_bin.stat.exists"
   with_items:
     - plugin_name: "java"
       url: "https://github.com/halcyon/asdf-java"
@@ -107,3 +126,7 @@
     - plugin_name: "shellcheck"
       url: "https://github.com/luizm/asdf-shellcheck"
       version: "latest"
+
+- name: "Setup asdf optional"
+  ansible.builtin.include_tasks: "asdf-optional.yaml"
+  when: "asdf_bin.stat.exists"
