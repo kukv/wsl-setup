@@ -1,7 +1,7 @@
 ---
 - name: "Update npm module"
   ansible.builtin.command:
-    cmd: "{{ asdf_shims }}/npm install -g npm@{{ npm_version }}"
+    cmd: "{{ asdf_shims }}/npm install -g npm@latest"
   args:
     executable: "/bin/bash"
   register: "npm_update_output"
