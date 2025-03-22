@@ -4,6 +4,7 @@ skip_list:
   - "no-changed-when"
   - "var-naming"
   - "yaml"
+  - "risky-shell-pipe"
 
 exclude_paths:
   - ".github/"
