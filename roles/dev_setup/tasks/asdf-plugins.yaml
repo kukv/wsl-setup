@@ -12,12 +12,20 @@
   register: "asdf_plugin_install"
   changed_when: "asdf_plugin_install.rc == 0"
 
+- name: "Get list Installed plugin library"
+  ansible.builtin.command:
+    cmd: "{{ asdf_bin }} list {{ item.plugin_name }}"
+  register: "asdf_installed_library_output"
+  changed_when: false
+
 - name: "Install plugin library {{ item.plugin_name ~ ':' ~ item.version }}"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} install {{ item.plugin_name }} {{ item.version }}"
+  when: "'latest' in item.version or item.version not in asdf_installed_library_output.stdout"
   register: "asdf_install_output"
   changed_when: "'is already installed' not in asdf_install_output.stdout"
 
 - name: "Set plugin library version {{ item.plugin_name ~ ':' ~ item.version }}"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} set --home {{ item.plugin_name }} {{ item.version }}"
+  when: "'latest' in item.version or item.version not in asdf_installed_library_output.stdout"

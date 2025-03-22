@@ -22,6 +22,7 @@
     path: "/etc/bash.bashrc"
     line: "source /usr/local/share/oh-my-bash/bashrc"
     state: "present"
+  when: "not omb_dir.stat.exists"
 
 - name: "Ensure OSH_THEME is set to powerline-icon"
   ansible.builtin.replace:
