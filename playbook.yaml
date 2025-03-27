@@ -4,19 +4,20 @@
   gather_facts: true
   become: true
 
-  pre_tasks:
-    - name: "Setup ansible"
-      ansible.builtin.include_tasks: "tasks/requirement_ansible_module.yaml"
-    - name: "Package update"
-      ansible.builtin.include_tasks: "tasks/update.yaml"
+#  pre_tasks:
+#    - name: "Install modules required for provisioning"
+#      ansible.builtin.include_tasks: "tasks/install_ansible_required_module.yaml"
+#
+#    - name: "Package update"
+#      ansible.builtin.include_tasks: "tasks/package_update.yaml"
 
   roles:
-    - name: "Setup system configuration role"
-      role: "system_setup"
-
-    - name: "Setup development environment"
-      role: "dev_setup"
-      become: false
-
-    - name: "Setup ansible configure"
-      role: "ansible_configure"
+    - name: "System configuration roles"
+      role: "system_configuration"
+#
+#    - name: "Development environment building role"
+#      role: "dev_setup"
+#      become: false
+#
+#    - name: "Routine provisioning configuration roles by ansible"
+#      role: "ansible_configure"

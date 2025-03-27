@@ -1,0 +1,75 @@
+---
+- name: "Get latest stable kubectl version"
+  ansible.builtin.uri:
+    url: "https://dl.k8s.io/release/stable.txt"
+    return_content: true
+  register: "kubectl_version"
+
+- name: "Set download URL"
+  ansible.builtin.set_fact:
+    download_url: "https://dl.k8s.io/release/{{ kubectl_version.content | trim }}/bin/linux/amd64/kubectl"
+
+- name: "Download kubectl checksums"
+  ansible.builtin.get_url:
+    url: "{{ download_url }}.sha256"
+    dest: "{{ tmp_dir }}/kubectl.sha256"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: "Extract latest kubectl checksum"
+  ansible.builtin.command:
+    cmd: "cat /tmp/kubectl.sha256"
+  register: "latest_kubectl_checksum"
+  changed_when: false
+
+- name: "Check if kubectl is installed"
+  ansible.builtin.stat:
+    path: "/usr/local/bin/kubectl"
+  register: "kubectl_installed"
+
+- name: "Get installed kubectl checksum (if exists)"
+  ansible.builtin.command:
+    cmd: "sha256sum /usr/local/bin/kubectl"
+  register: "installed_kubectl_checksum"
+  changed_when: false
+  when: "kubectl_installed.stat.exists"
+
+- name: "Compare checksums"
+  ansible.builtin.set_fact:
+    update_required: "{{ not kubectl_installed.stat.exists or installed_kubectl_checksum.stdout.split(' ')[0] != latest_kubectl_checksum.stdout | trim }}"
+
+- name: "Download kubectl binary"
+  ansible.builtin.get_url:
+    url: "{{ download_url }}"
+    dest: "{{ tmp_dir }}/kubectl"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  when: "update_required"
+
+- name: "Verify checksum"
+  ansible.builtin.command:
+    cmd: "echo {{ tmp_dir }}/kubectl.sha256 kubectl | sha256sum --check"
+  args:
+    chdir: "{{ tmp_dir }}"
+  changed_when: false
+  when: "update_required"
+
+- name: "Copy kubectl binary"
+  ansible.builtin.copy:
+    src: "{{ tmp_dir }}/kubectl"
+    dest: "{{ install_dir }}/kubectl"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  when: "update_required"
+
+- name: "Clean up temporary files"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: "absent"
+  when: "update_required"
+  with_items:
+    - "/tmp/kubectl"
+    - "/tmp/kubectl.sha256"

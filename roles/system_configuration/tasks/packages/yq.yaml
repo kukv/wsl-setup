@@ -1,0 +1,62 @@
+---
+- name: "Get latest yq checksums"
+  ansible.builtin.get_url:
+    url: "https://github.com/mikefarah/yq/releases/latest/download/checksums"
+    dest: "/tmp/yq_checksums"
+    mode: "0644"
+
+- name: "Check if yq is installed"
+  ansible.builtin.stat:
+    path: "/usr/local/bin/yq"
+  register: "yq_installed"
+
+- name: "Get installed yq checksum (if exists)"
+  ansible.builtin.command:
+    cmd: "sha256sum /usr/local/bin/yq"
+  register: "installed_yq_checksum"
+  changed_when: false
+  when: "yq_installed.stat.exists"
+
+- name: "Extract latest yq checksum"
+  ansible.builtin.shell: "grep 'yq_linux_amd64 ' /tmp/yq_checksums | awk '{print $19}'"
+  register: "latest_yq_checksum"
+  changed_when: false
+
+- name: "Compare checksums"
+  ansible.builtin.set_fact:
+    update_required: "{{ not yq_installed.stat.exists or installed_yq_checksum.stdout.split(' ')[0] | default('') != latest_yq_checksum.stdout }}"
+
+- name: "Download latest yq binary"
+  ansible.builtin.get_url:
+    url: "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64"
+    dest: "/tmp/yq"
+    mode: "0755"
+  when: "update_required"
+
+- name: "Verify checksum of downloaded yq"
+  ansible.builtin.shell: "sha256sum /tmp/yq | awk '{print $1}'"
+  register: "downloaded_yq_checksum"
+  changed_when: false
+  when: "update_required"
+
+- name: "Ensure checksums match"
+  ansible.builtin.fail:
+    msg: "Checksum verification failed!"
+  when: "update_required and downloaded_yq_checksum.stdout != latest_yq_checksum.stdout"
+
+- name: "Move yq binary to /usr/local/bin"
+  ansible.builtin.copy:
+    src: "/tmp/yq"
+    dest: "/usr/local/bin/yq"
+    mode: "0755"
+    remote_src: yes
+  when: "update_required"
+
+- name: "Clean up temporary files"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: "absent"
+  when: "update_required"
+  with_items:
+    - "/tmp/yq"
+    - "/tmp/yq_checksums"

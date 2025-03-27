@@ -1,0 +1,32 @@
+---
+#- name: "Remove unwanted packages"
+#  ansible.builtin.apt:
+#    name: "{{ unwanted_packages }}"
+#    state: "absent"
+#
+#- name: "Adding package repositories"
+#  ansible.builtin.apt_repository:
+#    repo: "{{ item }}"
+#    state: "present"
+#    update_cache: true
+#  with_items: "{{ package_repositories }}"
+#
+#- name: "Install necessary packages"
+#  ansible.builtin.apt:
+#    name: "{{ necessary_packages }}"
+#    state: "present"
+#
+#- name: "Intall yq"
+#  ansible.builtin.include_tasks: "packages/yq.yaml"
+#
+#- name: "Intall kubectl"
+#  ansible.builtin.include_tasks: "packages/kubectl.yaml"
+#
+#- name: "Intall flux2 cli"
+#  ansible.builtin.include_tasks: "packages/flux2-cli.yaml"
+
+#- name: "Intall helm"
+#  ansible.builtin.include_tasks: "packages/helm.yaml"
+#
+#- name: "Intall Github CLI"
+#  ansible.builtin.include_tasks: "packages/github-cli.yaml"

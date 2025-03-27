@@ -1,5 +1,5 @@
 ---
-- name: "Get list of packages"
+- name: "Get list of snap packages"
   ansible.builtin.package_facts:
     manager: "auto"
 
