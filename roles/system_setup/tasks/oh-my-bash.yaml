@@ -1,32 +1,32 @@
 ---
-- name: "Check if Oh-my-bash is already installed"
+- name: "Oh-my-bash - Check installation status"
   ansible.builtin.stat:
-    path: "/usr/local/share/oh-my-bash"
+    path: "{{ omb_install_path }}"
   register: "omb_dir"
 
-- name: "Get Oh-my-bash installation script"
-  ansible.builtin.get_url:
-    url: "https://raw.github.com/ohmybash/oh-my-bash/master/tools/install.sh"
-    dest: "{{ tmp_dir }}/oh_my_bash_install.sh"
-    mode: "0755"
+- name: "Oh-my-bash - Installation and configuration"
   when: "not omb_dir.stat.exists"
+  block:
+    - name: "Download installation script"
+      ansible.builtin.get_url:
+        url: "https://raw.github.com/ohmybash/oh-my-bash/master/tools/install.sh"
+        dest: "{{ omb_script_path }}"
+        mode: "0755"
 
-- name: "Install Oh-my-bash"
-  ansible.builtin.command:
-    cmd: "{{ tmp_dir }}/oh_my_bash_install.sh --prefix=/usr/local"
-  changed_when: true
-  when: "not omb_dir.stat.exists"
+    - name: "Run oh-my-bash installer"
+      ansible.builtin.command:
+        cmd: "{{ omb_script_path }} --prefix=/usr/local"
+      changed_when: true
 
-- name: "Ensure oh-my-bash is sourced in /etc/bash.bashrc"
-  ansible.builtin.lineinfile:
-    path: "/etc/bash.bashrc"
-    line: "source /usr/local/share/oh-my-bash/bashrc"
-    state: "present"
-  when: "not omb_dir.stat.exists"
+    - name: "Configure oh-my-bash in /etc/bash.bashrc"
+      ansible.builtin.lineinfile:
+        path: "/etc/bash.bashrc"
+        line: "source {{ omb_install_path }}/bashrc"
+        state: "present"
 
-- name: "Ensure OSH_THEME is set to powerline-icon"
+- name: "Set theme to {{ omb_theme }}"
   ansible.builtin.replace:
-    path: "/usr/local/share/oh-my-bash/bashrc"
+    path: "{{ omb_install_path }}/bashrc"
     regexp: >-
       ^OSH_THEME="font"$
     replace: >-

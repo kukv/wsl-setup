@@ -5,30 +5,28 @@
   register: "asdf_plugin_list"
   changed_when: false
 
-- name: "Install missing asdf plugins to {{ item.plugin_name }}"
+- name: "Install asdf plugin {{ item.plugin_name }}"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} plugin add {{ item.plugin_name }} {{ item.url | default('') }}"
   when: "item.plugin_name not in asdf_plugin_list.stdout.splitlines()"
   register: "asdf_plugin_install"
   changed_when: "asdf_plugin_install.rc == 0"
 
-- name: "Get list Installed plugin library"
+- name: "Get installed versions for {{ item.plugin_name }}"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} list {{ item.plugin_name }}"
-  register: "asdf_installed_library_output"
+  register: "asdf_installed_versions"
   changed_when: false
-  failed_when: >
-    asdf_installed_library_output.rc != 0 and
-    "No compatible versions installed" not in asdf_installed_library_output.stderr
+  failed_when: "asdf_installed_versions.rc != 0 and 'No compatible versions installed' not in asdf_installed_versions.stderr"
 
-- name: "Install plugin library {{ item.plugin_name ~ ':' ~ item.version }}"
+- name: "Install {{ item.plugin_name ~ ':' ~ item.version }}"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} install {{ item.plugin_name }} {{ item.version }}"
-  when: "'latest' in item.version or item.version not in asdf_installed_library_output.stdout.splitlines()"
+  when: "'latest' in item.version or item.version not in asdf_installed_versions.stdout.splitlines()"
   register: "asdf_install_output"
   changed_when: "'is already installed' not in asdf_install_output.stdout"
 
-- name: "Set plugin library version {{ item.plugin_name ~ ':' ~ item.version }}"
+- name: "Set default version for {{ item.plugin_name ~ ':' ~ item.version }}"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} set --home {{ item.plugin_name }} {{ item.version }}"
-  when: "'latest' in item.version or item.version not in asdf_installed_library_output.stdout.splitlines()"
+  when: "'latest' in item.version or item.version not in asdf_installed_versions.stdout.splitlines()"

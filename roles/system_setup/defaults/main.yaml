@@ -1,4 +1,8 @@
 ---
+omb_install_path: "/usr/local/share/oh-my-bash"
+omb_script_path: "{{ tmp_dir }}/oh_my_bash_install.sh"
+omb_theme: "powerline-icon"
+
 additional_repositories:
   - "ppa:deadsnakes/ppa"
 

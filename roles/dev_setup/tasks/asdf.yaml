@@ -4,123 +4,61 @@
     path: "{{ asdf_bin }}"
   register: "exist_asdf_bin"
 
-- name: "Get asdf version"
+- name: "Get asdf version when installed"
   ansible.builtin.command:
     cmd: "asdf version"
   changed_when: false
   register: "asdf_current_version"
   when: "exist_asdf_bin.stat.exists"
 
-- name: "Download asdf binary file"
-  ansible.builtin.get_url:
-    url: "https://github.com/asdf-vm/asdf/releases/download/{{ asdf_version }}/asdf-{{ asdf_version }}-linux-amd64.tar.gz"
-    dest: "/tmp/asdf.tar.gz"
-    mode: "0644"
-  when: "not exist_asdf_bin.stat.exists or asdf_version not in asdf_current_version.stdout"
+- name: "Install or upgrade asdf"
+  when: "not exist_asdf_bin.stat.exists or asdf_version not in asdf_current_version.stdout | default('')"
+  block:
+    - name: "Download asdf binary file"
+      ansible.builtin.get_url:
+        url: "https://github.com/asdf-vm/asdf/releases/download/{{ asdf_version }}/asdf-{{ asdf_version }}-linux-amd64.tar.gz"
+        dest: "{{ tmp_dir }}/asdf.tar.gz"
+        mode: "0644"
 
-- name: "Extract tar.gz file"
-  ansible.builtin.unarchive:
-    src: "/tmp/asdf.tar.gz"
-    dest: "/tmp"
-  become: true
-  when: "not exist_asdf_bin.stat.exists or asdf_version not in asdf_current_version.stdout"
+    - name: "Extract tar.gz file"
+      ansible.builtin.unarchive:
+        src: "{{ tmp_dir }}/asdf.tar.gz"
+        dest: "{{ tmp_dir }}"
 
-- name: "Copy to {{ install_dir }}"
-  ansible.builtin.copy:
-    src: "/tmp/asdf"
-    dest: "{{ install_dir }}"
-    mode: "0755"
-  become: true
-  when: "not exist_asdf_bin.stat.exists or asdf_version not in asdf_current_version.stdout"
+    - name: "Copy to {{ install_dir }}"
+      ansible.builtin.copy:
+        src: "{{ tmp_dir }}/asdf"
+        dest: "{{ install_dir }}"
+        mode: "0755"
+      become: true
 
-- name: "Add asdf to path"
-  ansible.builtin.blockinfile:
-    path: "/home/{{ ansible_user }}/.bashrc"
-    block: |
-      # asdf setup
-      export ASDF_DATA_DIR="$HOME/.asdf"
-      export PATH="$ASDF_DATA_DIR/shims:$PATH"
-    marker: "# {mark} ASDF SETUP"
-    create: true
-    mode: "0644"
+    - name: "Cleanup temporary files"
+      ansible.builtin.file:
+        path: "{{ tmp_dir }}/asdf.tar.gz"
+        state: "absent"
+
+- name: "Configure asdf"
   when: "exist_asdf_bin.stat.exists"
-
-- name: "Cleanup temporary files"
-  ansible.builtin.file:
-    path: "/tmp/asdf.tar.gz"
-    state: "absent"
-  when: "not exist_asdf_bin.stat.exists or asdf_version not in asdf_current_version.stdout"
+  block:
+    - name: "Add asdf to path"
+      ansible.builtin.blockinfile:
+        path: "/home/{{ ansible_user }}/.bashrc"
+        block: |
+          # asdf setup
+          export ASDF_DATA_DIR="$HOME/.asdf"
+          export PATH="$ASDF_DATA_DIR/shims:$PATH"
+        marker: "# {mark} ASDF SETUP"
+        create: true
+        mode: "0644"
 
 - name: "Update all asdf plugins"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} plugin update --all"
 
-- name: "Install plugin libraries"
+- name: "Install and configure plugins"
   ansible.builtin.include_tasks: "asdf-plugins.yaml"
-  with_items:
-    - plugin_name: "java"
-      url: "https://github.com/halcyon/asdf-java"
-      version: "{{ java_version }}"
-    - plugin_name: "gradle"
-      url: "https://github.com/rfrancis/asdf-gradle"
-      version: "{{ gradle_version }}"
-    - plugin_name: "maven"
-      url: "https://github.com/halcyon/asdf-maven"
-      version: "latest"
-    - plugin_name: "go"
-      url: "https://github.com/asdf-community/asdf-golang"
-      version: "latest"
-    - plugin_name: "gofumpt"
-      url: "https://github.com/looztra/asdf-gofumpt"
-      version: "latest"
-    - plugin_name: "golangci-lint"
-      url: "https://github.com/hypnoglow/asdf-golangci-lint"
-      version: "latest"
-    - plugin_name: "go-migrate"
-      url: "https://github.com/joschi/asdf-gomigrate"
-      version: "latest"
-    - plugin_name: "nodejs"
-      url: "https://github.com/asdf-vm/asdf-nodejs"
-      version: "{{ node_version }}"
-    - plugin_name: "yarn"
-      url: "https://github.com/twuni/asdf-yarn"
-      version: "latest"
-    - plugin_name: "pnpm"
-      url: "https://github.com/jonathanmorley/asdf-pnpm"
-      version: "{{ pnpm_version }}"
-    - plugin_name: "python"
-      url: "https://github.com/danhper/asdf-python"
-      version: "{{ python_version }}"
-    - plugin_name: "terraform"
-      url: "https://github.com/asdf-community/asdf-hashicorp"
-      version: "latest"
-    - plugin_name: "awscli"
-      url: "https://github.com/MetricMike/asdf-awscli"
-      version: "latest"
-    - plugin_name: "yq"
-      url: "https://github.com/sudermanjr/asdf-yq"
-      version: "latest"
-    - plugin_name: "act"
-      url: "https://github.com/gr1m0h/asdf-act"
-      version: "latest"
-    - plugin_name: "github-cli"
-      url: "https://github.com/bartlomiejdanek/asdf-github-cli"
-      version: "latest"
-    - plugin_name: "fluxctl"
-      url: "https://github.com/stefansedich/asdf-fluxctl"
-      version: "latest"
-    - plugin_name: "helm"
-      url: "https://github.com/Antiarchitect/asdf-helm"
-      version: "latest"
-    - plugin_name: "helmfile"
-      url: "https://github.com/feniix/asdf-helmfile"
-      version: "latest"
-    - plugin_name: "kubectl"
-      url: "https://github.com/asdf-community/asdf-kubectl"
-      version: "latest"
-    - plugin_name: "shellcheck"
-      url: "https://github.com/luizm/asdf-shellcheck"
-      version: "latest"
+  loop: "{{ asdf_languages }}"
 
-- name: "Setup asdf optional"
+- name: "Setup asdf optional components"
   ansible.builtin.include_tasks: "asdf-optional.yaml"
+  loop: "{{ asdf_legacy_languages }}"

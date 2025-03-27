@@ -1,42 +1,18 @@
 ---
-- name: "Get list legacy jdk Installed plugin library"
-  ansible.builtin.command:
-    cmd: "{{ asdf_bin }} list java"
-  register: "asdf_legacy_jdk_installed_library_output"
-  changed_when: false
+- name: "Install legacy versions for each language"
+  block:
+    - name: "Get installed versions for {{ item.plugin_name }}"
+      ansible.builtin.command:
+        cmd: "{{ asdf_bin }} list {{ item.plugin_name }}"
+      register: "installed_versions"
+      changed_when: false
 
-- name: "Install JDK legacy LTS version"
-  ansible.builtin.command:
-    cmd: "{{ asdf_bin }} install java {{ item }}"
-  when: "item not in asdf_legacy_jdk_installed_library_output.stdout.splitlines()"
-  with_items: "{{ java_legacy_lts_versions }}"
-  register: "asdf_install_output"
-  changed_when: "'is already installed' not in asdf_install_output.stdout"
-
-- name: "Get list legacy nodejs Installed plugin library"
-  ansible.builtin.command:
-    cmd: "{{ asdf_bin }} list nodejs"
-  register: "asdf_legacy_nodejs_installed_library_output"
-  changed_when: false
-
-- name: "Install nodejs legacy LTS version"
-  ansible.builtin.command:
-    cmd: "{{ asdf_bin }} install nodejs {{ item }}"
-  when: "item not in asdf_legacy_nodejs_installed_library_output.stdout.splitlines()"
-  with_items: "{{ node_legacy_lts_versions }}"
-  register: "asdf_install_output"
-  changed_when: "'is already installed' not in asdf_install_output.stdout"
-
-- name: "Get list legacy python Installed plugin library"
-  ansible.builtin.command:
-    cmd: "{{ asdf_bin }} list python"
-  register: "asdf_legacy_python_installed_library_output"
-  changed_when: false
-
-- name: "Install python legacy version"
-  ansible.builtin.command:
-    cmd: "{{ asdf_bin }} install python {{ item }}"
-  when: "item not in asdf_legacy_python_installed_library_output.stdout.splitlines()"
-  with_items: "{{ python_legacy_versions }}"
-  register: "asdf_install_output"
-  changed_when: "'is already installed' not in asdf_install_output.stdout"
+    - name: "Install legacy versions of {{ item.plugin_name }}"
+      ansible.builtin.command:
+        cmd: "{{ asdf_bin }} install {{ item.plugin_name }} {{ item_version }}"
+      loop: "{{ item.versions }}"
+      loop_control:
+        loop_var: "item_version"
+      when: "item not in installed_versions.stdout.splitlines()"
+      register: "install_result"
+      changed_when: "'is already installed' not in install_result.stdout"
