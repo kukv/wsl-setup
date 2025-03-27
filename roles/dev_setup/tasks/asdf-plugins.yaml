@@ -17,15 +17,18 @@
     cmd: "{{ asdf_bin }} list {{ item.plugin_name }}"
   register: "asdf_installed_library_output"
   changed_when: false
+  failed_when: >
+    asdf_installed_library_output.rc != 0 and
+    "No compatible versions installed" not in asdf_installed_library_output.stderr
 
 - name: "Install plugin library {{ item.plugin_name ~ ':' ~ item.version }}"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} install {{ item.plugin_name }} {{ item.version }}"
-  when: "'latest' in item.version or item.version not in asdf_installed_library_output.splitlines()"
+  when: "'latest' in item.version or item.version not in asdf_installed_library_output.stdout.splitlines()"
   register: "asdf_install_output"
   changed_when: "'is already installed' not in asdf_install_output.stdout"
 
 - name: "Set plugin library version {{ item.plugin_name ~ ':' ~ item.version }}"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} set --home {{ item.plugin_name }} {{ item.version }}"
-  when: "'latest' in item.version or item.version not in asdf_installed_library_output.splitlines()"
+  when: "'latest' in item.version or item.version not in asdf_installed_library_output.stdout.splitlines()"
