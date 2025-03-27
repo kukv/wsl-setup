@@ -1,6 +1,6 @@
 ---
 - name: "Ensure npm is updated to latest version"
   ansible.builtin.command:
-    cmd: "{{ asdf_binary_path }}/npm install -g npm@latest"
+    cmd: "{{ asdf_shims }}/npm install -g npm@latest"
   register: "npm_installation_result"
   changed_when: "npm_installation_result.rc == 0 and 'up to date' not in npm_installation_result.stdout"

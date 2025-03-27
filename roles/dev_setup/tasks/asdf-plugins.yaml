@@ -19,6 +19,15 @@
   changed_when: false
   failed_when: "asdf_installed_versions.rc != 0 and 'No compatible versions installed' not in asdf_installed_versions.stderr"
 
+- name: "Debug variables"
+  ansible.builtin.debug:
+    msg:
+      - "Version being checked: {{ item.version }}"
+      - "Is 'latest' in version: {{ 'latest' in item.version }}"
+      - "Installed versions: {{ asdf_installed_versions.stdout_lines }}"
+      - "Is version not in installed: {{ item.version not in asdf_installed_versions.stdout.splitlines() }}"
+  when: "ansible_verbosity > 0"
+
 - name: "Install {{ item.plugin_name ~ ':' ~ item.version }}"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} install {{ item.plugin_name }} {{ item.version }}"
