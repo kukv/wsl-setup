@@ -1,9 +1,4 @@
 ---
-- name: "Remove packages"
-  ansible.builtin.apt:
-    name: "{{ uninstall_packages }}"
-    state: "absent"
-
 - name: "Add repository"
   ansible.builtin.apt_repository:
     repo: "{{ item }}"

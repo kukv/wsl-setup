@@ -1,38 +1,50 @@
 ---
-- name: "Get list of packages"
+- name: "Define retry limit"
+  ansible.builtin.set_fact:
+    max_retry_count: 3
+
+- name: "Get system package facts"
   ansible.builtin.package_facts:
     manager: "auto"
 
-- name: "Remove list of snap packages"
+- name: "Remove snap packages if snapd is installed"
   when: "'snapd' in ansible_facts.packages"
   block:
-    - name: "Increment the retry count"
+    - name: "Initialize or increment retry counter"
       ansible.builtin.set_fact:
         retry_count: "{{ 0 if retry_count is undefined else retry_count | int + 1 }}"
 
-    - name: "List snap packages"
-      ansible.builtin.shell: |
-        for i in `snap list | awk '!/Name/{print $1}'`;do
-          echo $i;
-        done
+    - name: "Get installed snap packages"
+      ansible.builtin.command:
+        cmd: "snap list"
+      register: "snap_list_output"
       changed_when: false
-      register: "snap_packages"
+
+    - name: "Extract snap package names"
+      ansible.builtin.set_fact:
+        snap_packages: "{{ snap_list_output.stdout_lines[1:] | map('split', ' ') | map('first') | list }}"
 
     - name: "Remove snap packages"
       ansible.builtin.command:
         cmd: "snap remove {{ item }}"
-      with_items: "{{ snap_packages.stdout_lines }}"
+      loop: "{{ snap_packages }}"
       register: "snap_remove_output"
       changed_when: "'removed' in snap_remove_output.stdout"
+
   rescue:
-    - name: "Check number of retries and fail if greater that 3"
+    - name: "Check retry limit"
       ansible.builtin.fail:
-        msg: "Maximum retries of grouped tasks reached"
-      when: "retry_count | int == 3"
+        msg: "Maximum retry limit of {{ max_retry_count }} reached when removing snap packages"
+      when: "retry_count | int >= max_retry_count"
 
-    - name: "Printing retry message"
+    - name: "Log retry attempt"
       ansible.builtin.debug:
-        msg: "Removing snap package failed, let's give it another shot"
+        msg: "Removing snap packages failed, retrying (attempt {{ retry_count | int }} of {{ max_retry_count }})"
 
-    - name: "Retrying deletion"
+    - name: "Retry snap package removal"
       ansible.builtin.include_tasks: "remove-snap-packages.yaml"
+
+- name: "Remove snap packages"
+  ansible.builtin.apt:
+    name: "{{ uninstall_packages }}"
+    state: "absent"

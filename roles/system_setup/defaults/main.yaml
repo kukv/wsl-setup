@@ -1,7 +1,4 @@
 ---
-uninstall_packages:
-  - "snapd"
-
 additional_repositories:
   - "ppa:deadsnakes/ppa"
 
