@@ -8,7 +8,7 @@
 - name: "Install missing asdf plugins to {{ item.plugin_name }}"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} plugin add {{ item.plugin_name }} {{ item.url }}"
-  when: "item.plugin_name not in asdf_plugin_list.stdout"
+  when: "item.plugin_name not in asdf_plugin_list.stdout.splitlines()"
   register: "asdf_plugin_install"
   changed_when: "asdf_plugin_install.rc == 0"
 
@@ -21,11 +21,11 @@
 - name: "Install plugin library {{ item.plugin_name ~ ':' ~ item.version }}"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} install {{ item.plugin_name }} {{ item.version }}"
-  when: "'latest' in item.version or item.version not in asdf_installed_library_output.stdout"
+  when: "'latest' in item.version or item.version not in asdf_installed_library_output.splitlines()"
   register: "asdf_install_output"
   changed_when: "'is already installed' not in asdf_install_output.stdout"
 
 - name: "Set plugin library version {{ item.plugin_name ~ ':' ~ item.version }}"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} set --home {{ item.plugin_name }} {{ item.version }}"
-  when: "'latest' in item.version or item.version not in asdf_installed_library_output.stdout"
+  when: "'latest' in item.version or item.version not in asdf_installed_library_output.splitlines()"
