@@ -7,3 +7,6 @@
 
 - name: "Setup nodejs environments"
   ansible.builtin.include_tasks: "setup-node.yaml"
+
+- name: "Setup kubernetes operation environments"
+  ansible.builtin.include_tasks: "setup-kubernetes.yaml"

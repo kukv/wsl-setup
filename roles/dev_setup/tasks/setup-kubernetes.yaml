@@ -1,0 +1,9 @@
+---
+- name: "Install kubectl"
+  ansible.builtin.include_tasks: "packages/kubectl.yaml"
+
+- name: "Install helm"
+  ansible.builtin.include_tasks: "packages/helm.yaml"
+
+- name: "Install flux-cli"
+  ansible.builtin.include_tasks: "packages/flux2.yaml"
