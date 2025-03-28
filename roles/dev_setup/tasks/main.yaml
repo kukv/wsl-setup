@@ -2,5 +2,8 @@
 - name: "Setup asdf"
   ansible.builtin.include_tasks: "asdf.yaml"
 
+- name: "Setup golang environments"
+  ansible.builtin.include_tasks: "setup-go.yaml"
+
 - name: "Setup nodejs environments"
   ansible.builtin.include_tasks: "setup-node.yaml"
