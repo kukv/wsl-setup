@@ -1,0 +1,6 @@
+---
+- name: "Install Github CLI"
+  ansible.builtin.include_tasks: "packages/github-cli.yaml"
+
+- name: "Install act"
+  ansible.builtin.include_tasks: "packages/act.yaml"

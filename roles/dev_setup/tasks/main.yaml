@@ -10,3 +10,6 @@
 
 - name: "Setup kubernetes operation environments"
   ansible.builtin.include_tasks: "setup-kubernetes.yaml"
+
+- name: "Setup VCS"
+  ansible.builtin.include_tasks: "setup-vcs.yaml"
