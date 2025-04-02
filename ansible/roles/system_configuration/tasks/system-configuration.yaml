@@ -1,0 +1,26 @@
+---
+- name: "Create /etc/wsl.conf"
+  ansible.builtin.template:
+    src: "wsl.conf.j2"
+    dest: "/etc/wsl.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: "Update DNS server"
+  ansible.builtin.replace:
+    path: "/etc/systemd/resolved.conf"
+    regexp: "^#DNS="
+    replace: "DNS=1.1.1.1 1.0.0.1"
+  notify: "Restart systemd-resolved"
+
+- name: "Update NTP server"
+  ansible.builtin.replace:
+    path: "/etc/systemd/timesyncd.conf"
+    regexp: "^#NTP="
+    replace: "NTP=ntp1.jst.mfeed.ad.jp ntp2.jst.mfeed.ad.jp ntp3.jst.mfeed.ad.jp"
+  notify: "Restart systemd-timesyncd"
+
+- name: "Set timezone to Asia/Tokyo"
+  community.general.timezone:
+    name: "Asia/Tokyo"

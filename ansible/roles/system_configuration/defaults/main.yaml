@@ -1,0 +1,17 @@
+---
+omb_install_script_path: "{{ tmp_dir }}/oh_my_bash_install.sh"
+omb_install_dir: "/usr/local/share/oh-my-bash"
+omb_applied_theme: "font"
+omb_change_to_theme: "powerline-icon"
+
+requirement_packages:
+  - "dnsutils"
+  - "lsof"
+  - "jq"
+  - "bzip2"
+  - "zip"
+  - "unzip"
+  - "software-properties-common"
+  - "sshpass"
+  - "tree"
+  - "wslu"

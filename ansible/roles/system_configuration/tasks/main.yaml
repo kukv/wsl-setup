@@ -1,0 +1,9 @@
+---
+- name: "Install requirements package"
+  ansible.builtin.include_tasks: "requirements-package.yaml"
+
+- name: "Install Oh-my-bash"
+  ansible.builtin.include_tasks: "oh-my-bash.yaml"
+
+- name: "System configuration"
+  ansible.builtin.include_tasks: "system-configuration.yaml"

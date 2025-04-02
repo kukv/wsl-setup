@@ -1,0 +1,5 @@
+---
+- name: "Install requirement packages"
+  ansible.builtin.apt:
+    name: "{{ requirement_packages }}"
+    state: "present"
