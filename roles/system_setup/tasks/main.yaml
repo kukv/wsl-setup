@@ -1,7 +1,4 @@
 ---
-- name: "Remove snap packages tasks"
-  ansible.builtin.include_tasks: "remove-snap-packages.yaml"
-
 - name: "Default requirements package management"
   ansible.builtin.include_tasks: "requirements-package.yaml"
 
@@ -9,4 +6,4 @@
   ansible.builtin.include_tasks: "oh-my-bash.yaml"
 
 - name: "Setup system configuration"
-  ansible.builtin.include_tasks: "system-configure.yaml"
+  ansible.builtin.include_tasks: "system-configuration.yaml"
