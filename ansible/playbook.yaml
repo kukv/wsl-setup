@@ -7,16 +7,13 @@
   pre_tasks:
     - name: "Setup ansible"
       ansible.builtin.include_tasks: "tasks/requirement_ansible_module.yaml"
+      tags: [ "always" ]
+
     - name: "Package update"
       ansible.builtin.include_tasks: "tasks/update.yaml"
+      tags: [ "always" ]
 
   roles:
-    - name: "Setup system configuration role"
-      role: "system_setup"
-
-    - name: "Setup development environment"
-      role: "dev_setup"
-      become: false
-
-    - name: "Setup ansible configure"
-      role: "ansible_configure"
+    - name: "System configuration"
+      role: "system_configuration"
+      tags: [ "system" ]
