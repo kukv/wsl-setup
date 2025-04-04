@@ -4,7 +4,7 @@
     scope: "global"
     name: "{{ item.name }}"
     value: "{{ item.value }}"
-    loop: "{{ git_configs }}"
+  loop: "{{ git_configs }}"
 
 - name: "Install asdf plugins"
   ansible.builtin.include_tasks: "asdf-plugin.yaml"
