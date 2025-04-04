@@ -20,7 +20,7 @@ cat <<EOF >> /etc/ansible/extra_vars.yaml
 provisioning_schedule: "weekly"
 
 # git configで設定する値を指定します。
-git_config:
+git_configs:
   - name: "user.name"
     value: "kukv"
   - name: "user.email"
