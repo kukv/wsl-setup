@@ -3,8 +3,8 @@
   ansible.builtin.apt:
     name:
       - "golang-go"
-      - "qemu-system-arm"          # Required for binary builds for arm
-      - "g++-aarch64-linux-gnu"    # Required for binary builds for arm64
+      - "qemu-system-arm" # Required for binary builds for arm
+      - "g++-aarch64-linux-gnu" # Required for binary builds for arm64
     state: "present"
   become: true
 

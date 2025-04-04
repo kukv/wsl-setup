@@ -7,11 +7,11 @@
   pre_tasks:
     - name: "Setup ansible"
       ansible.builtin.include_tasks: "tasks/requirement_ansible_module.yaml"
-      tags: [ "always" ]
+      tags: ["always"]
 
     - name: "Package update"
       ansible.builtin.include_tasks: "tasks/update.yaml"
-      tags: [ "always" ]
+      tags: ["always"]
 
   post_tasks:
     - name: "Clear package manager cache"
@@ -22,13 +22,13 @@
   roles:
     - name: "System configuration"
       role: "system_configuration"
-      tags: [ "system" ]
+      tags: ["system"]
 
     - name: "Dev setup"
       role: "dev_setup"
       become: false
-      tags: [ "dev-setup" ]
+      tags: ["dev-setup"]
 
     - name: "Setup provisioning scheduler"
       role: "setup_provisioning_scheduled"
-      tags: [ "scheduled" ]
+      tags: ["scheduled"]

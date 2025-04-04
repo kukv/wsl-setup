@@ -24,23 +24,16 @@ ansible/play/%:
 		sudo -u "$(ANSIBLE_USER)" \
 		bash -c "ansible-playbook playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=$(ANSIBLE_USER)' --tags $(@F)"
 
-init:
-	python -m venv .venv
-	source .venv/bin/activate
-
-activate:
-	source .venv/bin/activate
-
-deactivate:
-	deactivate
-
 install:
-	pip install -r requirements.txt
+	poetry install
+
+destroy:
+	poetry env remove .venv
 
 lint:
-	yamllint --no-warnings .
-	ansible-lint --config-file "ansible/.ansible-lint"
 	shellcheck *.sh
+	poetry run yamllint .
+	poetry run ansible-lint --config-file "ansible/.ansible-lint"
 
 fmt:
-	ansible-lint --fix --config-file "ansible/.ansible-lint"
+	poetry run ansible-lint --config-file "ansible/.ansible-lint" --fix
