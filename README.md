@@ -51,26 +51,11 @@ wsl --shutdown
 ### required libraries
 
 - python >=3.13
+- poetry >=2.1.2
 - shellcheck >=0.10.0
 
-### venv環境を構築
-
-- 初回時
-    ```bash
-    make init
-    ```
-- 2回目以降
-    ```bash
-    make activate
-    ```
-
-### 依存ライブラリのインストール
+### プロジェクトの初期化
 
 ```bash
 make install
-```
-
-何かインストールしたら依存関係をエクスポートする
-```bash
-pip freeze > requirements.txt
 ```
