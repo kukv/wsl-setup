@@ -30,10 +30,16 @@ install:
 destroy:
 	poetry env remove .venv
 
-lint:
-	shellcheck *.sh
-	poetry run yamllint .
+yamllint:
+	poetry run yamllint ansible
+
+shellcheck:
+	shellcheck init.sh
+
+ansible-lint:
 	poetry run ansible-lint --config-file "ansible/.ansible-lint"
 
-fmt:
+ansible-fmt:
 	poetry run ansible-lint --config-file "ansible/.ansible-lint" --fix
+
+check: yamllint shellcheck ansible-lint
