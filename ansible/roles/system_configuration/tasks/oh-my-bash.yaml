@@ -1,33 +1,33 @@
 ---
 - name: "Oh-my-bash - Check installation status"
   ansible.builtin.stat:
-    path: "{{ omb_install_path }}"
-  register: "omb_dir"
+    path: "{{ omb_install_dir }}"
+  register: "omb_installed"
 
 - name: "Oh-my-bash - Installation and configuration"
-  when: "not omb_dir.stat.exists"
+  when: "not omb_installed.stat.exists"
   block:
     - name: "Download installation script"
       ansible.builtin.get_url:
         url: "https://raw.github.com/ohmybash/oh-my-bash/master/tools/install.sh"
-        dest: "{{ omb_script_path }}"
+        dest: "{{ omb_install_script_path }}"
         mode: "0755"
 
     - name: "Run oh-my-bash installer"
       ansible.builtin.command:
-        cmd: "{{ omb_script_path }} --prefix=/usr/local"
+        cmd: "{{ omb_install_script_path }} --prefix=/usr/local"
       changed_when: true
 
     - name: "Configure oh-my-bash in /etc/bash.bashrc"
       ansible.builtin.lineinfile:
         path: "/etc/bash.bashrc"
-        line: "source {{ omb_install_path }}/bashrc"
+        line: "source {{ omb_install_dir }}/bashrc"
         state: "present"
 
-- name: "Set theme to {{ omb_theme }}"
+- name: "Set theme to {{ omb_change_to_theme }}"
   ansible.builtin.replace:
-    path: "{{ omb_install_path }}/bashrc"
+    path: "{{ omb_install_dir }}/bashrc"
     regexp: >-
-      ^OSH_THEME="font"$
+      ^OSH_THEME="{{ omb_applied_theme }}"$
     replace: >-
-      OSH_THEME="powerline-icon"
+      OSH_THEME="{{ omb_change_to_theme }}"

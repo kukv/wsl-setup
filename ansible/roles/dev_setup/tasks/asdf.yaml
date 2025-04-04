@@ -2,17 +2,17 @@
 - name: "Check if asdf is already installed"
   ansible.builtin.stat:
     path: "{{ asdf_bin }}"
-  register: "exist_asdf_bin"
+  register: "asdf_installed"
 
 - name: "Get asdf version when installed"
   ansible.builtin.command:
     cmd: "asdf version"
   changed_when: false
   register: "asdf_current_version"
-  when: "exist_asdf_bin.stat.exists"
+  when: "asdf_installed.stat.exists"
 
 - name: "Install or upgrade asdf"
-  when: "not exist_asdf_bin.stat.exists or asdf_version not in asdf_current_version.stdout | default('')"
+  when: "not asdf_installed.stat.exists or asdf_version != asdf_current_version.stdout | default('')"
   block:
     - name: "Download asdf binary file"
       ansible.builtin.get_url:
@@ -38,27 +38,19 @@
         state: "absent"
 
 - name: "Configure asdf"
-  when: "exist_asdf_bin.stat.exists"
+  when: "asdf_installed.stat.exists"
   block:
     - name: "Add asdf to path"
       ansible.builtin.blockinfile:
         path: "/home/{{ ansible_user }}/.bashrc"
         block: |
-          # asdf setup
           export ASDF_DATA_DIR="$HOME/.asdf"
           export PATH="$ASDF_DATA_DIR/shims:$PATH"
         marker: "# {mark} ASDF SETUP"
         create: true
+        prepend_newline: true
         mode: "0644"
 
 - name: "Update all asdf plugins"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} plugin update --all"
-
-- name: "Install and configure plugins"
-  ansible.builtin.include_tasks: "asdf-plugins.yaml"
-  loop: "{{ asdf_languages }}"
-
-- name: "Setup asdf optional components"
-  ansible.builtin.include_tasks: "asdf-optional.yaml"
-  loop: "{{ asdf_legacy_languages }}"

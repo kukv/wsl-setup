@@ -1,0 +1,23 @@
+---
+- name: "Install asdf plugins"
+  ansible.builtin.include_tasks: "asdf-plugin.yaml"
+  vars:
+    plugin_name: "{{ item.plugin_name }}"
+    plugin_repository: "{{ item.plugin_repository }}"
+  loop:
+    - plugin_name: "awscli"
+      plugin_repository: "https://github.com/MetricMike/asdf-awscli.git"
+    - plugin_name: "awscli-local"
+      plugin_repository: "https://github.com/paulo-ferraz-oliveira/asdf-awscli-local.git"
+
+- name: "Install asdf plugin latest versions"
+  ansible.builtin.include_tasks: "asdf-versions.yaml"
+  vars:
+    plugin_name: "{{ item.plugin_name }}"
+    plugin_lib_version: "{{ item.plugin_lib_version }}"
+    current_version: true
+  loop:
+    - plugin_name: "awscli"
+      plugin_lib_version: "{{ awscli_version }}"
+    - plugin_name: "awscli-local"
+      plugin_lib_version: "{{ awscli_local_version }}"

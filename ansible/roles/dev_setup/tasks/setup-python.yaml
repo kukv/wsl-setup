@@ -1,0 +1,56 @@
+---
+# pre-install python section
+- name: "Add deadsnakes/ppa repository"
+  ansible.builtin.apt_repository:
+    repo: "ppa:deadsnakes/ppa"
+    state: "present"
+    update_cache: true
+  become: true
+
+- name: "Install requirement packages"
+  ansible.builtin.apt:
+    name:
+      - "build-essential"
+      - "python3-pip"
+      - "python3-venv"
+      - "python3-dev"
+      - "python3.9-distutils"
+      - "python3.10-distutils"
+      - "python3.11-distutils"
+      - "python3-distutils-extra"
+      - "libssl-dev"
+      - "libffi-dev"
+      - "zlib1g-dev"
+    state: "present"
+  become: true
+
+- name: "Install asdf plugins"
+  ansible.builtin.include_tasks: "asdf-plugin.yaml"
+  vars:
+    plugin_name: "{{ item.plugin_name }}"
+    plugin_repository: "{{ item.plugin_repository }}"
+  loop:
+    - plugin_name: "python"
+      plugin_repository: "https://github.com/danhper/asdf-python.git"
+    - plugin_name: "poetry"
+      plugin_repository: "https://github.com/asdf-community/asdf-poetry.git"
+
+- name: "Install asdf plugin latest versions"
+  ansible.builtin.include_tasks: "asdf-versions.yaml"
+  vars:
+    plugin_name: "{{ item.plugin_name }}"
+    plugin_lib_version: "{{ item.plugin_lib_version }}"
+    current_version: true
+  loop:
+    - plugin_name: "python"
+      plugin_lib_version: "{{ python_latest_version }}"
+    - plugin_name: "poetry"
+      plugin_lib_version: "{{ poetry_version }}"
+
+- name: "Install asdf plugin for python library legacy versions"
+  ansible.builtin.include_tasks: "asdf-versions.yaml"
+  vars:
+    plugin_name: "python"
+    plugin_lib_version: "{{ item }}"
+    current_version: false
+  loop: "{{ python_legacy_versions }}"

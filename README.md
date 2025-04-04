@@ -5,14 +5,37 @@ WSL2の環境をコマンド1つである程度構築してくれるスクリプ
 
 ## 事前セットアップ
 
-ユーザーとパスワードをセットアップしておく
+ユーザーとパスワードをセットアップしておく。
+
+ansible実行用の変数ファイルを追加
+
+```bash
+mkdir -p /etc/ansible
+
+cat <<EOF >> /etc/ansible/extra_vars.yaml
+---
+# プロビジョニングを定期的に実施する期間を指定
+# systemd-timerを利用している為、以下の書式で指定可能です。
+# - https://www.freedesktop.org/software/systemd/man/latest/systemd.time.html****
+provisioning_schedule: "weekly"
+
+# git configで設定する値を指定します。
+git_config:
+  - name: "user.name"
+    value: "kukv"
+  - name: "user.email"
+    value: "example@test.com"
+  - name: "color.ui"
+    value: "auto"
+EOF
+```
 
 ## How to use
 
 rootで実施する
 
 ```bash
-curl -sf https://raw.githubusercontent.com/kukv/wsl-setup/refs/heads/main/init.sh | bash -s -- --user <開発で利用するユーザー> --timer <プロビジョニングを行う頻度>
+curl -sf https://raw.githubusercontent.com/kukv/wsl-setup/refs/heads/main/init.sh | bash -s -- --user <開発で利用するユーザー>
 ```
 
 以降は`systemd-timer`にて定期的に`ansible-pull`によりプロビジョニングが行われます。

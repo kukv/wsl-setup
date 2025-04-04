@@ -1,0 +1,19 @@
+---
+- name: "Get installed versions for {{ plugin_name }}"
+  ansible.builtin.command:
+    cmd: "{{ asdf_bin }} list {{ plugin_name }}"
+  register: "asdf_installed_versions"
+  changed_when: false
+  failed_when: "asdf_installed_versions.rc != 0 and 'No compatible versions installed' not in asdf_installed_versions.stderr"
+
+- name: "Install {{ plugin_name ~ ':' ~ plugin_lib_version }}"
+  ansible.builtin.command:
+    cmd: "{{ asdf_bin }} install {{ plugin_name }} {{ plugin_lib_version }}"
+  when: "not asdf_installed_versions.stdout is regex('\\*?' + plugin_lib_version)"
+  register: "asdf_install_output"
+  changed_when: "not(asdf_install_output.stderr is regex('.*is already installed'))"
+
+- name: "Set default version for {{ plugin_name ~ ':' ~ plugin_lib_version }}"
+  ansible.builtin.command:
+    cmd: "{{ asdf_bin }} set --home {{ plugin_name }} {{ plugin_lib_version }}"
+  when: "current_version and not asdf_installed_versions.stdout is regex('\\*?' + plugin_lib_version)"

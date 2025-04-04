@@ -1,5 +1,3 @@
 ---
-ansible_user: "tech"
-
 tmp_dir: "/tmp"
 install_dir: "/usr/local/bin"

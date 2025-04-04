@@ -1,0 +1,12 @@
+---
+services:
+  ansible-test:
+    build:
+      context: "./docker"
+    container_name: "ansible-test"
+    hostname: "ansible-test"
+    volumes:
+      - "./ansible:/ansible"
+    privileged: true
+    tty: true
+    stdin_open: true

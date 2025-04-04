@@ -1,0 +1,34 @@
+---
+- name: "WSL2 Ubuntu Setup"
+  hosts: "localhost"
+  gather_facts: true
+  become: true
+
+  pre_tasks:
+    - name: "Setup ansible"
+      ansible.builtin.include_tasks: "tasks/requirement_ansible_module.yaml"
+      tags: [ "always" ]
+
+    - name: "Package update"
+      ansible.builtin.include_tasks: "tasks/update.yaml"
+      tags: [ "always" ]
+
+  post_tasks:
+    - name: "Clear package manager cache"
+      ansible.builtin.apt:
+        clean: true
+        autoremove: true
+
+  roles:
+    - name: "System configuration"
+      role: "system_configuration"
+      tags: [ "system" ]
+
+    - name: "Dev setup"
+      role: "dev_setup"
+      become: false
+      tags: [ "dev-setup" ]
+
+    - name: "Setup provisioning scheduler"
+      role: "setup_provisioning_scheduled"
+      tags: [ "scheduled" ]
