@@ -24,18 +24,10 @@ ansible/play/%:
 		sudo -u "$(ANSIBLE_USER)" \
 		bash -c "cd /ansible && ansible-playbook playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=$(ANSIBLE_USER)' --tags $(@F)"
 
+lint:
+	yamllint --no-warnings .
+	ansible-lint --config-file "ansible/.ansible-lint"
+	shellcheck *.sh
 
-
-
-
-
-
-
-
-#lint:
-#	yamllint --no-warnings .
-#	ansible-lint
-#	shellcheck *.sh
-#
-#fmt:
-#	ansible-lint --fix
+fmt:
+	ansible-lint --fix --config-file "ansible/.ansible-lint"

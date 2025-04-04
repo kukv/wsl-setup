@@ -43,3 +43,5 @@ jobs:
 
       - name: "Check with ansible"
         uses: "ansible/ansible-lint@main"
+        with:
+          working_directory: "./ansible"
