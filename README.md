@@ -48,15 +48,26 @@ wsl --shutdown
 
 ## 開発環境の構築方法
 
-required libraries
+### required libraries
 
-- python 3.13.2
+- python >=3.13
+- shellcheck >=0.10.0
 
-venv環境を構築
+### venv環境を構築
+
+- 初回時
+    ```bash
+    make init
+    ```
+- 2回目以降
+    ```bash
+    make activate
+    ```
+
+### 依存ライブラリのインストール
+
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+make install
 ```
 
 何かインストールしたら依存関係をエクスポートする

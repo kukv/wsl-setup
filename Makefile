@@ -24,6 +24,19 @@ ansible/play/%:
 		sudo -u "$(ANSIBLE_USER)" \
 		bash -c "ansible-playbook playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=$(ANSIBLE_USER)' --tags $(@F)"
 
+init:
+	python -m venv .venv
+	source .venv/bin/activate
+
+activate:
+	source .venv/bin/activate
+
+deactivate:
+	deactivate
+
+install:
+	pip install -r requirements.txt
+
 lint:
 	yamllint --no-warnings .
 	ansible-lint --config-file "ansible/.ansible-lint"
