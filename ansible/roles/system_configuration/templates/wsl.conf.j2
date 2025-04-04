@@ -4,3 +4,6 @@ systemd=true
 [network]
 generateResolvConf=false
 hostname=wsl2
+
+[automount]
+options="metadata,uid=1000,gid=1000,umask=22,fmask=11"

@@ -7,11 +7,27 @@
     group: "root"
     mode: "0644"
 
+- name: "Configure file system cache"
+  ansible.builtin.blockinfile:
+    path: "/home/{{ ansible_user }}/.bashrc"
+    block: |
+      export JOBMAX=$(nproc)
+      export MAKEFLAGS="-j$JOBMAX"
+    marker: "# {mark} FILE SYSTEM CACHE SETUP"
+    create: true
+    prepend_newline: true
+    mode: "0644"
+
 - name: "Update DNS server"
   ansible.builtin.replace:
     path: "/etc/systemd/resolved.conf"
-    regexp: "^#DNS="
-    replace: "DNS=1.1.1.1 1.0.0.1"
+    regexp: "{{ item.regexp }}"
+    replace: "{{ item.replace }}"
+  loop:
+    - regexp: "^#DNS="
+      replace: "DNS=8.8.8.8 1.1.1.1"
+    - regexp: "^#FallbackDNS="
+      replace: "FallbackDNS=8.8.4.4 1.0.0.1"
   notify: "Restart systemd-resolved"
 
 - name: "Update NTP server"

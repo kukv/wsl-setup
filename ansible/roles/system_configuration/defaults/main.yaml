@@ -5,6 +5,7 @@ omb_applied_theme: "font"
 omb_change_to_theme: "powerline-icon"
 
 requirement_packages:
+  - "acl"
   - "dnsutils"
   - "lsof"
   - "jq"
