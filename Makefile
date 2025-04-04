@@ -4,15 +4,25 @@ up:
 	docker compose up -d
 
 down:
-	docker compose down --rmi all --remove-orphans
+	docker compose down
+
+rmi:
+	docker compose down --rmi all --volumes --remove-orphans
 
 restart: down up
 
+login:
+	docker compose exec ansible-test login
+
 ansible/play:
-	docker compose exec ansible-test sudo -u "$(ANSIBLE_USER)" bash -c "cd /ansible && ansible-playbook playbook.yaml"
+	docker compose exec ansible-test \
+		sudo -u "$(ANSIBLE_USER)" \
+		bash -c "cd /ansible && ansible-playbook playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=$(ANSIBLE_USER)'"
 
 ansible/play/%:
-	docker compose exec ansible-test sudo -u "$(ANSIBLE_USER)" bash -c "cd /ansible && ansible-playbook playbook.yaml --tags $(@F)"
+	docker compose exec ansible-test \
+		sudo -u "$(ANSIBLE_USER)" \
+		bash -c "cd /ansible && ansible-playbook playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=$(ANSIBLE_USER)' --tags $(@F)"
 
 
 
