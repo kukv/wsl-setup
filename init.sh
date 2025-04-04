@@ -2,11 +2,10 @@
 
 set -Eeuo pipefail
 
-TEMP=$(getopt -o u:t:h -l user:,timer:,help -- "$@")
+fixTEMP=$(getopt -o u:h -l user:,help -- "$@")
 eval set -- "$TEMP"
 
 op_user=""
-timer="hourly"
 
 function usage() {
     cat <<_EOF_
@@ -17,10 +16,6 @@ Description: "$(pwd)"  WSL2セットアップ用のシェルスクリプトで�
 Options:
     -u --user  | required     : システム開発を行うユーザーを指定します。
                                 ユーザーは事前に作成済みである必要があります。
-    -t --timer | optionnal    : プロビジョニングを行う頻度を指定します。
-                                デフォルトでは1時間毎にプロビジョニングを行います。
-                                プロビジョニングはsystemd-timerを利用している為、以下の書式で指定可能です。
-                                - https://www.freedesktop.org/software/systemd/man/latest/systemd.time.html
     -h --help  | optional     : ヘルプを表示します。
 _EOF_
 }
@@ -30,10 +25,6 @@ function parameter_parsing() {
     case "$1" in
       -u|--user)
         op_user=$2
-        shift 2
-        ;;
-      -t|--timer)
-        timer=$2
         shift 2
         ;;
       -h|--help)
@@ -54,11 +45,6 @@ function parameter_parsing() {
 
   if [ -z "${op_user}" ]; then
     echo "User is not specified."
-    exit 9
-  fi
-
-  if [ -z "${timer}" ]; then
-    echo "Timer is not specified."
     exit 9
   fi
 }
@@ -101,6 +87,6 @@ requirement_package
 
 home_dir="/home/${op_user}"
 sudo -u "${op_user}" \
-  bash -c "cd ${home_dir} && /usr/bin/ansible-pull -U https://github.com/kukv/wsl-setup.git -C main -i inventory.yaml playbook.yaml -e '{\"provisioning_schedule\":\"${timer}\"}'"
+  bash -c "cd ${home_dir} && /usr/bin/ansible-pull -U https://github.com/kukv/wsl-setup.git -C main -i inventory.yaml playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=${op_user}'"
 
 exit 0
