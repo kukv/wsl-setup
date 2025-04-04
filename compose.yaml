@@ -1,9 +1,10 @@
+---
 services:
   ansible-test:
     build:
-      context: ./docker
-    container_name: ansible-test
-    hostname: ansible-test
+      context: "./docker"
+    container_name: "ansible-test"
+    hostname: "ansible-test"
     volumes:
       - "./ansible:/ansible"
     privileged: true
