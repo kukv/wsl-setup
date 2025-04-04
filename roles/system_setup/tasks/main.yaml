@@ -1,9 +1,0 @@
----
-- name: "Default requirements package management"
-  ansible.builtin.include_tasks: "requirements-package.yaml"
-
-- name: "Setup Oh-my-bash"
-  ansible.builtin.include_tasks: "oh-my-bash.yaml"
-
-- name: "Setup system configuration"
-  ansible.builtin.include_tasks: "system-configuration.yaml"
