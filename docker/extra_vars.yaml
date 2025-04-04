@@ -1,0 +1,9 @@
+---
+provisioning_schedule: "weekly"
+git_config:
+  - name: "user.name"
+    value: "kukv"
+  - name: "user.email"
+    value: "example@test.com"
+  - name: "color.ui"
+    value: "auto"

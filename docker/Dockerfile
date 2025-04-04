@@ -1,4 +1,4 @@
-FROM ubuntu:24.10
+FROM ubuntu:24.04
 
 ARG USER=tech
 
@@ -11,6 +11,7 @@ RUN apt-get update -y && \
         init \
         git \
         sudo \
+        curl \
         gnupg2 \
         systemd-resolved \
         systemd-timesyncd \
@@ -22,7 +23,9 @@ RUN useradd -m $USER -s /bin/bash && \
     echo "$USER:$USER" | chpasswd && \
     echo "$USER ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USER && \
     chmod 0440 /etc/sudoers.d/$USER && \
-    mkdir -p /home/$USER \
+    mkdir -p /home/$USER
+
+COPY extra_vars.yaml /etc/ansible/extra_vars.yaml
 
 WORKDIR /home/$USER
 
