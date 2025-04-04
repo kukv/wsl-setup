@@ -54,11 +54,3 @@
 - name: "Update all asdf plugins"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} plugin update --all"
-
-#- name: "Install and configure plugins"
-#  ansible.builtin.include_tasks: "asdf-plugins.yaml"
-#  loop: "{{ asdf_languages }}"
-#
-#- name: "Setup asdf optional components"
-#  ansible.builtin.include_tasks: "asdf-optional.yaml"
-#  loop: "{{ asdf_legacy_languages }}"
