@@ -1,6 +1,6 @@
 ---
 provisioning_schedule: "weekly"
-git_config:
+git_configs:
   - name: "user.name"
     value: "kukv"
   - name: "user.email"
