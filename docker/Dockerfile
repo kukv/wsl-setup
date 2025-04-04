@@ -23,10 +23,11 @@ RUN useradd -m $USER -s /bin/bash && \
     echo "$USER:$USER" | chpasswd && \
     echo "$USER ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USER && \
     chmod 0440 /etc/sudoers.d/$USER && \
-    mkdir -p /home/$USER
+    mkdir -p /home/$USER && \
+    mkdir /ansible
 
 COPY extra_vars.yaml /etc/ansible/extra_vars.yaml
 
-WORKDIR /home/$USER
+WORKDIR /ansible
 
 CMD [ "/sbin/init" ]
