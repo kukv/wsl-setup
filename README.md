@@ -38,6 +38,12 @@ rootで実施する
 curl -sf https://raw.githubusercontent.com/kukv/wsl-setup/refs/heads/main/init.sh | bash -s -- --user <開発で利用するユーザー>
 ```
 
+上記コマンドを実行後、WSL2を再起動してください。
+
+```powershell
+wsl --shutdown
+```
+
 以降は`systemd-timer`にて定期的に`ansible-pull`によりプロビジョニングが行われます。
 
 ## 開発環境の構築方法
