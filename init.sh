@@ -85,8 +85,7 @@ parameter_parsing "$@"
 password_less_privilege_escalation "${op_user}"
 requirement_package
 
-home_dir="/home/${op_user}"
 sudo -u "${op_user}" \
-  bash -c "cd ${home_dir} && /usr/bin/ansible-pull -U https://github.com/kukv/wsl-setup.git -C main -i ansible/inventory.yaml ansible/playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=${op_user}'"
+  bash -c "/usr/bin/ansible-pull -U https://github.com/kukv/wsl-setup.git -C main -i ansible/inventory.yaml ansible/playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=${op_user}'"
 
 exit 0

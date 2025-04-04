@@ -17,12 +17,12 @@ login:
 ansible/play:
 	docker compose exec ansible-test \
 		sudo -u "$(ANSIBLE_USER)" \
-		bash -c "cd /ansible && ansible-playbook playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=$(ANSIBLE_USER)'"
+		bash -c "ansible-playbook playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=$(ANSIBLE_USER)'"
 
 ansible/play/%:
 	docker compose exec ansible-test \
 		sudo -u "$(ANSIBLE_USER)" \
-		bash -c "cd /ansible && ansible-playbook playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=$(ANSIBLE_USER)' --tags $(@F)"
+		bash -c "ansible-playbook playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=$(ANSIBLE_USER)' --tags $(@F)"
 
 lint:
 	yamllint --no-warnings .
