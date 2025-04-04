@@ -2,7 +2,7 @@
 
 set -Eeuo pipefail
 
-fixTEMP=$(getopt -o u:h -l user:,help -- "$@")
+TEMP=$(getopt -o u:h -l user:,help -- "$@")
 eval set -- "$TEMP"
 
 op_user=""
