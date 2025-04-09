@@ -53,8 +53,7 @@
       Plug 'preservim/nerdtree'
 
       call plug#end()
-    marker: |
-      " {mark} VIM-PLUG SETUP
+    marker: "\" {mark} VIM-PLUG SETUP"
     create: true
     prepend_newline: true
     mode: "0644"
