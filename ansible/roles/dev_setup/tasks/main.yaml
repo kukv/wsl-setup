@@ -25,3 +25,6 @@
 
 - name: "Setup utils"
   ansible.builtin.include_tasks: "setup-utils.yaml"
+
+- name: "Setup vim"
+  ansible.builtin.include_tasks: "setup-vim.yaml"
