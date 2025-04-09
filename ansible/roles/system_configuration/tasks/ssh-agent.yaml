@@ -1,0 +1,18 @@
+---
+- name: "Download wsl2-ssh-agent binary"
+  ansible.builtin.get_url:
+    url: "https://github.com/mame/wsl2-ssh-agent/releases/latest/download/wsl2-ssh-agent"
+    dest: "{{ install_dir }}/wsl2-ssh-agent"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+
+- name: "Configure wsl2-ssh-agent"
+  ansible.builtin.blockinfile:
+    path: "/home/{{ ansible_user }}/.bashrc"
+    block: |
+      eval $($HOME/wsl2-ssh-agent)
+    marker: "# {mark} SSH-AGENT SETUP"
+    create: true
+    prepend_newline: true
+    mode: "0644"
