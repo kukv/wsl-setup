@@ -7,5 +7,8 @@
 - name: "Install Oh-my-bash"
   ansible.builtin.include_tasks: "oh-my-bash.yaml"
 
+- name: "Install ssh-agent"
+  ansible.builtin.include_tasks: "ssh-agent.yaml"
+
 - name: "System configuration"
   ansible.builtin.include_tasks: "system-configuration.yaml"
