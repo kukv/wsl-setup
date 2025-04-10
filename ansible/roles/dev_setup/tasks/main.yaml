@@ -1,6 +1,12 @@
 ---
+- name: "Install homebrew"
+  ansible.builtin.include_tasks: "homebrew.yaml"
+
 - name: "Setup asdf"
   ansible.builtin.include_tasks: "asdf.yaml"
+
+- name: "Setup utils"
+  ansible.builtin.include_tasks: "setup-utils.yaml"
 
 - name: "Setup jvm environments"
   ansible.builtin.include_tasks: "setup-jvm.yaml"
@@ -22,9 +28,6 @@
 
 - name: "Setup kubernetes environments"
   ansible.builtin.include_tasks: "setup-kubernetes.yaml"
-
-- name: "Setup utils"
-  ansible.builtin.include_tasks: "setup-utils.yaml"
 
 - name: "Setup vim"
   ansible.builtin.include_tasks: "setup-vim.yaml"

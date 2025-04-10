@@ -1,12 +1,13 @@
 ---
-- name: "Install packages required for golang system development"
-  ansible.builtin.apt:
+- name: "Install golang & third party libs"
+  community.general.homebrew:
     name:
-      - "golang-go"
-      - "qemu-system-arm" # Required for binary builds for arm
-      - "g++-aarch64-linux-gnu" # Required for binary builds for arm64
+      - "go"
+      - "gofumpt"
+      - "golangci-lint"
+      - "gotestsum"
+      - "skeema"
     state: "present"
-  become: true
 
 - name: "Add golang to path"
   ansible.builtin.blockinfile:
@@ -23,7 +24,3 @@
     cmd: "{{ go_bin }} install {{ item }}"
   loop:
     - "golang.org/x/tools/cmd/godoc@latest"
-    - "mvdan.cc/gofumpt@latest"
-    - "github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest"
-    - "gotest.tools/gotestsum@latest"
-    - "github.com/skeema/skeema@latest"

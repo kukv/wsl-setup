@@ -7,8 +7,6 @@
   loop:
     - plugin_name: "nodejs"
       plugin_repository: "https://github.com/asdf-vm/asdf-nodejs.git"
-    - plugin_name: "pnpm"
-      plugin_repository: "https://github.com/jonathanmorley/asdf-pnpm.git"
 
 - name: "Install asdf plugin latest versions"
   ansible.builtin.include_tasks: "asdf-versions.yaml"
@@ -19,8 +17,6 @@
   loop:
     - plugin_name: "nodejs"
       plugin_lib_version: "{{ node_latest_lts_version }}"
-    - plugin_name: "pnpm"
-      plugin_lib_version: "{{ pnpm_version }}"
 
 - name: "Install asdf plugin for Node.js library legacy versions"
   ansible.builtin.include_tasks: "asdf-versions.yaml"
@@ -47,3 +43,8 @@
     cmd: "{{ asdf_bin }} reshim nodejs"
   register: "refreshed"
   changed_when: false
+
+- name: "Install node package-manager"
+  community.general.homebrew:
+    name: "pnpm"
+    state: "present"

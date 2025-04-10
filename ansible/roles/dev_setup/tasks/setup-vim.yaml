@@ -1,9 +1,8 @@
 ---
 - name: "Install vim"
-  ansible.builtin.apt:
+  community.general.homebrew:
     name: "vim"
     state: "present"
-  become: true
 
 - name: "Create .vim directory"
   ansible.builtin.file:

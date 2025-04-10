@@ -1,35 +1,10 @@
 ---
-- name: "Install asdf plugins"
-  ansible.builtin.include_tasks: "asdf-plugin.yaml"
-  vars:
-    plugin_name: "{{ item.plugin_name }}"
-    plugin_repository: "{{ item.plugin_repository }}"
-  loop:
-    - plugin_name: "kubectl"
-      plugin_repository: "https://github.com/asdf-community/asdf-kubectl.git"
-    - plugin_name: "helm"
-      plugin_repository: "https://github.com/Antiarchitect/asdf-helm.git"
-    - plugin_name: "helmfile"
-      plugin_repository: "https://github.com/feniix/asdf-helmfile.git"
-    - plugin_name: "helm-diff"
-      plugin_repository: "https://github.com/dex4er/asdf-helm-diff.git"
-    - plugin_name: "flux2"
-      plugin_repository: "https://github.com/tablexi/asdf-flux2.git"
-
-- name: "Install asdf plugin latest versions"
-  ansible.builtin.include_tasks: "asdf-versions.yaml"
-  vars:
-    plugin_name: "{{ item.plugin_name }}"
-    plugin_lib_version: "{{ item.plugin_lib_version }}"
-    current_version: true
-  loop:
-    - plugin_name: "kubectl"
-      plugin_lib_version: "{{ kubectl_version }}"
-    - plugin_name: "helm"
-      plugin_lib_version: "{{ helm_version }}"
-    - plugin_name: "helmfile"
-      plugin_lib_version: "{{ helmfile_version }}"
-    - plugin_name: "helm-diff"
-      plugin_lib_version: "{{ helm_diff_version }}"
-    - plugin_name: "flux2"
-      plugin_lib_version: "{{ flux2_version }}"
+- name: "Install kubernetes utils"
+  community.general.homebrew:
+    name:
+      - "kubernetes-cli"
+      - "helm"
+      - "helmfile"
+      - "fluxcd/tap/flux"
+    state: "present"
+    update_homebrew: true
