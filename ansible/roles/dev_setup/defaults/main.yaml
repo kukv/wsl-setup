@@ -28,7 +28,7 @@ java_legacy_lts_versions:
 node_latest_lts_version: "22.14.0"
 node_legacy_lts_versions:
   - "20.19.0"
-  - "18.20.7"
+  - "18.20.8"
   - "16.20.2"
   - "14.21.3"
   - "12.22.12"
