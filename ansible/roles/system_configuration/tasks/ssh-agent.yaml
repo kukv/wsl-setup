@@ -11,7 +11,7 @@
   ansible.builtin.blockinfile:
     path: "/home/{{ ansible_user }}/.bashrc"
     block: |
-      eval $($HOME/wsl2-ssh-agent)
+      eval $({{ install_dir }}/wsl2-ssh-agent)
     marker: "# {mark} SSH-AGENT SETUP"
     create: true
     prepend_newline: true
