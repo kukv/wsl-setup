@@ -1,55 +1,20 @@
 ---
-- name: "Check if asdf is already installed"
-  ansible.builtin.stat:
-    path: "{{ asdf_bin }}"
-  register: "asdf_installed"
+- name: "Install asdf"
+  community.general.homebrew:
+    name: "asdf"
+    state: "present"
+    update_homebrew: true
 
-- name: "Get asdf version when installed"
-  ansible.builtin.command:
-    cmd: "asdf version"
-  changed_when: false
-  register: "asdf_current_version"
-  when: "asdf_installed.stat.exists"
-
-- name: "Install or upgrade asdf"
-  when: "not asdf_installed.stat.exists or asdf_version != asdf_current_version.stdout | default('')"
-  block:
-    - name: "Download asdf binary file"
-      ansible.builtin.get_url:
-        url: "https://github.com/asdf-vm/asdf/releases/download/{{ asdf_version }}/asdf-{{ asdf_version }}-linux-amd64.tar.gz"
-        dest: "{{ tmp_dir }}/asdf.tar.gz"
-        mode: "0644"
-
-    - name: "Extract tar.gz file"
-      ansible.builtin.unarchive:
-        src: "{{ tmp_dir }}/asdf.tar.gz"
-        dest: "{{ tmp_dir }}"
-
-    - name: "Copy to {{ install_dir }}"
-      ansible.builtin.copy:
-        src: "{{ tmp_dir }}/asdf"
-        dest: "{{ install_dir }}"
-        mode: "0755"
-      become: true
-
-    - name: "Cleanup temporary files"
-      ansible.builtin.file:
-        path: "{{ tmp_dir }}/asdf.tar.gz"
-        state: "absent"
-
-- name: "Configure asdf"
-  when: "asdf_installed.stat.exists"
-  block:
-    - name: "Add asdf to path"
-      ansible.builtin.blockinfile:
-        path: "/home/{{ ansible_user }}/.bashrc"
-        block: |
-          export ASDF_DATA_DIR="$HOME/.asdf"
-          export PATH="$ASDF_DATA_DIR/shims:$PATH"
-        marker: "# {mark} ASDF SETUP"
-        create: true
-        prepend_newline: true
-        mode: "0644"
+- name: "Add to path"
+  ansible.builtin.blockinfile:
+    path: "/home/{{ ansible_user }}/.bashrc"
+    block: |
+      export ASDF_DATA_DIR="$HOME/.asdf"
+      export PATH="$ASDF_DATA_DIR/shims:$PATH"
+    marker: "# {mark} ASDF SETUP"
+    create: true
+    prepend_newline: true
+    mode: "0644"
 
 - name: "Update all asdf plugins"
   ansible.builtin.command:

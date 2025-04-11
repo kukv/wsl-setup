@@ -1,31 +1,15 @@
 ---
-- name: "Install asdf plugins"
-  ansible.builtin.include_tasks: "asdf-plugin.yaml"
-  vars:
-    plugin_name: "{{ item.plugin_name }}"
-    plugin_repository: "{{ item.plugin_repository }}"
-  loop:
-    - plugin_name: "terraform"
-      plugin_repository: "https://github.com/asdf-community/asdf-hashicorp.git"
-    - plugin_name: "yq"
-      plugin_repository: "https://github.com/sudermanjr/asdf-yq.git"
-    - plugin_name: "shellcheck"
-      url: "https://github.com/luizm/asdf-shellcheck.git"
-    - plugin_name: "direnv"
-      plugin_repository: "https://github.com/asdf-community/asdf-direnv.git"
+- name: "Added repositories"
+  community.general.homebrew_tap:
+    name:
+      - "hashicorp/tap"
+    state: "present"
 
-- name: "Install asdf plugin latest versions"
-  ansible.builtin.include_tasks: "asdf-versions.yaml"
-  vars:
-    plugin_name: "{{ item.plugin_name }}"
-    plugin_lib_version: "{{ item.plugin_lib_version }}"
-    current_version: true
-  loop:
-    - plugin_name: "terraform"
-      plugin_lib_version: "{{ terraform_version }}"
-    - plugin_name: "yq"
-      plugin_lib_version: "{{ yq_version }}"
-    - plugin_name: "shellcheck"
-      plugin_lib_version: "{{ shellcheck_version }}"
-    - plugin_name: "direnv"
-      plugin_lib_version: "{{ direnv_version }}"
+- name: "Install dev utils"
+  community.general.homebrew:
+    name:
+      - "hashicorp/tap/terraform"
+      - "yq"
+      - "shellcheck"
+      - "direnv"
+    state: "present"

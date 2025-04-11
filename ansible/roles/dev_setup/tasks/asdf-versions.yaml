@@ -9,6 +9,9 @@
 - name: "Install {{ plugin_name ~ ':' ~ plugin_lib_version }}"
   ansible.builtin.command:
     cmd: "{{ asdf_bin }} install {{ plugin_name }} {{ plugin_lib_version }}"
+  environment:
+    # shell内だとasdfコマンドが見えないため
+    PATH: "{{ brew_package_dir }}:{{ ansible_env.PATH }}"
   when: "not asdf_installed_versions.stdout is regex('\\*?' + plugin_lib_version)"
   register: "asdf_install_output"
   changed_when: "not(asdf_install_output.stderr is regex('.*is already installed'))"
