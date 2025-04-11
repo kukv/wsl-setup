@@ -60,5 +60,8 @@
 - name: "Run :PlugInstall in Vim"
   ansible.builtin.shell: |
     vim +PlugInstall +qall
+  environment:
+    # shell内だとvimコマンドが見えないため
+    PATH: "{{ brew_package_dir }}:{{ ansible_env.PATH }}"
   args:
     executable: "/bin/bash"
