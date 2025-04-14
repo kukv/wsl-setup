@@ -7,10 +7,6 @@
   loop:
     - plugin_name: "java"
       plugin_repository: "https://github.com/halcyon/asdf-java.git"
-    - plugin_name: "gradle"
-      plugin_repository: "https://github.com/rfrancis/asdf-gradle.git"
-    - plugin_name: "maven"
-      plugin_repository: "https://github.com/halcyon/asdf-maven.git"
 
 - name: "Install asdf plugin latest versions"
   ansible.builtin.include_tasks: "asdf-versions.yaml"
@@ -21,10 +17,6 @@
   loop:
     - plugin_name: "java"
       plugin_lib_version: "{{ java_latest_lts_version }}"
-    - plugin_name: "gradle"
-      plugin_lib_version: "{{ gradle_version }}"
-    - plugin_name: "maven"
-      plugin_lib_version: "{{ maven_version }}"
 
 - name: "Install asdf plugin for java library legacy versions"
   ansible.builtin.include_tasks: "asdf-versions.yaml"
@@ -33,3 +25,10 @@
     plugin_lib_version: "{{ item }}"
     current_version: false
   loop: "{{ java_legacy_lts_versions }}"
+
+- name: "Install JVM build-tools"
+  community.general.homebrew:
+    name:
+      - "gradle"
+      - "maven"
+    state: "present"

@@ -6,33 +6,11 @@
     value: "{{ item.value }}"
   loop: "{{ git_configs }}"
 
-- name: "Install asdf plugins"
-  ansible.builtin.include_tasks: "asdf-plugin.yaml"
-  vars:
-    plugin_name: "{{ item.plugin_name }}"
-    plugin_repository: "{{ item.plugin_repository }}"
-  loop:
-    - plugin_name: "github-cli"
-      plugin_repository: "https://github.com/bartlomiejdanek/asdf-github-cli.git"
-    - plugin_name: "act"
-      plugin_repository: "https://github.com/gr1m0h/asdf-act.git"
-    - plugin_name: "action-validator"
-      plugin_repository: "https://github.com/mpalmer/action-validator.git"
-    - plugin_name: "actionlint"
-      plugin_repository: "https://github.com/crazy-matt/asdf-actionlint.git"
-
-- name: "Install asdf plugin latest versions"
-  ansible.builtin.include_tasks: "asdf-versions.yaml"
-  vars:
-    plugin_name: "{{ item.plugin_name }}"
-    plugin_lib_version: "{{ item.plugin_lib_version }}"
-    current_version: true
-  loop:
-    - plugin_name: "github-cli"
-      plugin_lib_version: "{{ githubcli_version }}"
-    - plugin_name: "act"
-      plugin_lib_version: "{{ act_version }}"
-    - plugin_name: "action-validator"
-      plugin_lib_version: "{{ action_validator_version }}"
-    - plugin_name: "actionlint"
-      plugin_lib_version: "{{ actionlint_version }}"
+- name: "Install vcs utils"
+  community.general.homebrew:
+    name:
+      - "gh"
+      - "act"
+      - "action-validator"
+      - "actionlint"
+    state: "present"

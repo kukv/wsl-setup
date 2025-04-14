@@ -1,9 +1,15 @@
 ---
 ##################################################################
+# homebrew
+##################################################################
+brew_install_script_path: "{{ tmp_dir }}/brew_install.sh"
+homebrew_bin: "/home/linuxbrew/.linuxbrew/bin/brew"
+brew_package_dir: "/home/linuxbrew/.linuxbrew/bin"
+
+##################################################################
 # asdf
 ##################################################################
-asdf_version: "v0.16.6"
-asdf_bin: "{{ install_dir }}/asdf"
+asdf_bin: "{{ brew_package_dir }}/asdf"
 asdf_dir: "/home/{{ ansible_user }}/.asdf"
 asdf_shims: "{{ asdf_dir }}/shims"
 
@@ -16,68 +22,20 @@ java_legacy_lts_versions:
   - "openjdk-11.0.2"
   - "openjdk-17.0.2"
 
-gradle_version: "8.13"
-maven_version: "3.9.9"
-
 ##################################################################
 # Node.js
 ##################################################################
 node_latest_lts_version: "22.14.0"
 node_legacy_lts_versions:
   - "20.19.0"
-  - "18.20.7"
+  - "18.20.8"
   - "16.20.2"
   - "14.21.3"
   - "12.22.12"
   - "10.24.1"
   - "8.17.0"
 
-pnpm_version: "10.6.5"
-
-##################################################################
-# python
-##################################################################
-python_latest_version: "3.13.2"
-python_legacy_versions:
-  - "3.12.9"
-  - "3.11.11"
-  - "3.10.16"
-  - "3.9.21"
-
-poetry_version: "latest"
-
 ##################################################################
 # go
 ##################################################################
-go_bin: "/usr/bin/go"
-
-##################################################################
-# vsc
-##################################################################
-githubcli_version: "latest"
-act_version: "latest"
-action_validator_version: "latest"
-actionlint_version: "latest"
-
-##################################################################
-# aws
-##################################################################
-awscli_version: "latest"
-awscli_local_version: "latest"
-
-##################################################################
-# kubernetes
-##################################################################
-kubectl_version: "latest"
-helm_version: "latest"
-helmfile_version: "latest"
-helm_diff_version: "latest"
-flux2_version: "latest"
-
-##################################################################
-# utils
-##################################################################
-terraform_version: "latest"
-yq_version: "latest"
-shellcheck_version: "latest"
-direnv_version: "latest"
+go_bin: "{{ brew_package_dir }}/go"
