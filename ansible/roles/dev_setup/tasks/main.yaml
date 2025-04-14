@@ -2,8 +2,8 @@
 - name: "Install homebrew"
   ansible.builtin.include_tasks: "homebrew.yaml"
 
-- name: "Setup asdf"
-  ansible.builtin.include_tasks: "asdf.yaml"
+- name: "Setup mise"
+  ansible.builtin.include_tasks: "mise.yaml"
 
 - name: "Setup utils"
   ansible.builtin.include_tasks: "setup-utils.yaml"
