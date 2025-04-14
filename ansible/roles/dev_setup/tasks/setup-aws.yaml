@@ -9,7 +9,7 @@
 
 - name: "Install aws-cdk"
   ansible.builtin.command:
-    cmd: "{{ asdf_shims }}/npm install -g aws-cdk@latest aws-cdk-local@latest"
+    cmd: "{{ mise_shims }}/npm install -g aws-cdk@latest aws-cdk-local@latest"
   environment:
     # shell内だとasdfコマンドが見えないため
     PATH: "{{ brew_package_dir }}:{{ ansible_env.PATH }}"
