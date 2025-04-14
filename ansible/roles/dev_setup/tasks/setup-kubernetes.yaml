@@ -13,4 +13,3 @@
       - "helmfile"
       - "fluxcd/tap/flux"
     state: "present"
-    update_homebrew: true

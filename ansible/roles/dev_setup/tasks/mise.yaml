@@ -3,7 +3,6 @@
   community.general.homebrew:
     name: "mise"
     state: "present"
-    update_homebrew: true
 
 - name: "Add to path(.bash_profile)"
   ansible.builtin.blockinfile:
