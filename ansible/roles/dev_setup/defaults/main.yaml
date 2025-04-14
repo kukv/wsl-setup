@@ -7,33 +7,10 @@ homebrew_bin: "/home/linuxbrew/.linuxbrew/bin/brew"
 brew_package_dir: "/home/linuxbrew/.linuxbrew/bin"
 
 ##################################################################
-# asdf
+# mise
 ##################################################################
-asdf_bin: "{{ brew_package_dir }}/asdf"
-asdf_dir: "/home/{{ ansible_user }}/.asdf"
-asdf_shims: "{{ asdf_dir }}/shims"
-
-##################################################################
-# jvm
-##################################################################
-java_latest_lts_version: "openjdk-21.0.2"
-java_legacy_lts_versions:
-  - "corretto-8.442.06.1"
-  - "openjdk-11.0.2"
-  - "openjdk-17.0.2"
-
-##################################################################
-# Node.js
-##################################################################
-node_latest_lts_version: "22.14.0"
-node_legacy_lts_versions:
-  - "20.19.0"
-  - "18.20.8"
-  - "16.20.2"
-  - "14.21.3"
-  - "12.22.12"
-  - "10.24.1"
-  - "8.17.0"
+mise_bin: "{{ brew_package_dir }}/mise"
+mise_shims: "/home/{{ ansible_user }}/.local/share/mise/shims"
 
 ##################################################################
 # go

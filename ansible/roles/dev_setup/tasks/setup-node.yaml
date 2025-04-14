@@ -1,53 +1,30 @@
 ---
-- name: "Install asdf plugins"
-  ansible.builtin.include_tasks: "asdf-plugin.yaml"
+- name: "Install mise plugin latest versions"
+  ansible.builtin.include_tasks: "mise-versions.yaml"
   vars:
-    plugin_name: "{{ item.plugin_name }}"
-    plugin_repository: "{{ item.plugin_repository }}"
-  loop:
-    - plugin_name: "nodejs"
-      plugin_repository: "https://github.com/asdf-vm/asdf-nodejs.git"
-
-- name: "Install asdf plugin latest versions"
-  ansible.builtin.include_tasks: "asdf-versions.yaml"
-  vars:
-    plugin_name: "{{ item.plugin_name }}"
-    plugin_lib_version: "{{ item.plugin_lib_version }}"
+    plugin_name: "node"
+    plugin_lib_version: "22"
     current_version: true
-  loop:
-    - plugin_name: "nodejs"
-      plugin_lib_version: "{{ node_latest_lts_version }}"
 
-- name: "Install asdf plugin for Node.js library legacy versions"
-  ansible.builtin.include_tasks: "asdf-versions.yaml"
+- name: "Install mise plugin for Node.js library legacy versions"
+  ansible.builtin.include_tasks: "mise-versions.yaml"
   vars:
-    plugin_name: "nodejs"
+    plugin_name: "node"
     plugin_lib_version: "{{ item }}"
     current_version: false
-  loop: "{{ node_legacy_lts_versions }}"
-
-- name: "Ensure npm is updated to latest version"
-  ansible.builtin.command:
-    cmd: "{{ asdf_shims }}/npm install -g npm@latest"
-  environment:
-    # shell内だとasdfコマンドが見えないため
-    PATH: "{{ brew_package_dir }}:{{ ansible_env.PATH }}"
-  register: "npm_installation_result"
-  changed_when: false
+  loop:
+    - "20"
+    - "18"
+    - "16"
+    - "14"
+    - "12"
+    - "10"
+    - "8"
 
 - name: "Enable corepack"
   ansible.builtin.command:
-    cmd: "{{ asdf_shims }}/corepack enable"
-  environment:
-    # shell内だとasdfコマンドが見えないため
-    PATH: "{{ brew_package_dir }}:{{ ansible_env.PATH }}"
+    cmd: "{{ mise_shims }}/corepack enable"
   register: "corepack_enabled"
-  changed_when: false
-
-- name: "Refresh asdf shims"
-  ansible.builtin.command:
-    cmd: "{{ asdf_bin }} reshim nodejs"
-  register: "refreshed"
   changed_when: false
 
 - name: "Install node package-manager"

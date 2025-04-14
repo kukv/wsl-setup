@@ -1,0 +1,13 @@
+---
+- name: "Install {{ plugin_name ~ '@' ~ plugin_lib_version }}"
+  ansible.builtin.command:
+    cmd: "{{ mise_bin }} install {{ plugin_name }}@{{ plugin_lib_version }}"
+  register: "mise_install_output"
+  changed_when: "'installed' in mise_install_output.stdout"
+
+- name: "Set default version for {{ plugin_name ~ '@' ~ plugin_lib_version }}"
+  ansible.builtin.command:
+    cmd: "{{ mise_bin }} use -g {{ plugin_name }}@{{ plugin_lib_version }}"
+  register: "mise_use_result"
+  changed_when: "mise_use_result.rc == 0"
+  when: "current_version"

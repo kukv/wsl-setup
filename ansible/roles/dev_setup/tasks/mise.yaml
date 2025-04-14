@@ -1,0 +1,26 @@
+---
+- name: "Install mise"
+  community.general.homebrew:
+    name: "mise"
+    state: "present"
+    update_homebrew: true
+
+- name: "Add to path(.bash_profile)"
+  ansible.builtin.blockinfile:
+    path: "/home/{{ ansible_user }}/.bash_profile"
+    block: |
+      eval "$({{ brew_package_dir }}/mise activate bash --shims)"
+    marker: "# {mark} ASDF MISE"
+    create: true
+    prepend_newline: true
+    mode: "0644"
+
+- name: "Add to path(.bashrc)"
+  ansible.builtin.blockinfile:
+    path: "/home/{{ ansible_user }}/.bashrc"
+    block: |
+      eval "$({{ brew_package_dir }}/mise activate bash)"
+    marker: "# {mark} ASDF MISE"
+    create: true
+    prepend_newline: true
+    mode: "0644"
