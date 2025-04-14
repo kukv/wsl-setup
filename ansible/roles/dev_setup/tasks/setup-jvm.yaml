@@ -1,12 +1,12 @@
 ---
-- name: "Install mise plugin latest versions"
+- name: "Install mise plugin for java latest versions"
   ansible.builtin.include_tasks: "mise-versions.yaml"
   vars:
     plugin_name: "java"
     plugin_lib_version: "openjdk-21"
     current_version: true
 
-- name: "Install mise plugin for java library legacy versions"
+- name: "Install mise plugin for java legacy versions"
   ansible.builtin.include_tasks: "mise-versions.yaml"
   vars:
     plugin_name: "java"

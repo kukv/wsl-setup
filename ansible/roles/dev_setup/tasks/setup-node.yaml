@@ -1,12 +1,12 @@
 ---
-- name: "Install mise plugin latest versions"
+- name: "Install mise plugin for node latest versions"
   ansible.builtin.include_tasks: "mise-versions.yaml"
   vars:
     plugin_name: "node"
     plugin_lib_version: "22"
     current_version: true
 
-- name: "Install mise plugin for Node.js library legacy versions"
+- name: "Install mise plugin for node legacy versions"
   ansible.builtin.include_tasks: "mise-versions.yaml"
   vars:
     plugin_name: "node"

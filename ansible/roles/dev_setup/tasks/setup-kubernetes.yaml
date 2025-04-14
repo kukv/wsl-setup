@@ -1,15 +1,8 @@
 ---
-- name: "Added repositories"
-  community.general.homebrew_tap:
-    name:
-      - "fluxcd/tap"
-    state: "present"
-
 - name: "Install kubernetes utils"
   community.general.homebrew:
     name:
       - "kubernetes-cli"
       - "helm"
       - "helmfile"
-      - "fluxcd/tap/flux"
     state: "present"
