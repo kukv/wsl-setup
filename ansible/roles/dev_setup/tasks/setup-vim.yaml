@@ -1,8 +1,9 @@
 ---
 - name: "Install vim"
-  community.general.homebrew:
+  ansible.builtin.apt:
     name: "vim"
     state: "present"
+  become: true
 
 - name: "Create .vim directory"
   ansible.builtin.file:
@@ -60,8 +61,5 @@
 - name: "Run :PlugInstall in Vim"
   ansible.builtin.shell: |
     vim +PlugInstall +qall
-  environment:
-    # shell内だとvimコマンドが見えないため
-    PATH: "{{ brew_package_dir }}:{{ ansible_env.PATH }}"
   args:
     executable: "/bin/bash"
