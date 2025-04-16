@@ -40,3 +40,16 @@
 - name: "Set timezone to Asia/Tokyo"
   community.general.timezone:
     name: "Asia/Tokyo"
+
+- name: "Append alias for {{ item.user }}"
+  ansible.builtin.template:
+    src: ".bash_aliases.j2"
+    dest: "{{ item.home_dir }}/.bash_aliases"
+    owner: "{{ item.user }}"
+    group: "{{ item.user }}"
+    mode: "0644"
+  loop:
+    - user: "root"
+      home_dir: "/root"
+    - user: "{{ ansible_user }}"
+      home_dir: "/home/{{ ansible_user }}"

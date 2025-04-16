@@ -7,3 +7,9 @@ git_configs:
     value: "example@test.com"
   - name: "color.ui"
     value: "auto"
+
+aliases:
+  - command: "relogin"
+    target: "exec $SHELL -l"
+  - command: "reload"
+    target: "source ~/.bashrc"

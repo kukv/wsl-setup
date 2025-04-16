@@ -16,3 +16,15 @@ mise_shims: "/home/{{ ansible_user }}/.local/share/mise/shims"
 # go
 ##################################################################
 go_bin: "{{ brew_package_dir }}/go"
+
+##################################################################
+# vcs
+##################################################################
+git_configs: []
+# git_configs:
+#   - name: "user.name"
+#     value: "<git user>"
+#   - name: "user.email"
+#     value: "<git email>"
+#   - name: "color.ui"
+#     value: "auto"

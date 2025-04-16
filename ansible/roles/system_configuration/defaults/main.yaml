@@ -17,3 +17,10 @@ requirement_packages:
   - "sshpass"
   - "tree"
   - "wslu"
+
+aliases: []
+# aliases:
+#   - command: "g"
+#     target: "git"
+#   - command: "gs"
+#     target: "git status"
