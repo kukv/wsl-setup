@@ -16,17 +16,23 @@ cat <<EOF >> /etc/ansible/extra_vars.yaml
 ---
 # プロビジョニングを定期的に実施する期間を指定
 # systemd-timerを利用している為、以下の書式で指定可能です。
-# - https://www.freedesktop.org/software/systemd/man/latest/systemd.time.html****
+# - https://www.freedesktop.org/software/systemd/man/latest/systemd.time.html
 provisioning_schedule: "weekly"
 
 # git configで設定する値を指定します。
 git_configs:
   - name: "user.name"
-    value: "kukv"
+    value: "<git user>"
   - name: "user.email"
-    value: "example@test.com"
+    value: "<git email>"
   - name: "color.ui"
     value: "auto"
+
+aliases:
+  - command: "relogin"
+    target: "exec $SHELL -l"
+  - command: "reload"
+    target: "source ~/.bashrc"
 EOF
 ```
 
