@@ -1,0 +1,7 @@
+---
+- name: "Install gcc"
+  community.general.homebrew:
+    name:
+      - "gcc"
+      - "cmake"
+    state: "present"
