@@ -34,8 +34,3 @@
   community.general.homebrew:
     update_homebrew: true
     upgrade_all: true
-
-- name: "Install gcc"
-  community.general.homebrew:
-    name: "gcc"
-    state: "present"

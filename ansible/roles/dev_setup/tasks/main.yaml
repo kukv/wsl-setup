@@ -2,6 +2,9 @@
 - name: "Install homebrew"
   ansible.builtin.include_tasks: "homebrew.yaml"
 
+- name: "Setup clang environments"
+  ansible.builtin.include_tasks: "setup-clang.yaml"
+
 - name: "Setup mise"
   ansible.builtin.include_tasks: "mise.yaml"
 
