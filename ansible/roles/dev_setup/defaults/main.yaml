@@ -28,3 +28,15 @@ git_configs: []
 #     value: "<git email>"
 #   - name: "color.ui"
 #     value: "auto"
+
+##################################################################
+# ssh
+##################################################################
+ssh_configs:
+  - alias: ""
+    host_name: ""
+    remote_user: ""
+    compression: false
+    key_file: ""
+    private_key: ""
+#   proxy_jump: ""
