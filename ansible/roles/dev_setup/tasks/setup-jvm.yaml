@@ -22,4 +22,5 @@
     name:
       - "gradle"
       - "maven"
+      - "kotlin"
     state: "present"
