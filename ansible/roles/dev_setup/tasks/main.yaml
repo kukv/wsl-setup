@@ -34,3 +34,6 @@
 
 - name: "Setup vim"
   ansible.builtin.include_tasks: "setup-vim.yaml"
+
+- name: "Setup SSH configuration"
+  ansible.builtin.include_tasks: "setup-ssh.yaml"
