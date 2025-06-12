@@ -8,7 +8,10 @@
   ansible.builtin.blockinfile:
     path: "/home/{{ ansible_user }}/.bash_profile"
     block: |
-      eval "$({{ brew_package_dir }}/mise activate bash --shims)"
+      if [ -z "$MISE_INITIALIZED" ]; then
+        export MISE_INITIALIZED=1
+        eval "$({{ brew_package_dir }}/mise activate bash)"
+      fi
     marker: "# {mark} ASDF MISE"
     create: true
     prepend_newline: true
@@ -18,7 +21,10 @@
   ansible.builtin.blockinfile:
     path: "/home/{{ ansible_user }}/.bashrc"
     block: |
-      eval "$({{ brew_package_dir }}/mise activate bash)"
+      if [ -z "$MISE_INITIALIZED" ]; then
+        export MISE_INITIALIZED=1
+        eval "$({{ brew_package_dir }}/mise activate bash)"
+      fi
     marker: "# {mark} ASDF MISE"
     create: true
     prepend_newline: true

@@ -15,7 +15,7 @@
   loop:
     - "openjdk-17"
     - "openjdk-11"
-    - "adoptopenjdk-8"
+    - "corretto-8"
 
 - name: "Install JVM build-tools"
   community.general.homebrew:
