@@ -26,6 +26,7 @@ WSL2の環境をコマンド1つである程度構築してくれるスクリプ
   - Node.js
   - Python
   - Golang
+  - Ruby
 - 開発ツール：
   - バージョン管理システム（Git等）
   - AWS CLI
