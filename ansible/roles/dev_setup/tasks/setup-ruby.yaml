@@ -10,4 +10,4 @@
   ansible.builtin.command:
     cmd: "{{ mise_shims }}/gem install rails"
   register: "rails_installed"
-  changed_when: false
+  changed_when: "'Successfully installed' in rails_installed.stdout"
