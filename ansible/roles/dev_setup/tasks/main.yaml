@@ -23,6 +23,9 @@
 - name: "Setup golang environments"
   ansible.builtin.include_tasks: "setup-golang.yaml"
 
+- name: "Setup ruby environments"
+  ansible.builtin.include_tasks: "setup-ruby.yaml"
+
 - name: "Setup VCS environments"
   ansible.builtin.include_tasks: "setup-vcs.yaml"
 
