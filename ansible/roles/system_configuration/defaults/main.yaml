@@ -17,6 +17,11 @@ requirement_packages:
   - "sshpass"
   - "tree"
   - "wslu"
+  - "rustc"
+  - "libssl-dev"
+  - "libyaml-dev"
+  - "zlib1g-dev"
+  - "libgmp-dev"
 
 aliases: []
 # aliases:
