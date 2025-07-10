@@ -1,0 +1,7 @@
+{% for config in ssh_configs %}
+Host {{ config.alias }}
+    HostName {{ host_name }}
+    IdentityFile ~/.ssh/{{ config.key_file }}
+    Compression yes
+    User {{ config.remote_user }}
+{% endfor %}
