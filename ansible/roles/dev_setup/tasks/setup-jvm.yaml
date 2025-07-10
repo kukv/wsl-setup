@@ -24,3 +24,10 @@
       - "maven"
       - "kotlin"
     state: "present"
+
+- name: "Uninstall managed openjdk"
+  community.general.homebrew:
+    name:
+      - "openjdk"
+    state: "absent"
+    install_options: "ignore-dependencies"
