@@ -24,9 +24,3 @@
       - "maven"
       - "kotlin"
     state: "present"
-
-- name: "UnInstall managed install jdk"
-  community.general.homebrew:
-    name:
-      - "openjdk"
-    state: "absent"
