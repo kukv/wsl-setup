@@ -5,9 +5,3 @@
     plugin_name: "ruby"
     plugin_lib_version: "3"
     current_version: true
-
-- name: "Installing rails"
-  ansible.builtin.command:
-    cmd: "{{ mise_shims }}/gem install rails"
-  register: "rails_installed"
-  changed_when: false
