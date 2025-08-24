@@ -38,7 +38,7 @@
   ansible.builtin.git:
     repo: "https://github.com/eendroroy/alien.git"
     dest: "{{ omz_theme_dir }}/alien"
-    version: "HEAD"
+    version: "master"
     force: false
     update: true
 
@@ -46,7 +46,7 @@
   ansible.builtin.git:
     repo: "https://github.com/zsh-users/zsh-autosuggestions"
     dest: "{{ omz_plugin_dir }}/zsh-autosuggestions"
-    version: "HEAD"
+    version: "master"
     force: false
     update: true
 
@@ -54,6 +54,6 @@
   ansible.builtin.git:
     repo: "https://github.com/zsh-users/zsh-syntax-highlighting.git"
     dest: "{{ omz_plugin_dir }}/zsh-syntax-highlighting"
-    version: "HEAD"
+    version: "master"
     force: false
     update: true
