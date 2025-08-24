@@ -17,7 +17,6 @@
       HISTSIZE=1000
       SAVEHIST=2000
       HISTFILE=~/.zsh_history
-      
       setopt extended_history
     marker: "# {mark} HISTORY SETUP"
     create: true
