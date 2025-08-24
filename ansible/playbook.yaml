@@ -5,11 +5,11 @@
   become: true
 
   pre_tasks:
-    - name: "Setup ansible"
+    - name: "Initializing ansible"
       ansible.builtin.include_tasks: "tasks/requirement_ansible_module.yaml"
       tags: ["always"]
 
-    - name: "Package update"
+    - name: "Update repositories and Packages"
       ansible.builtin.include_tasks: "tasks/update.yaml"
       tags: ["always"]
 
@@ -18,17 +18,18 @@
       ansible.builtin.apt:
         clean: true
         autoremove: true
+      tags: ["always"]
 
   roles:
-    - name: "System configuration"
+    - name: "Run System configuration role"
       role: "system_configuration"
       tags: ["system"]
 
-    - name: "Dev setup"
+    - name: "Run dev setup role"
       role: "dev_setup"
       become: false
       tags: ["dev-setup"]
 
-    - name: "Setup provisioning scheduler"
-      role: "setup_provisioning_scheduled"
+    - name: "Run setup provisioning schedule role"
+      role: "provisioning_schedule"
       tags: ["scheduled"]

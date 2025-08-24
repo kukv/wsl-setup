@@ -26,8 +26,6 @@ RUN useradd -m $USER -s /bin/bash && \
     mkdir -p /home/$USER && \
     mkdir /ansible
 
-COPY extra_vars.yaml /etc/ansible/extra_vars.yaml
-
 WORKDIR /ansible
 
 CMD [ "/sbin/init" ]

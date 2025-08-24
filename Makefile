@@ -4,7 +4,7 @@ up:
 	docker compose up -d
 
 down:
-	docker compose down
+	docker compose down -v
 
 rmi:
 	docker compose down --rmi all --volumes --remove-orphans
@@ -17,12 +17,12 @@ login:
 ansible/play:
 	docker compose exec ansible-test \
 		sudo -u "$(ANSIBLE_USER)" \
-		bash -c "ansible-playbook playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=$(ANSIBLE_USER)'"
+		bash -c "ansible-playbook -i inventories/hosts.yaml playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=$(ANSIBLE_USER)'"
 
 ansible/play/%:
 	docker compose exec ansible-test \
 		sudo -u "$(ANSIBLE_USER)" \
-		bash -c "ansible-playbook playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=$(ANSIBLE_USER)' --tags $(@F)"
+		bash -c "ansible-playbook -i inventories/hosts.yaml playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=$(ANSIBLE_USER)' --tags $(@F)"
 
 install:
 	poetry install

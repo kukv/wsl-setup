@@ -11,6 +11,6 @@
   ansible.builtin.command:
     cmd: "{{ mise_shims }}/npm install -g aws-cdk@latest aws-cdk-local@latest"
   environment:
-    PATH: "{{ mise_shims }}:{{ brew_package_dir }}:{{ ansible_env.PATH }}"
+    PATH: "{{ brew_package_dir }}:{{ ansible_env.PATH }}"
   register: "npm_installation_result"
   changed_when: false

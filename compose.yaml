@@ -7,6 +7,7 @@ services:
     hostname: "ansible-test"
     volumes:
       - "./ansible:/ansible"
+      - "./docker/ansible:/etc/ansible"
     privileged: true
     tty: true
     stdin_open: true

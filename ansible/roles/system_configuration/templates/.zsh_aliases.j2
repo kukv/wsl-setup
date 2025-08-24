@@ -1,3 +1,9 @@
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+alias history='history -f'
+
 {% for alias in aliases %}
 alias {{ alias.command }}="{{ alias.target }}"
 {% endfor %}

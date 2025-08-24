@@ -1,12 +1,5 @@
 ---
 ##################################################################
-# homebrew
-##################################################################
-brew_install_script_path: "{{ tmp_dir }}/brew_install.sh"
-homebrew_bin: "/home/linuxbrew/.linuxbrew/bin/brew"
-brew_package_dir: "/home/linuxbrew/.linuxbrew/bin"
-
-##################################################################
 # mise
 ##################################################################
 mise_bin: "{{ brew_package_dir }}/mise"
