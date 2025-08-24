@@ -8,7 +8,8 @@ WSL2の環境をコマンド1つである程度構築してくれるスクリプ
 ### システム設定
 
 - 基本的なシステムパッケージ
-- Oh-my-bash
+- zsh
+- Oh-my-zsh
 - SSH-agent設定
 - DNS設定
 - NTPサーバー設定
@@ -68,9 +69,9 @@ git_configs:
 
 aliases:
   - command: "relogin"
-    target: "exec $SHELL -l"
+    target: "exec /usr/bin/zsh -l"
   - command: "reload"
-    target: "source ~/.bashrc"
+    target: "source ~/.zshrc"
 EOF
 ```
 
@@ -84,6 +85,7 @@ curl -sf https://raw.githubusercontent.com/kukv/wsl-setup/refs/heads/main/init.s
 
 `init.sh`のオプション：
 - `-u, --user`: システム開発を行うユーザーを指定（必須）
+- `-b, --branch`: プロビジョニングを行うブランチを指定
 - `-h, --help`: ヘルプを表示
 
 
