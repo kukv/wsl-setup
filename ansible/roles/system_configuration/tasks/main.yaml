@@ -1,14 +1,29 @@
 ---
-- name: "Install requirement packages"
+- name: "Run Install requirement packages"
   ansible.builtin.apt:
     name: "{{ requirement_packages }}"
     state: "present"
 
-- name: "Install Oh-my-bash"
-  ansible.builtin.include_tasks: "oh-my-bash.yaml"
+- name: "Run Change default terminal configure"
+  ansible.builtin.include_tasks: "change_default_terminal_configuration.yaml"
 
-- name: "Install ssh-agent"
-  ansible.builtin.include_tasks: "ssh-agent.yaml"
+- name: "Run WSL2 configure"
+  ansible.builtin.include_tasks: "wsl_configuration.yaml"
 
-- name: "System configuration"
-  ansible.builtin.include_tasks: "system-configuration.yaml"
+- name: "Run time locale configure"
+  ansible.builtin.include_tasks: "time_locale_configuration.yaml"
+
+- name: "Run DNS resolver configure"
+  ansible.builtin.include_tasks: "dns_resolver_configuration.yaml"
+
+- name: "Run user mode configure"
+  become: false
+  block:
+    - name: "Run oh-my-zsh configure"
+      ansible.builtin.include_tasks: "oh_my_zsh_configuration.yaml"
+
+    - name: "Run bash configure"
+      ansible.builtin.include_tasks: "zsh_configuration.yaml"
+
+    - name: "Run homebrew configure"
+      ansible.builtin.include_tasks: "homebrew_configuration.yaml"

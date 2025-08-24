@@ -1,39 +1,36 @@
 ---
-- name: "Install homebrew"
-  ansible.builtin.include_tasks: "homebrew.yaml"
-
-- name: "Setup clang environments"
+- name: "Run clang environments setup"
   ansible.builtin.include_tasks: "setup-clang.yaml"
 
-- name: "Setup mise"
+- name: "Run mise install"
   ansible.builtin.include_tasks: "mise.yaml"
 
-- name: "Setup utils"
+- name: "Run utils install"
   ansible.builtin.include_tasks: "setup-utils.yaml"
 
-- name: "Setup jvm environments"
+- name: "Run jvm environments setup"
   ansible.builtin.include_tasks: "setup-jvm.yaml"
 
-- name: "Setup nodejs environments"
+- name: "Run nodejs environments setup"
   ansible.builtin.include_tasks: "setup-node.yaml"
 
-- name: "Setup python environments"
+- name: "Run python environments setup"
   ansible.builtin.include_tasks: "setup-python.yaml"
 
-- name: "Setup golang environments"
+- name: "Run golang environments setup"
   ansible.builtin.include_tasks: "setup-golang.yaml"
 
-- name: "Setup ruby environments"
+- name: "Run ruby environments setup"
   ansible.builtin.include_tasks: "setup-ruby.yaml"
 
-- name: "Setup VCS environments"
+- name: "Run VCS environments setup"
   ansible.builtin.include_tasks: "setup-vcs.yaml"
 
-- name: "Setup aws environments"
+- name: "Run aws environments setup"
   ansible.builtin.include_tasks: "setup-aws.yaml"
 
-- name: "Setup kubernetes environments"
+- name: "Run kubernetes environments setup"
   ansible.builtin.include_tasks: "setup-kubernetes.yaml"
 
-- name: "Setup vim"
+- name: "Run vim setup"
   ansible.builtin.include_tasks: "setup-vim.yaml"

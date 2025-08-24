@@ -1,0 +1,48 @@
+---
+- name: "Setup file system cache"
+  ansible.builtin.blockinfile:
+    path: "/home/{{ ansible_user }}/.zprofile"
+    block: |
+      export JOBMAX=$(nproc)
+      export MAKEFLAGS="-j$JOBMAX"
+    marker: "# {mark} FILE SYSTEM CACHE SETUP"
+    create: true
+    prepend_newline: true
+    mode: "0644"
+
+- name: "Setup history configuration"
+  ansible.builtin.blockinfile:
+    path: "/home/{{ ansible_user }}/.zshrc"
+    block: |
+      HISTSIZE=1000
+      SAVEHIST=2000
+      HISTFILE=~/.zsh_history
+      setopt extended_history
+    marker: "# {mark} HISTORY SETUP"
+    create: true
+    prepend_newline: true
+    mode: "0644"
+
+- name: "Append zsh command aliases file"
+  ansible.builtin.template:
+    src: ".zsh_aliases.j2"
+    dest: "{{ item.home_dir }}/.zsh_aliases"
+    owner: "{{ item.user }}"
+    group: "{{ item.group }}"
+    mode: "0644"
+  loop:
+    - user: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      home_dir: "/home/{{ ansible_user }}"
+
+- name: "Enable zsh command aliases"
+  ansible.builtin.blockinfile:
+    path: "/home/{{ ansible_user }}/.zshrc"
+    block: |
+      if [ -f ~/.zsh_aliases ]; then
+        source ~/.zsh_aliases
+      fi
+    marker: "# {mark} ZSH COMMAND ALIASES SETUP"
+    create: true
+    prepend_newline: true
+    mode: "0644"

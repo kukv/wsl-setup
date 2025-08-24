@@ -18,7 +18,7 @@
 
 - name: "Add golang to path"
   ansible.builtin.blockinfile:
-    path: "/home/{{ ansible_user }}/.bashrc"
+    path: "/home/{{ ansible_user }}/.zshrc"
     block: |
       export PATH="$({{ go_bin }} env GOPATH)/bin:$PATH"
     marker: "# {mark} GO SETUP"

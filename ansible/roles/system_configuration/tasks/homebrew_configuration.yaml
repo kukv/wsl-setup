@@ -22,7 +22,7 @@
 
 - name: "Configure homebrew"
   ansible.builtin.blockinfile:
-    path: "/home/{{ ansible_user }}/.bashrc"
+    path: "/home/{{ ansible_user }}/.zprofile"
     block: |
       eval "$({{ homebrew_bin }} shellenv)"
     marker: "# {mark} HOMEBREW SETUP"

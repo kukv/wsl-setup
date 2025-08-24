@@ -4,28 +4,12 @@
     name: "mise"
     state: "present"
 
-- name: "Add to path(.bash_profile)"
+- name: "Add to path(.zprofile)"
   ansible.builtin.blockinfile:
-    path: "/home/{{ ansible_user }}/.bash_profile"
+    path: "/home/{{ ansible_user }}/.zprofile"
     block: |
-      if [ -z "$MISE_INITIALIZED" ]; then
-        export MISE_INITIALIZED=1
-        eval "$({{ brew_package_dir }}/mise activate bash)"
-      fi
-    marker: "# {mark} ASDF MISE"
-    create: true
-    prepend_newline: true
-    mode: "0644"
-
-- name: "Add to path(.bashrc)"
-  ansible.builtin.blockinfile:
-    path: "/home/{{ ansible_user }}/.bashrc"
-    block: |
-      if [ -z "$MISE_INITIALIZED" ]; then
-        export MISE_INITIALIZED=1
-        eval "$({{ brew_package_dir }}/mise activate bash)"
-      fi
-    marker: "# {mark} ASDF MISE"
+      eval "$({{ brew_package_dir }}/mise activate bash)"
+    marker: "# {mark} MISE SETUP"
     create: true
     prepend_newline: true
     mode: "0644"
