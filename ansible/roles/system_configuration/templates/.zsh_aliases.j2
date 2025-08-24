@@ -4,6 +4,9 @@ alias l='ls -CF'
 
 alias history='history -f'
 
+alias ssh='ssh.exe'
+alias ssh-add='ssh-add.exe'
+
 {% for alias in aliases %}
 alias {{ alias.command }}="{{ alias.target }}"
 {% endfor %}
