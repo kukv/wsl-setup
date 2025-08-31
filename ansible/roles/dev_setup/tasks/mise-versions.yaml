@@ -2,6 +2,8 @@
 - name: "Install {{ plugin_name ~ '@' ~ plugin_lib_version }}"
   ansible.builtin.command:
     cmd: "{{ mise_bin }} install --force {{ plugin_name }}@{{ plugin_lib_version }}"
+  environment:
+    MISE_FETCH_REMOTE_VERSIONS_TIMEOUT: "60"
   register: "mise_install_output"
   changed_when: "'installed' in mise_install_output.stdout"
 
