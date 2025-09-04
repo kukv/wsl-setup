@@ -21,6 +21,9 @@ requirement_packages:
   - "libyaml-dev"
   - "zlib1g-dev"
   - "libgmp-dev"
+  - "language-pack-ja"
+  - "manpages-ja"
+  - "manpages-ja-dev"
 
 aliases: []
 # aliases:
