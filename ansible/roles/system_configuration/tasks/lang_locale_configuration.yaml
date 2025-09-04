@@ -9,4 +9,3 @@
     path: "/etc/default/locale"
     regexp: "^LANG='"
     line: "LANG=ja_JP.UTF-8"
-    create: true
