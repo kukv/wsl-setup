@@ -10,6 +10,9 @@
 - name: "Run WSL2 configure"
   ansible.builtin.include_tasks: "wsl_configuration.yaml"
 
+- name: "Run language locale configure"
+  ansible.builtin.include_tasks: "lang_locale_configuration.yaml"
+
 - name: "Run time locale configure"
   ansible.builtin.include_tasks: "time_locale_configuration.yaml"
 
