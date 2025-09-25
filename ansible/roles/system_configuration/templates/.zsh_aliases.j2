@@ -6,6 +6,7 @@ alias history='history -f'
 
 alias ssh='ssh.exe'
 alias ssh-add='ssh-add.exe'
+alias scp='scp.exe'
 
 {% for alias in aliases %}
 alias {{ alias.command }}="{{ alias.target }}"
