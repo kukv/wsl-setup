@@ -9,5 +9,5 @@ package-mode = false
 
 [tool.poetry.group.dev.dependencies]
 yamllint = "^1.37.0"
-ansible = "^11.4.0"
+ansible = "^12.0.0"
 ansible-lint = "^25.2.1"
