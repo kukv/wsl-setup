@@ -4,15 +4,15 @@
     - name: "Check if peco binary exists"
       ansible.builtin.stat:
         path: "{{ install_dir }}/peco"
-      register: peco_stat
+      register: "peco_stat"
 
     - name: "Check installed peco version"
       ansible.builtin.command:
         cmd: "{{ install_dir }}/peco --version"
-      register: peco_version_check
+      register: "peco_version_check"
       changed_when: false
       failed_when: false
-      when: peco_stat.stat.exists
+      when: "peco_stat.stat.exists"
 
 - name: "Install peco from GitHub binary"
   become: true

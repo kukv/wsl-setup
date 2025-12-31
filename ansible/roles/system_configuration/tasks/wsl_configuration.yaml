@@ -5,7 +5,6 @@
       - "wslu"
     state: "present"
 
-
 - name: "Create /etc/wsl.conf"
   ansible.builtin.template:
     src: "wsl.conf.j2"
