@@ -1,11 +1,8 @@
 ---
-- name: "Run Install requirement packages"
+- name: "Run Install requirement system packages"
   ansible.builtin.apt:
     name: "{{ requirement_packages }}"
     state: "present"
-
-- name: "Run Change default terminal configure"
-  ansible.builtin.include_tasks: "change_default_terminal_configuration.yaml"
 
 - name: "Run WSL2 configure"
   ansible.builtin.include_tasks: "wsl_configuration.yaml"
@@ -19,13 +16,16 @@
 - name: "Run DNS resolver configure"
   ansible.builtin.include_tasks: "dns_resolver_configuration.yaml"
 
+- name: "Run Change default terminal"
+  ansible.builtin.include_tasks: "change_default_terminal.yaml"
+
 - name: "Run user mode configure"
   become: false
   block:
     - name: "Run oh-my-zsh configure"
       ansible.builtin.include_tasks: "oh_my_zsh_configuration.yaml"
 
-    - name: "Run bash configure"
+    - name: "Run zsh configure"
       ansible.builtin.include_tasks: "zsh_configuration.yaml"
 
     - name: "Run homebrew configure"

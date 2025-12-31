@@ -1,0 +1,27 @@
+---
+- name: "Install mise"
+  community.general.homebrew:
+    name: "mise"
+    state: "present"
+
+- name: "Add to path(.zshrc)"
+  ansible.builtin.blockinfile:
+    path: "/home/{{ ansible_user }}/.zshrc.generated"
+    block: |
+      eval "$( {{ brew_package_dir }}/mise activate zsh )"
+    marker: "# {mark} MISE SETUP"
+    create: true
+    prepend_newline: true
+    mode: "0644"
+
+- name: "Generate mise zsh completion"
+  ansible.builtin.command:
+    cmd: "{{ mise_bin }} completion zsh > /home/{{ ansible_user }}/.oh-my-zsh/custom/plugins/zsh-completions/src/_mise"
+  changed_when: false
+
+- name: "Permanently enable experimental in mise config"
+  ansible.builtin.command:
+    cmd: "mise settings set experimental true"
+  environment:
+    PATH: "{{ mise_bin | dirname }}:{{ ansible_env.PATH }}"
+  changed_when: false

@@ -1,10 +1,10 @@
 ---
-- name: "Install zsh"
+- name: "Install Zsh"
   ansible.builtin.apt:
     name: "zsh"
     state: "present"
 
-- name: "Change default terminal to zsh"
+- name: "Change default terminal to Zsh"
   ansible.builtin.user:
     name: "{{ ansible_user }}"
     shell: "/usr/bin/zsh"

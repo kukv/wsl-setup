@@ -1,15 +1,21 @@
 ---
-- name: "Install {{ plugin_name ~ '@' ~ plugin_lib_version }}"
+- name: "Install plugin version: {{ plugin_name ~ '@' ~ plugin_lib_version }}"
   ansible.builtin.command:
     cmd: "{{ mise_bin }} install --force {{ plugin_name }}@{{ plugin_lib_version }}"
   environment:
     MISE_FETCH_REMOTE_VERSIONS_TIMEOUT: "60"
+    PATH: "{{ mise_bin | dirname }}:{{ ansible_env.PATH }}"
   register: "mise_install_output"
+  until: "mise_install_output is succeeded"
+  retries: 3
+  delay: 10
   changed_when: "'installed' in mise_install_output.stdout"
 
-- name: "Set default version for {{ plugin_name ~ '@' ~ plugin_lib_version }}"
+- name: "Set default version for plugin: {{ plugin_name ~ '@' ~ plugin_lib_version }}"
   ansible.builtin.command:
     cmd: "{{ mise_bin }} use -g {{ plugin_name }}@{{ plugin_lib_version }}"
+  environment:
+    PATH: "{{ mise_bin | dirname }}:{{ ansible_env.PATH }}"
   register: "mise_use_result"
   changed_when: "mise_use_result.rc == 0"
-  when: "current_version"
+  when: "current_version | bool"

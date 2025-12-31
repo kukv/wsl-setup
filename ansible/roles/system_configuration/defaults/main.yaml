@@ -3,27 +3,16 @@ omz_install_dir: "/home/{{ ansible_user }}/.oh-my-zsh"
 omz_theme_dir: "{{ omz_install_dir }}/custom/themes"
 omz_plugin_dir: "{{ omz_install_dir }}/custom/plugins"
 
+peco_version: "v0.5.11"
+
 requirement_packages:
   - "acl"
-  - "build-essential"
-  - "dnsutils"
-  - "lsof"
-  - "jq"
   - "bzip2"
-  - "zip"
-  - "unzip"
   - "software-properties-common"
   - "sshpass"
   - "tree"
-  - "wslu"
-  - "rustc"
-  - "libssl-dev"
-  - "libyaml-dev"
-  - "zlib1g-dev"
-  - "libgmp-dev"
-  - "language-pack-ja"
-  - "manpages-ja"
-  - "manpages-ja-dev"
+  - "unzip"
+  - "zip"
 
 aliases: []
 # aliases:
