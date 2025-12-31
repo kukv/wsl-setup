@@ -19,7 +19,7 @@
   when: "not peco_stat.stat.exists or (peco_version_check.stdout is defined and peco_version not in peco_version_check.stdout)"
   block:
     - name: "Set arch suffix based on architecture"
-      set_fact:
+      ansible.builtin.set_fact:
         peco_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else 'arm' }}"
 
     - name: "Download and unarchive peco binary"
@@ -64,7 +64,7 @@
   ansible.builtin.copy:
     content: ""
     dest: "/home/{{ ansible_user }}/{{ item.filename }}"
-    force: no
+    force: false
     owner: "{{ item.user }}"
     group: "{{ item.group }}"
     mode: "0644"

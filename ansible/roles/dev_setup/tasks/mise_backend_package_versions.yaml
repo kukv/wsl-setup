@@ -8,5 +8,5 @@
   register: "mise_install_output"
   until: "mise_install_output is succeeded"
   retries: "3"
-  delay: "10"
+  delay: 10
   changed_when: "'installed' in mise_install_output.stdout"
