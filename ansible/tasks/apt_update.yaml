@@ -17,8 +17,3 @@
   retries: 2
   delay: 10
   until: "apt_upgrade_result is succeeded"
-
-- name: "Display upgrade summary"
-  ansible.builtin.debug:
-    msg: "{{ apt_upgrade_result.stdout_lines | default(['No packages upgraded']) }}"
-  when: "apt_upgrade_result is changed"

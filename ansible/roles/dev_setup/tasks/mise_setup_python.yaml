@@ -7,7 +7,7 @@
     current_version: true
 
 - name: "Permanently enable uvx backend for python in mise config"
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: "mise settings set pipx.uvx true"
   environment:
     PATH: "{{ mise_bin | dirname }}:{{ ansible_env.PATH }}"

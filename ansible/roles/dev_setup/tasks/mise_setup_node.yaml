@@ -30,7 +30,7 @@
     current_version: true
 
 - name: "Permanently enable pnpm backend for node in mise config"
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: "mise settings set npm.package_manager pnpm"
   environment:
     PATH: "{{ mise_bin | dirname }}:{{ ansible_env.PATH }}"
