@@ -5,7 +5,7 @@
     force_apt_get: true
     cache_valid_time: "3600"
   register: "apt_update_result"
-  retries: "3"
+  retries: 3
   delay: 5
   until: "apt_update_result is succeeded"
 
@@ -14,7 +14,7 @@
     upgrade: "dist"
     force_apt_get: true
   register: "apt_upgrade_result"
-  retries: "2"
+  retries: 2
   delay: 10
   until: "apt_upgrade_result is succeeded"
 
