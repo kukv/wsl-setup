@@ -1,0 +1,5 @@
+---
+- name: "Clear package manager cache"
+  ansible.builtin.apt:
+    clean: true
+    autoremove: true

@@ -6,12 +6,14 @@
 ############################################################################
 ############################################################################
 ############################################################################
-[boot]
-systemd=true
+if [ -f $HOME/.zshrc ]; then
+    source $HOME/.zshrc
+fi
 
-[network]
-generateResolvConf=false
-hostname=wsl2
+if [ -f $HOME/.zprofile.generated ]; then
+    source $HOME/.zprofile.generated
+fi
 
-[automount]
-options="metadata,uid=1000,gid=1000,umask=22,fmask=11"
+if [ -f $HOME/.zprofile.user ]; then
+    source $HOME/.zprofile.user
+fi

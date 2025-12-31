@@ -1,0 +1,11 @@
+---
+- name: "Install mise plugin for {{ item }}"
+  ansible.builtin.include_tasks: "mise_versions.yaml"
+  vars:
+    plugin_name: "{{ item }}"
+    plugin_lib_version: "latest"
+    current_version: true
+  loop:
+    - "kubectl"
+    - "helm"
+    - "helmfile"

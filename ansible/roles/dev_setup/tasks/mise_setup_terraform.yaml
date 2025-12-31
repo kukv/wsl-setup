@@ -1,0 +1,7 @@
+---
+- name: "Install mise plugin for terraform"
+  ansible.builtin.include_tasks: "mise_versions.yaml"
+  vars:
+    plugin_name: "terraform"
+    plugin_lib_version: "latest"
+    current_version: true

@@ -1,48 +1,81 @@
 ---
-- name: "Setup file system cache"
-  ansible.builtin.blockinfile:
-    path: "/home/{{ ansible_user }}/.zprofile"
-    block: |
-      export JOBMAX=$(nproc)
-      export MAKEFLAGS="-j$JOBMAX"
-    marker: "# {mark} FILE SYSTEM CACHE SETUP"
-    create: true
-    prepend_newline: true
-    mode: "0644"
+- name: "Peco installation check"
+  block:
+    - name: "Check if peco binary exists"
+      ansible.builtin.stat:
+        path: "{{ install_dir }}/peco"
+      register: peco_stat
 
-- name: "Setup history configuration"
-  ansible.builtin.blockinfile:
-    path: "/home/{{ ansible_user }}/.zshrc"
-    block: |
-      HISTSIZE=1000
-      SAVEHIST=2000
-      HISTFILE=~/.zsh_history
-      setopt extended_history
-    marker: "# {mark} HISTORY SETUP"
-    create: true
-    prepend_newline: true
-    mode: "0644"
+    - name: "Check installed peco version"
+      ansible.builtin.command:
+        cmd: "{{ install_dir }}/peco --version"
+      register: peco_version_check
+      changed_when: false
+      failed_when: false
+      when: peco_stat.stat.exists
 
-- name: "Append zsh command aliases file"
+- name: "Install peco from GitHub binary"
+  become: true
+  when: >
+    not peco_stat.stat.exists or 
+    (peco_version_check.stdout is defined and peco_version not in peco_version_check.stdout)
+  block:
+    - name: "Set arch suffix based on architecture"
+      set_fact:
+        peco_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else 'arm' }}"
+
+    - name: "Download and unarchive peco binary"
+      ansible.builtin.unarchive:
+        src: "https://github.com/peco/peco/releases/download/{{ peco_version }}/peco_{{ ansible_system | lower }}_{{ peco_arch }}.tar.gz"
+        dest: "{{ tmp_dir }}"
+        remote_src: true
+
+    - name: "Install peco binary to {{ install_dir }}"
+      ansible.builtin.copy:
+        src: "{{ tmp_dir }}/peco_{{ ansible_system | lower }}_{{ peco_arch }}/peco"
+        dest: "{{ install_dir }}/peco"
+        mode: "0755"
+        remote_src: true
+
+- name: "Create zsh environment file"
   ansible.builtin.template:
-    src: ".zsh_aliases.j2"
-    dest: "{{ item.home_dir }}/.zsh_aliases"
+    src: "{{ item.filename }}.j2"
+    dest: "{{ item.home_dir }}/{{ item.filename }}"
     owner: "{{ item.user }}"
     group: "{{ item.group }}"
     mode: "0644"
   loop:
-    - user: "{{ ansible_user }}"
+    - filename: ".zprofile"
+      user: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      home_dir: "/home/{{ ansible_user }}"
+    - filename: ".zprofile.generated"
+      user: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      home_dir: "/home/{{ ansible_user }}"
+    - filename: ".zshrc.generated"
+      user: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      home_dir: "/home/{{ ansible_user }}"
+    - filename: ".zshrc"
+      user: "{{ ansible_user }}"
       group: "{{ ansible_user }}"
       home_dir: "/home/{{ ansible_user }}"
 
-- name: "Enable zsh command aliases"
-  ansible.builtin.blockinfile:
-    path: "/home/{{ ansible_user }}/.zshrc"
-    block: |
-      if [ -f ~/.zsh_aliases ]; then
-        source ~/.zsh_aliases
-      fi
-    marker: "# {mark} ZSH COMMAND ALIASES SETUP"
-    create: true
-    prepend_newline: true
+- name: "Create empty zsh user customizing environment file"
+  ansible.builtin.copy:
+    content: ""
+    dest: "/home/{{ ansible_user }}/{{ item.filename }}"
+    force: no
+    owner: "{{ item.user }}"
+    group: "{{ item.group }}"
     mode: "0644"
+  loop:
+    - filename: ".zshrc.user"
+      user: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      home_dir: "/home/{{ ansible_user }}"
+    - filename: ".zprofile.user"
+      user: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      home_dir: "/home/{{ ansible_user }}"

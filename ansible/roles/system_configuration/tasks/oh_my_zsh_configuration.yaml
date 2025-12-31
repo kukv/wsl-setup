@@ -18,14 +18,6 @@
         cmd: "{{ tmp_dir }}/install.sh"
       changed_when: true
 
-- name: "Replace zshrc file"
-  ansible.builtin.template:
-    src: ".zshrc.j2"
-    dest: "/home/{{ ansible_user }}/.zshrc"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: "0644"
-
 - name: "Ensure custom themes directory exists"
   ansible.builtin.file:
     path: "{{ omz_theme_dir }}"
@@ -42,6 +34,22 @@
     force: false
     update: true
 
+- name: "Clone Oh-my-zsh plugin on zsh-syntax-highlighting"
+  ansible.builtin.git:
+    repo: "https://github.com/zsh-users/zsh-syntax-highlighting.git"
+    dest: "{{ omz_plugin_dir }}/zsh-syntax-highlighting"
+    version: "master"
+    force: false
+    update: true
+
+- name: "Clone Oh-my-zsh plugin on zsh-completions"
+  ansible.builtin.git:
+    repo: "https://github.com/zsh-users/zsh-completions.git"
+    dest: "{{ omz_plugin_dir }}/zsh-completions"
+    version: "master"
+    force: false
+    update: true
+
 - name: "Clone Oh-my-zsh plugin on zsh-autosuggestions"
   ansible.builtin.git:
     repo: "https://github.com/zsh-users/zsh-autosuggestions"
@@ -50,10 +58,10 @@
     force: false
     update: true
 
-- name: "Clone Oh-my-zsh plugin on zsh-syntax-highlighting"
+- name: "Clone Oh-my-zsh plugin on zsh-history-substring-search"
   ansible.builtin.git:
-    repo: "https://github.com/zsh-users/zsh-syntax-highlighting.git"
-    dest: "{{ omz_plugin_dir }}/zsh-syntax-highlighting"
+    repo: "https://github.com/zsh-users/zsh-history-substring-search.git"
+    dest: "{{ omz_plugin_dir }}/zsh-history-substring-search"
     version: "master"
     force: false
     update: true

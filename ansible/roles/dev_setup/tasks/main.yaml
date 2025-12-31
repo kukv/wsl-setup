@@ -1,36 +1,39 @@
 ---
-- name: "Run clang environments setup"
-  ansible.builtin.include_tasks: "setup-clang.yaml"
-
 - name: "Run mise install"
-  ansible.builtin.include_tasks: "mise.yaml"
+  ansible.builtin.include_tasks: "install_mise.yaml"
 
-- name: "Run utils install"
-  ansible.builtin.include_tasks: "setup-utils.yaml"
+- name: "Run use mise to run JVM environments setup"
+  ansible.builtin.include_tasks: "mise_setup_jvm.yaml"
 
-- name: "Run jvm environments setup"
-  ansible.builtin.include_tasks: "setup-jvm.yaml"
-
-- name: "Run nodejs environments setup"
-  ansible.builtin.include_tasks: "setup-node.yaml"
+- name: "Run use mise to run nodejs environments setup"
+  ansible.builtin.include_tasks: "mise_setup_node.yaml"
 
 - name: "Run python environments setup"
-  ansible.builtin.include_tasks: "setup-python.yaml"
+  ansible.builtin.include_tasks: "mise_setup_python.yaml"
 
 - name: "Run golang environments setup"
-  ansible.builtin.include_tasks: "setup-golang.yaml"
+  ansible.builtin.include_tasks: "mise_setup_golang.yaml"
 
 - name: "Run ruby environments setup"
-  ansible.builtin.include_tasks: "setup-ruby.yaml"
+  ansible.builtin.include_tasks: "mise_setup_ruby.yaml"
 
 - name: "Run VCS environments setup"
-  ansible.builtin.include_tasks: "setup-vcs.yaml"
+  ansible.builtin.include_tasks: "mise_setup_vcs.yaml"
 
 - name: "Run aws environments setup"
-  ansible.builtin.include_tasks: "setup-aws.yaml"
+  ansible.builtin.include_tasks: "mise_setup_aws.yaml"
 
 - name: "Run kubernetes environments setup"
-  ansible.builtin.include_tasks: "setup-kubernetes.yaml"
+  ansible.builtin.include_tasks: "mise_setup_kubernetes.yaml"
 
-- name: "Run vim setup"
-  ansible.builtin.include_tasks: "setup-vim.yaml"
+- name: "Run Terraform setup"
+  ansible.builtin.include_tasks: "mise_setup_terraform.yaml"
+
+- name: "Run shell utils setup"
+  ansible.builtin.include_tasks: "mise_setup_shell.yaml"
+
+- name: "Run network utils setup"
+  ansible.builtin.include_tasks: "setup_network_utils.yaml"
+
+- name: "Run neovim setup"
+  ansible.builtin.include_tasks: "setup-neovim.yaml"

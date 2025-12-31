@@ -1,0 +1,12 @@
+---
+- name: "Install {{ manager_name ~ ':' ~ package_name ~ '@' ~ package_version }}"
+  ansible.builtin.command:
+    cmd: "{{ mise_bin }} use --global {{ manager_name }}:{{ package_name }}@{{ package_version }}"
+  environment:
+    MISE_FETCH_REMOTE_VERSIONS_TIMEOUT: "60"
+    PATH: "{{ mise_bin | dirname }}:{{ ansible_env.PATH }}"
+  register: "mise_install_output"
+  until: "mise_install_output is succeeded"
+  retries: "3"
+  delay: "10"
+  changed_when: "'installed' in mise_install_output.stdout"

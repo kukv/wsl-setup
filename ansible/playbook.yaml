@@ -10,14 +10,12 @@
       tags: ["always"]
 
     - name: "Update repositories and Packages"
-      ansible.builtin.include_tasks: "tasks/update.yaml"
+      ansible.builtin.include_tasks: "tasks/apt_update.yaml"
       tags: ["always"]
 
   post_tasks:
     - name: "Clear package manager cache"
-      ansible.builtin.apt:
-        clean: true
-        autoremove: true
+      ansible.builtin.include_tasks: "tasks/apt_clear.yaml"
       tags: ["always"]
 
   roles:

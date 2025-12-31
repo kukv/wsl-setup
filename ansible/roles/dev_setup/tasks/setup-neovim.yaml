@@ -1,0 +1,20 @@
+---
+- name: "Install mise plugin for neovim"
+  ansible.builtin.include_tasks: "mise_versions.yaml"
+  vars:
+    plugin_name: "neovim"
+    plugin_lib_version: "latest"
+    current_version: true
+
+- name: "Clone LazyVim repository"
+  ansible.builtin.git:
+    repo: "https://github.com/LazyVim/starter.git"
+    dest: "/home/{{ ansible_user }}/.config/nvim"
+    version: "main"
+    force: false
+    update: true
+
+- name: "Remove all files and folders inside .git"
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.config/nvim/.git"
+    state: "absent"
