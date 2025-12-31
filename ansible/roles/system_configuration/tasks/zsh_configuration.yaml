@@ -16,9 +16,7 @@
 
 - name: "Install peco from GitHub binary"
   become: true
-  when: >
-    not peco_stat.stat.exists or 
-    (peco_version_check.stdout is defined and peco_version not in peco_version_check.stdout)
+  when: "not peco_stat.stat.exists or (peco_version_check.stdout is defined and peco_version not in peco_version_check.stdout)"
   block:
     - name: "Set arch suffix based on architecture"
       set_fact:
