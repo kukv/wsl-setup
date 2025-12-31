@@ -15,9 +15,11 @@
     mode: "0644"
 
 - name: "Generate mise zsh completion"
-  ansible.builtin.command:
-    cmd: "{{ mise_bin }} completion zsh > /home/{{ ansible_user }}/.oh-my-zsh/custom/plugins/zsh-completions/src/_mise"
-  changed_when: false
+  ansible.builtin.shell:
+    cmd: "/home/linuxbrew/.linuxbrew/bin/mise completion zsh > /home/tech/.oh-my-zsh/custom/plugins/zsh-completions/src/_mise"
+    creates: "/home/tech/.oh-my-zsh/custom/plugins/zsh-completions/src/_mise"
+  tags:
+    - "skip_ansible_lint"
 
 - name: "Permanently enable experimental in mise config"
   ansible.builtin.command:
