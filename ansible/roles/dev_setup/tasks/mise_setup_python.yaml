@@ -2,8 +2,8 @@
 - name: "Install mise plugin for uv latest versions"
   ansible.builtin.include_tasks: "mise_versions.yaml"
   vars:
-    package_name: "uv"
-    package_version: "latest"
+    plugin_name: "uv"
+    plugin_lib_version: "latest"
     current_version: true
 
 - name: "Permanently enable uvx backend for python in mise config"
