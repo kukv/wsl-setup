@@ -1,0 +1,8 @@
+---
+- name: "Install packages required for golang system development"
+  become: true
+  ansible.builtin.apt:
+    name:
+      - "qemu-system-arm" # Required for binary builds for arm
+      - "g++-aarch64-linux-gnu" # Required for binary builds for arm64
+    state: "present"

@@ -1,0 +1,14 @@
+---
+- name: "Install prerequisite packages"
+  become: true
+  ansible.builtin.apt:
+    name:
+      # required for ruby system development
+      - "libssl-dev"
+      - "libyaml-dev"
+      - "zlib1g-dev"
+      - "libgmp-dev"
+      - "libffi-dev"
+      - "autoconf"
+      - "rustc"
+    state: "present"

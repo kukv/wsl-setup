@@ -1,0 +1,6 @@
+---
+- name: "Enable corepack"
+  ansible.builtin.command:
+    cmd: "{{ mise_shims }}/corepack enable"
+  register: "corepack_enabled"
+  changed_when: false
