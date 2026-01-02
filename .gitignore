@@ -1,4 +1,5 @@
-docker/ansible/extra_vars.yaml
+.ansible/
+docker/mock/etc/ansible/extra_vars.yaml
 
 # jetbrains
 .idea/

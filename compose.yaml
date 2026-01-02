@@ -1,13 +1,22 @@
 ---
 services:
-  ansible-test:
+  dev:
     build:
-      context: "./docker"
-    container_name: "ansible-test"
-    hostname: "ansible-test"
+      context: "./docker/dev"
+    volumes:
+      - ".:/app"
+    privileged: true
+    tty: true
+    stdin_open: true
+
+  mock:
+    build:
+      context: "./docker/mock"
+    container_name: "mock"
+    hostname: "mock"
     volumes:
       - "./ansible:/ansible"
-      - "./docker/ansible:/etc/ansible"
+      - "./docker/mock/etc/ansible:/etc/ansible"
     privileged: true
     tty: true
     stdin_open: true
