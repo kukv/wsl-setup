@@ -3,7 +3,6 @@ name: "on-pull-request"
 
 on:
   pull_request:
-
 jobs:
   check-shell:
     runs-on: "ubuntu-latest"

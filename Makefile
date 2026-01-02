@@ -1,45 +1,70 @@
+DEV_RUN_CONTEXT ?= docker compose exec dev
+MOCK_RUN_CONTEXT ?= docker compose exec mock
+
 ANSIBLE_USER=tech
+
+default: .ansible/install
+
+############################################
+# container
+############################################
+build:
+	docker compose build
 
 up:
 	docker compose up -d
 
 down:
-	docker compose down -v
+	docker compose down --remove-orphans
 
-rmi:
+clean:
 	docker compose down --rmi all --volumes --remove-orphans
+
+ps:
+	docker compose ps -a
+
+logs:
+	docker compose logs
+
+logs/%:
+	docker compose logs $(@F)
 
 restart: down up
 
-login:
-	docker compose exec ansible-test login
+rebuild: clean up
 
-ansible/play:
-	docker compose exec ansible-test \
+reset:
+	docker compose up -d --force-recreate mock
+
+login:
+	docker compose exec mock login
+
+############################################
+# ansible
+############################################
+.ansible/install:
+	$(DEV_RUN_CONTEXT) ansible-galaxy collection install -r ./ansible/requirements.yaml
+
+check: .ansible/fmt .ansible/lint .ansible/yamllint .ansible/shellcheck
+
+.ansible/fmt:
+	$(DEV_RUN_CONTEXT) ansible-lint --config-file "ansible/.ansible-lint" --fix
+
+.ansible/lint:
+	$(DEV_RUN_CONTEXT) ansible-lint --config-file "ansible/.ansible-lint"
+
+.ansible/yamllint:
+	$(DEV_RUN_CONTEXT) yamllint .
+
+.ansible/shellcheck:
+	$(DEV_RUN_CONTEXT) shellcheck init.sh
+
+play:
+	$(MOCK_RUN_CONTEXT) \
 		sudo -u "$(ANSIBLE_USER)" \
 		bash -c "ansible-playbook -i inventories/hosts.yaml playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=$(ANSIBLE_USER)'"
 
-ansible/play/%:
-	docker compose exec ansible-test \
+play/%:
+	$(MOCK_RUN_CONTEXT) \
 		sudo -u "$(ANSIBLE_USER)" \
 		bash -c "ansible-playbook -i inventories/hosts.yaml playbook.yaml --extra-vars '@/etc/ansible/extra_vars.yaml' --extra-vars 'ansible_user=$(ANSIBLE_USER)' --tags $(@F)"
-
-install:
-	poetry install
-
-destroy:
-	poetry env remove .venv
-
-yamllint:
-	poetry run yamllint ansible
-
-shellcheck:
-	shellcheck init.sh
-
-ansible-lint:
-	poetry run ansible-lint --config-file "ansible/.ansible-lint"
-
-ansible-fmt:
-	poetry run ansible-lint --config-file "ansible/.ansible-lint" --fix
-
-check: yamllint shellcheck ansible-lint
