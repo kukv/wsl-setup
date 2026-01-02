@@ -1,0 +1,7 @@
+---
+- name: "Configure git"
+  community.general.git_config:
+    scope: "global"
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+  loop: "{{ git_configs }}"

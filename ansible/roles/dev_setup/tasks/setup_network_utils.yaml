@@ -1,8 +1,0 @@
----
-- name: "Run Install network utils"
-  ansible.builtin.apt:
-    name:
-      - "dnsutils"
-      - "lsof"
-    state: "present"
-  become: true

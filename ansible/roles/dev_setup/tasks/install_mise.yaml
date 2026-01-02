@@ -21,9 +21,41 @@
   tags:
     - "skip_ansible_lint"
 
-- name: "Permanently enable experimental in mise config"
+- name: "Create mise config directory"
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.config/mise"
+    state: "directory"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0755"
+
+- name: "Create mise config"
+  ansible.builtin.template:
+    src: "{{ item.filename }}.j2"
+    dest: "{{ item.dist_dir }}/{{ item.filename }}"
+    owner: "{{ item.user }}"
+    group: "{{ item.group }}"
+    mode: "0644"
+  loop:
+    - filename: "config.toml"
+      user: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      dist_dir: "/home/{{ ansible_user }}/.config/mise"
+    - filename: ".default-go-packages"
+      user: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      dist_dir: "/home/{{ ansible_user }}"
+
+- name: "Run mise plugin install"
   ansible.builtin.command:
-    cmd: "mise settings set experimental true"
+    cmd: "mise install"
   environment:
+    MISE_FETCH_REMOTE_VERSIONS_TIMEOUT: "60"
     PATH: "{{ mise_bin | dirname }}:{{ ansible_env.PATH }}"
-  changed_when: false
+    MISE_CONFIG_FILE: "/home/{{ ansible_user }}/.config/mise/config.toml"
+    MISE_GITHUB_TOKEN: "{{ github_token }}"
+  register: "mise_install_output"
+  until: "mise_install_output is succeeded"
+  retries: 3
+  delay: 10
+  changed_when: "'installed' in mise_install_output.stdout"

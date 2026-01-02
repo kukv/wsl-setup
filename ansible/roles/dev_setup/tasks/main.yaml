@@ -1,39 +1,18 @@
 ---
+- name: "Install prerequisite packages for the mise plugin"
+  ansible.builtin.include_tasks: "install_prerequisite_packages.yaml"
+
 - name: "Run mise install"
   ansible.builtin.include_tasks: "install_mise.yaml"
 
-- name: "Run use mise to run JVM environments setup"
-  ansible.builtin.include_tasks: "mise_setup_jvm.yaml"
-
-- name: "Run use mise to run nodejs environments setup"
-  ansible.builtin.include_tasks: "mise_setup_node.yaml"
-
-- name: "Run python environments setup"
-  ansible.builtin.include_tasks: "mise_setup_python.yaml"
+- name: "Run nodejs environments setup"
+  ansible.builtin.include_tasks: "setup_node.yaml"
 
 - name: "Run golang environments setup"
-  ansible.builtin.include_tasks: "mise_setup_golang.yaml"
-
-- name: "Run ruby environments setup"
-  ansible.builtin.include_tasks: "mise_setup_ruby.yaml"
+  ansible.builtin.include_tasks: "setup_golang.yaml"
 
 - name: "Run VCS environments setup"
-  ansible.builtin.include_tasks: "mise_setup_vcs.yaml"
+  ansible.builtin.include_tasks: "setup_vcs.yaml"
 
-- name: "Run aws environments setup"
-  ansible.builtin.include_tasks: "mise_setup_aws.yaml"
-
-- name: "Run kubernetes environments setup"
-  ansible.builtin.include_tasks: "mise_setup_kubernetes.yaml"
-
-- name: "Run Terraform setup"
-  ansible.builtin.include_tasks: "mise_setup_terraform.yaml"
-
-- name: "Run shell utils setup"
-  ansible.builtin.include_tasks: "mise_setup_shell.yaml"
-
-- name: "Run network utils setup"
-  ansible.builtin.include_tasks: "setup_network_utils.yaml"
-
-- name: "Run neovim setup"
-  ansible.builtin.include_tasks: "setup-neovim.yaml"
+- name: "Run neovim environments setup"
+  ansible.builtin.include_tasks: "setup_neovim.yaml"

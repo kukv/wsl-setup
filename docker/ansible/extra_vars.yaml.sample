@@ -1,0 +1,25 @@
+---
+# Ansible実行過程で、GithubAPIのrate limitを回避するために必要
+github_token: "your_github_token_here"
+
+# プロビジョニングを定期的に実施する期間を指定
+# systemd-timerを利用している為、以下の書式で指定可能です。
+# - https://www.freedesktop.org/software/systemd/man/latest/systemd.time.html
+provisioning_schedule: "weekly"
+
+# git configで設定する値を指定します。
+# Gitの基本設定をグローバルに適用します。
+git_configs:
+  - name: "user.name"
+    value: "username"
+  - name: "user.email"
+    value: "test@example.com"
+  - name: "color.ui"
+    value: "auto"
+
+# シェルのエイリアス設定
+aliases:
+  - command: "relogin"
+    target: "exec $SHELL -l"
+  - command: "reload"
+    target: "source ~/.zshrc"
