@@ -1,29 +1,54 @@
 # wsl-setup
 
-WSL2の環境をコマンド1つである程度構築してくれるスクリプト群です。
+WSL2の環境をコマンド1つである程度構築してくれるスクリプト群です。  
 基本的にどこ行ってもこのコマンド1つで大体開発できるだろうというものをansibleでセットアップします。
 
-## このAnsibleによってインストール・設定される機能
+## Ansibleによってインストール・設定される機能
 
 ### システム設定
 
-- 基本的なシステムパッケージ
-- zsh
-- Oh-my-zsh
-- SSH-agent設定
+**基本的なシステムパッケージ**  
+
+インストールされるパッケージは以下に定義されている  
+[ansible/roles/system_configuration/defaults/main.yaml](ansible/roles/system_configuration/defaults/main.yaml)
+
+**ターミナル**
+
+本セットアップではデフォルトのShellを[ZSH](https://sourceforge.net/p/zsh/code/ci/master/tree/)に切り替えている。  
+またZSHの管理フレームワークとしてOh-my-zshを採用。
+
+**その他システム設定**
+
+- SSH-agent設定  
+  本セットアップでは1Passwordによるパスワード管理を前提としているため、SSH等のコマンドは[AliasでWindowsのSSH CLIを利用する](https://github.com/kukv/wsl-setup/blob/main/ansible/roles/system_configuration/templates/.zshrc.generated.j2#L92-L94)よう設定している。
 - DNS設定
-- NTPサーバー設定
-- タイムゾーン設定
+  DNSサーバーは以下を利用している  
+  [ansible/roles/system_configuration/tasks/dns_resolver_configuration.yaml](ansible/roles/system_configuration/tasks/dns_resolver_configuration.yaml)
+- Time locale設定
+  NTPサーバーは以下を利用している  
+  [ansible/roles/system_configuration/tasks/time_locale_configuration.yaml](ansible/roles/system_configuration/tasks/time_locale_configuration.yaml)
 - WSL設定（/etc/wsl.conf only）
 
 ### 開発環境
 
-- パッケージマネージャー
-  - Homebrew（パッケージマネージャー）
-  - Mise（バージョンマネージャー）
+**パッケージマネージャー**
+
+本セットアップではユーザー向けパッケージの管理として以下のマネージャーを利用する。
+
+- Homebrew（パッケージマネージャー）
+- Mise（バージョン管理ツール）
+
+**対応する開発環境**
+
+開発環境を構築するうえではmiseを利用する。  
+インストールされるパッケージは以下で定義している。  
+[ansible/roles/dev_setup/templates/config.toml.j2](ansible/roles/dev_setup/templates/config.toml.j2)
+
 - 各種プログラミング言語環境：
   - Clang/C++
-  - Java/JVM言語
+  - JVM
+    - Java
+    - Kotlin
   - Node.js
   - Python
   - Golang
@@ -38,9 +63,13 @@ WSL2の環境をコマンド1つである程度構築してくれるスクリプ
 
 ### 自動プロビジョニング
 
-- 定期的なプロビジョニングの設定
-- ansible-pullによる最新設定の自動適用
-- プロビジョニングログのローテーション設定
+本セットアップは自身でプロビジョニングが行えるよう、pull型のansibleを採用している。  
+また、常にWSL環境が最新になるよう、Systemd-timerを利用して定期的にansibleを実行するよう設定している。  
+
+**定期的なプロビジョニングの頻度について**
+デフォルトでは毎週実施する設定なっている。  
+この頻度は、ansible実行用の変数で変更可能。  
+[ansible/roles/provisioning_schedule/templates/wsl-setup.timer.j2](ansible/roles/provisioning_schedule/templates/wsl-setup.timer.j2)
 
 ## 事前セットアップ
 
@@ -71,7 +100,7 @@ git_configs:
   - name: "color.ui"
     value: "auto"
 
-# シェルのエイリアス設定
+# 追加のシェルエイリアス設定
 aliases:
   - command: "relogin"
     target: "exec $SHELL -l"
@@ -100,8 +129,6 @@ curl -sf https://raw.githubusercontent.com/kukv/wsl-setup/refs/heads/main/init.s
 wsl --shutdown
 ```
 
-以降は`systemd-timer`にて定期的に`ansible-pull`によりプロビジョニングが行われます。
-
 ### プロビジョニングログの場所
 
 プロビジョニングログは以下に格納されている
@@ -112,16 +139,14 @@ wsl --shutdown
 
 ## 開発環境の構築方法
 
-#### required libraries
+本リポジトリの開発環境はDocker上で構築している。  
+理由としてはLinterライブラリの一部がWindows上で動作しないため。  
 
-- python >=3.13
-- poetry >=2.1.2
-- shellcheck >=0.10.0
-
-#### プロジェクトの初期化(python環境のセットアップ)
+#### プロジェクトのセットアップ
 
 ```bash
-make install
+make up
+make     # ansibleのコレクション周りをセットアップするために、実行する必要がある
 ```
 
 ## テスト環境の構築
@@ -131,8 +156,8 @@ make install
 #### Dockerテスト環境
 
 - `compose.yaml`: Ansibleテスト用のDockerコンテナを定義
-- `docker/Dockerfile`: Ubuntu 24.04ベースのテスト環境を構築
-- `docker/extra_vars.yaml`: テスト用のAnsible変数を設定
+- `docker/mock/Dockerfile`: Ubuntu 24.04ベースのテスト環境を構築
+- `docker/mock/etc/extra_vars.yaml`: テスト用のAnsible変数を設定
 
 #### Makefileコマンド
 
@@ -140,20 +165,17 @@ make install
 # Dockerコンテナの起動
 make up
 
-# Dockerコンテナの停止
-make down
-
-# Dockerコンテナの再起動
-make restart
+# Dockerコンテナの初期化
+make reset
 
 # テストコンテナにログイン
 make login
 
 # Ansibleプレイブックの実行
-make ansible/play
+make play
 
 # 特定のタグを指定してAnsibleプレイブックを実行
-make ansible/play/<タグ名>
+make play/<タグ名>
 ```
 
 ## コーディング規約に関して
