@@ -48,14 +48,10 @@ node = [
 ]
 pnpm = "latest"
 "npm:yarn" = "latest"
-"npm:aws-cdk" = "latest"
-"npm:aws-cdk-local" = "latest"
 
 # [tools.python]
 python = "3.14"
 uv = "latest"
-"pipx:awscli-local" = "latest"
-"pipx:yamllint" = "latest"
 
 # [tools.ruby]
 ruby = [ "4", "3" ]
@@ -79,16 +75,27 @@ act = "latest"
 action-validator = "latest"
 actionlint = "latest"
 jj = "latest"
+"npm:difit" = "latest"
 
 # [tools.shells]
 shellcheck = "latest"
-jq = "latest"
-yq = "latest"
 neovim = "latest"
+
+# [tools.json]
+jq = "latest"
+
+# [tools.yaml]
+yq = "latest"
+"pipx:yamllint" = "latest"
 
 # [tools.hashicorp]
 terraform = "latest"
 
-# [tools.awscli]
+# [tools.aws]
 aws-cli = { version = "latest", symlink_bins = "true" }
 aws-sam = { version = "latest", symlink_bins = "true" }
+"npm:aws-cdk" = "latest"
+
+# [tools.localstack]
+"pipx:awscli-local" = "latest"
+"npm:aws-cdk-local" = "latest"
